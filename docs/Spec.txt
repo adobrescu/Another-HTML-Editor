@@ -1,0 +1,14 @@
+
+Build a simple HTML editor.
+
+To heap.
+
+
+- Editor based on built in browser editor.
+- A small number of features.
+- Text formatting. Bold (<em> and <strong>), italic, undeline. No colors and background formatting.
+- Formatting via predefined stylesheets.
+- Anchors, lists. Later tables.
+- Ability to insert special characters.
+- To format headings, paragraphs, code, blockquotes etc.
+- To insert predefined snippets (Eg. a div containing an image and a small caption).
