@@ -42,6 +42,21 @@
 				var a=ed.getElementById("link1");
 				a.parentNode.removeChild(a);
 			}
+			function change4()
+			{
+				var p=ed.getElementById("par1");
+				var img=ed.createElement("img");
+				img.src="IrisAndDana.JPG";
+				img.style.width="100px";
+				img.id="img1";
+				//img.alt=img.title="Danuta";
+				p.appendChild(img);
+			}
+			function change5()
+			{
+				var img=ed.getElementById("img1");
+				img.title=img.alt="Dana and Iris";
+			}
 		</script>
 	</head>
 	<body onload="bodyOnLoad()">
@@ -52,6 +67,10 @@
 		<a href="#" onclick="change2(); return false;">Change 2</a>
 		<br>
 		<a href="#" onclick="change3(); return false;">Change 3</a>
+		<br>
+		<a href="#" onclick="change4(); return false;">Change 4</a>
+		<br>
+		<a href="#" onclick="change5(); return false;">Change 5</a>
 		<br><br><br><br>
 		<a href="#" onclick="mh.undo(); return false;">Undo</a>
 </body>
