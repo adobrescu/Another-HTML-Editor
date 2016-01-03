@@ -12,3 +12,9 @@ To heap.
 - Ability to insert special characters.
 - To format headings, paragraphs, code, blockquotes etc.
 - To insert predefined snippets (Eg. a div containing an image and a small caption).
+- All editable areas share the same toolbar.
+- A "quick format" toolbar floating next to the selection. It contains bold, italic etc.
+
+
+
+Before any major coding, need to see how manipulating the nodes from a selection affects the selection itself.
