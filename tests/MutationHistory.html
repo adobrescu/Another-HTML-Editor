@@ -1,17 +1,58 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>MutationHistor</title>
+		<title>MutationHistory</title>
 		<script src="../lib/MutationHistory.class.js"></script>
 		<script>
-			var history;
+			var mh/*MutationHistory*/, eb/*editorBody*/, ed/*editorDocument*/;
 			function bodyOnLoad()
 			{
-				history=new MutationHistory(document.getElementById("editor").contentWindow.document.body);
+				mh=new MutationHistory(eb=(ed=document.getElementById("editor").contentWindow.document).body);
+				
+				mh.observe();
+			}
+			function change1()
+			{
+				var span=ed.getElementById("span1");
+				var newSpan=ed.createElement("span");
+				newSpan.innerHTML=" this is a new span";
+				//mh.setStyleAttribute(newSpan, "font-weight", "bold");
+				mh.setStyleAttribute(span, "color", "red");
+				mh.setStyleAttribute(span, "font-style", "italic");
+				mh.setStyleAttribute(span, "color", "#999999");
+				span.appendChild(newSpan);
+				
+				var b=ed.createElement("b");
+				b.innerHTML=" bold";
+				span.insertBefore(b, newSpan)
+				
+				var a=ed.createElement("a");
+				b.appendChild(a);
+				a.innerHTML=" link ";
+				a.id="link1";
+				
+			}
+			function change2()
+			{
+				var span=ed.getElementById("span1");
+				mh.setStyleAttribute(span, "color", "");
+			}
+			function change3()
+			{
+				var a=ed.getElementById("link1");
+				a.parentNode.removeChild(a);
 			}
 		</script>
 	</head>
 	<body onload="bodyOnLoad()">
-		<iframe id="editor" src="template1.html"></iframe>	
+		<iframe id="editor" src="template1.html"></iframe>
+		<br>
+		<a href="#" onclick="change1(); return false;">Change 1</a>
+		<br>
+		<a href="#" onclick="change2(); return false;">Change 2</a>
+		<br>
+		<a href="#" onclick="change3(); return false;">Change 3</a>
+		<br><br><br><br>
+		<a href="#" onclick="mh.undo(); return false;">Undo</a>
 </body>
 </html>
