@@ -7,16 +7,29 @@
 			{
 				line-height: 18px;
 			}
+			iframe
+			{
+				width: 600px;
+				height: 320px;
+			}
 		</style>
 		<script src="../lib/Node.class.js"></script>
 		<script src="../lib/MutationHistory.class.js"></script>
 		<script>
-			var mh/*MutationHistory*/, eb/*editorBody*/, ed/*editorDocument*/;
+			var mh/*MutationHistory*/, eb/*editorBody*/, ed/*editorDocument*/, ew/*editorWindow*/;
 			function bodyOnLoad()
 			{
-				mh=new MutationHistory(eb=(ed=document.getElementById("editor").contentWindow.document).body);
+				mh=new MutationHistory(eb=(ed=(ew=document.getElementById("editor").contentWindow).document).body);
 				
 				mh.observe();
+			}
+			function test()
+			{
+				var d=ed.createElement("DIV");
+				d.style.border="1px red solid";
+				d.style.width="100px";
+				d.style.height="100px";
+				eb.appendChild(d);
 			}
 			function change1()
 			{
@@ -38,6 +51,8 @@
 				b.appendChild(a);
 				a.innerHTML=" link ";
 				a.id="link1";
+				
+				test();
 				
 			}
 			function change2()
@@ -75,6 +90,32 @@
 				var s=ed.getElementById("span3");
 				s.innerHTML=" span 3 modified ";
 			}
+			function makeStrong(element)
+			{
+				var tagName="strong";
+				
+				newNode=ed.createElement(tagName);
+				var sel=ew.getSelection();
+				var r;
+				try
+				{
+					r=sel.getRangeAt(0);
+				}
+				catch(err)
+				{
+					r=ed.createRange();
+				}
+				r.selectNode(element);
+				r.surroundContents(newNode);
+				sel.addRange(r);
+				
+				ew.focus();
+			}
+			function change8()
+			{
+				var span=ed.getElementById("span1");
+				makeStrong(span);
+			}
 		</script>
 	</head>
 	<body onload="bodyOnLoad()">
@@ -93,9 +134,13 @@
 		<a href="#" onclick="change6(); return false;">Change 6</a>
 		<br>
 		<a href="#" onclick="change7(); return false;">Change 7</a>
+		<br>
+		<a href="#" onclick="change8(); return false;">STRONG</a>
 		<br><br><br><br>
 		<a href="#" onclick="mh.undo(); return false;">Undo</a>
 		<br>
 		<a href="#" onclick="mh.redo(); return false;">Redo</a>
+		<br>
+		<a href="#" onclick="alert(eb.innerHTML); return false;">View HTML</a>
 </body>
 </html>
