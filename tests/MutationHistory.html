@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>MutationHistor</title>
+		<script src="../lib/MutationHistory.class.js"></script>
+		<script>
+			var history;
+			function bodyOnLoad()
+			{
+				history=new MutationHistory(document.getElementById("editor").contentWindow.document.body);
+			}
+		</script>
+	</head>
+	<body onload="bodyOnLoad()">
+		<iframe id="editor" src="template1.html"></iframe>	
+</body>
+</html>
