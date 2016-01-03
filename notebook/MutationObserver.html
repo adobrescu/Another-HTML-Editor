@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<script>
+			var ed, doc, docBody;
+			function bodyOnLoad()
+			{
+				ed=document.getElementById("editor1");
+				
+				doc=ed.contentWindow.document;
+				docBody=doc.body;
+				
+				try
+				{
+					var mo=new MutationObserver(onDOMChange);
+					var config={attributes: true, childList: true, characterData: true, subtree: true, attributeOldValue: true};
+					mo.observe(doc, config);
+				}
+				catch(err)
+				{
+					
+				}
+				
+			}
+			var numChanges=0;
+			function logDOMChange(mutation)
+			{
+				numChanges++;
+				console.log(numChanges+": "+mutation.type);//addedNodes[0].tagName);
+				//mutation.addedNodes[0].innerHTML="test";
+			}
+			function onDOMChange(mutations)
+			{
+				console.log("Mutation");
+				for(var i=0; i<mutations.length; i++)
+				{
+					logDOMChange(mutations[i]);
+				}
+			}
+			function test1()
+			{
+				var span=doc.createElement("span");
+				span.innerHTML="A span";
+				var p=doc.getElementById("par1");
+				//alert(p)
+				p.appendChild(span)
+				var span=doc.createElement("span");
+				span.innerHTML="A span 2";
+				p.appendChild(span)
+				//span.style.color="red";
+				setStyle(span, "color", "green")
+				//p.appendChild(span)
+			}
+			function setStyle(node, attr, newVal)
+			{
+				node.style[attr]=newVal;
+			}
+		</script>
+	</head>
+	<body onload="bodyOnLoad()">
+		<iframe id="editor1" src="template2.html" style="width: 600px; height: 400px;"></iframe>
+		<br>
+		<a href="#" onclick="test1(); return false;">Change DOM</a>
+	</body>
+</html>
