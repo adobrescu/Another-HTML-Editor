@@ -1,0 +1,63 @@
+ <!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<script src="../lib/EditableContent.class.js"></script>
+		<style>
+			#ifrm,
+			#htmlView
+			{
+				border: 1px #999999 solid;
+				padding: 0;
+				width: 600px;
+				height: 500px;
+				float: left;
+			}
+			#toolbar
+			{
+				float: left;
+				margin-left: 20px;
+			}
+			.clearfix:before,
+			.clearfix:after {
+				content: "";
+				display: table;
+			}
+			.clearfix:after {
+				clear: both;
+			}
+		</style>
+		<script>
+			var ed;
+			function bodyOnLoad()
+			{
+				ed=new EditableContent(document.getElementById("ifrm"));
+			}
+			function visitSelection()
+			{
+				ed.visitSelectedNodes();
+			}
+			function makeStrong()
+			{
+				ed.surroundTextNodes("strong");
+			}
+		</script>
+	</head>
+
+	<body onload="setTimeout('bodyOnLoad()', 500)">
+		<div class="clearfix" style="float: left;">
+			<iframe src="enum-selected-nodes.tpl.html" id="ifrm"></iframe>
+			<br>
+			<textarea style="border: 1px #c9c9c9  solid;" id="htmlView"></textarea>
+		</div>
+		<div id="toolbar">
+			<a href="#" onclick="visitSelection() ; return false;">Visit selection</a>
+			<br>
+			<a href="#" onclick="makeStrong() ; return false;">Make STRONG</a>
+			<br>
+			<a href="#" onclick="document.getElementById('htmlView').value=ed.window.document.body.innerHTML; return false;">View HTML</a>
+		</div>
+		
+	</body>
+
+</html> 

@@ -18,3 +18,12 @@ To heap.
 
 
 Before any major coding, need to see how manipulating the nodes from a selection affects the selection itself.
+
+06.ian.2015
+
+- Small editing func, simple formatting:
+bold -> <b>
+italic, underline -> css
+
+Editor manages EditableContent objects;
+
