@@ -101,10 +101,9 @@
 			}
 			function makeStrong(element)
 			{
-				mh.startMutationsBatch();
 				var tagName="strong";
 				
-				newNode=ed.createElement(tagName);
+				var newNode=ed.createElement(tagName);
 				var sel=ew.getSelection();
 				var r;
 				try
