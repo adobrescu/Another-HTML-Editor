@@ -19,9 +19,9 @@
 			var mh/*MutationHistory*/, eb/*editorBody*/, ed/*editorDocument*/, ew/*editorWindow*/;
 			function bodyOnLoad()
 			{
-				mh=new MutationHistory(eb=(ed=(ew=document.getElementById("editor").contentWindow).document).body);
+				mh=new MutationHistory(eb=(ed=(ew=document.getElementById("editor").contentWindow).document).body, true);
 				
-				mh.observe();
+				mh.observe(eb);
 			}
 			function test()
 			{
@@ -33,10 +33,13 @@
 			}
 			function change1()
 			{
+				mh.startMutationsBatch();
 				var span=ed.getElementById("span1");
 				var newSpan=ed.createElement("span");
+				
 				newSpan.innerHTML=" this is a new span";
 				newSpan.id="span2";
+				newSpan.style.color="green";
 				//mh.setStyleAttribute(newSpan, "font-weight", "bold");
 				mh.setStyleAttribute(span, "color", "red");
 				mh.setStyleAttribute(span, "font-style", "italic");
@@ -57,16 +60,19 @@
 			}
 			function change2()
 			{
+				mh.startMutationsBatch();
 				var span=ed.getElementById("span1");
 				mh.setStyleAttribute(span, "color", "");
 			}
 			function change3()
 			{
+				mh.startMutationsBatch();
 				var a=ed.getElementById("link1");
 				a.parentNode.removeChild(a);
 			}
 			function change4()
 			{
+				mh.startMutationsBatch();
 				var p=ed.getElementById("par1");
 				var img=ed.createElement("img");
 				img.src="IrisAndDana.JPG";
@@ -77,21 +83,25 @@
 			}
 			function change5()
 			{
+				mh.startMutationsBatch();
 				var img=ed.getElementById("img1");
 				img.title=img.alt="Dana and Iris";
 			}
 			function change6()
 			{
+				mh.startMutationsBatch();
 				var s=ed.getElementById("span2");
 				s.innerHTML=" span 2 modified ";
 			}
 			function change7()
 			{
+				mh.startMutationsBatch();
 				var s=ed.getElementById("span3");
 				s.innerHTML=" span 3 modified ";
 			}
 			function makeStrong(element)
 			{
+				mh.startMutationsBatch();
 				var tagName="strong";
 				
 				newNode=ed.createElement(tagName);
@@ -113,15 +123,50 @@
 			}
 			function change8()
 			{
+				mh.startMutationsBatch();
 				var span=ed.getElementById("span1");
 				makeStrong(span);
 			}
+			function change9()
+			{
+				mh.startMutationsBatch();
+				var div=ed.createElement("div");
+				div.id="div4"
+				
+				
+				
+				eb.appendChild(div);
+				//eb.appendChild(ed.createElement("span"));
+				div.innerHTML="test";
+				var a=ed.createElement("a");
+				a.innerHTML="Link";
+				eb.appendChild(a);
+			}
+			var twice
+			function change10()
+			{
+				mh.startMutationsBatch();
+				twice=ed.createTextNode("span");
+				
+				eb.appendChild(twice);
+				
+			}
+			function change11()
+			{
+				mh.startMutationsBatch();
+				eb.appendChild(twice);
+			}
+			function f()
+			{
+				var s=ed.getElementById("span4");
+				alert(s.firstChild.mutationHistory.mutations[0][0].type);
+			}
 		</script>
 	</head>
-	<body onload="bodyOnLoad()">
-		<iframe id="editor" src="template1.html"></iframe>
+	<body onload="setTimeout('bodyOnLoad()', 500)">
+		<iframe id="editor" src="template1.html" style="float: left;"></iframe>
 		<br>
-		<a href="#" onclick="change1(); return false;">Change 1</a>
+		<DIV STYLE="float: right; margin-right: 100px;"><a href="#" onclick="change1(); return false;">Change 1</a>
 		<br>
 		<a href="#" onclick="change2(); return false;">Change 2</a>
 		<br>
@@ -136,11 +181,22 @@
 		<a href="#" onclick="change7(); return false;">Change 7</a>
 		<br>
 		<a href="#" onclick="change8(); return false;">STRONG</a>
+		<br>
+		<a href="#" onclick="change9(); return false;">doc.createElement</a>
+		<br>
+		<a href="#" onclick="change10(); return false;">Append same element twice</a>
+		<br>
+		<a href="#" onclick="change11(); return false;">Append same element twice 2</a>
 		<br><br><br><br>
 		<a href="#" onclick="mh.undo(); return false;">Undo</a>
 		<br>
 		<a href="#" onclick="mh.redo(); return false;">Redo</a>
 		<br>
 		<a href="#" onclick="alert(eb.innerHTML); return false;">View HTML</a>
+		<br>
+		<input type="text" size="4" id="mbi"><a href="#" onclick="mh.logMutationsBatch(document.getElementById('mbi').value) ; return false;">Show Mutations Batch </a>
+		<br>
+		<a href="#" onclick="f(); return false;">Test</a>
+		</div>
 </body>
 </html>
