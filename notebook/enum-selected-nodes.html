@@ -51,14 +51,15 @@
 			
 			function visitSelectedNode(node, close, endVisit, callbackMethodArguments, startOffset)
 			{
-				console.logNode(node, (endVisit?"Finish ":"")+"("+startOffset+")", close);
+				console.log("DA");
+				//console.logNode(node, (endVisit?"Finish ":"")+"("+startOffset+")", close);
 			}
 			function visitSelection()
 			{
 				console.clear();
 				//ed.visitSelectedNodes("visitSelectedNode");
 				var ca=ed.getInlineNodesEdges();//startNode, startOffset, endNode, endOffset, ca/*callback arguments*/)
-				
+				return;
 				console.clear();
 				console.logNode(ca.inlineEdgeNodes[0].startNode, "("+ca.inlineEdgeNodes[0].startOffset+")");
 				console.logNode(ca.inlineEdgeNodes[0].endNode, "("+ca.inlineEdgeNodes[0].endOffset+")");
@@ -667,7 +668,7 @@
 					+
 					"\n"
 					+
-					("End range: "+(r.endContainer.nodeType==1?"<"+r.endContainer.tagName+(r.endContainer.id?"#"+r.endContainer.id:"")+"> ":"")+r.endContainer.nodeType+": "+r.endContainer.textContent+":"+r.endOffset));
+					("End range: "+(r.endContainer.nodeType==1?"<"+r.endContainer.tagName+(r.endContainer.id?"#"+r.endContainer.id:"")+"> ":"")+"Type:"+r.endContainer.nodeType+": "+r.endContainer.textContent+", offset="+r.endOffset));
 				//r.endContainer.textContent="|"
 			}
 		</script>
