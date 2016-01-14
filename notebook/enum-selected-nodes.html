@@ -2,7 +2,10 @@
 <html>
 	<head>
 		<title></title>
+		<script src="../lib/MutationHistory.class.js"></script>
+		<script src="../lib/Node.class.js"></script>
 		<script src="../lib/EditableContent.class.js"></script>
+		<script src="../lib/console.js"></script>
 		<style>
 			#ifrm,
 			#htmlView
@@ -10,8 +13,12 @@
 				border: 1px #999999 solid;
 				padding: 0;
 				width: 600px;
-				height: 500px;
+				height: 200px;
 				float: left;
+			}
+			#htmlView
+			{
+				height: 500px;
 			}
 			#toolbar
 			{
@@ -28,34 +35,680 @@
 			}
 		</style>
 		<script>
-			var ed;
+			var ed, originalInnerHTML, mh;
 			function bodyOnLoad()
 			{
 				ed=new EditableContent(document.getElementById("ifrm"));
+				mh=new MutationHistory(ed.window.document.body, true);
+				mh.observe(ed.window.document.body);
+				
+				showHTML();
+				originalInnerHTML=ed.window.document.body.innerHTML;
+				
+				setTimeout("testsBatch.run()", 300);
+				
+			}
+			
+			function visitSelectedNode(node, close, endVisit, callbackMethodArguments, startOffset)
+			{
+				console.logNode(node, (endVisit?"Finish ":"")+"("+startOffset+")", close);
 			}
 			function visitSelection()
 			{
-				ed.visitSelectedNodes();
+				console.clear();
+				//ed.visitSelectedNodes("visitSelectedNode");
+				var ca=ed.getInlineNodesEdges();//startNode, startOffset, endNode, endOffset, ca/*callback arguments*/)
+				
+				console.clear();
+				console.logNode(ca.inlineEdgeNodes[0].startNode, "("+ca.inlineEdgeNodes[0].startOffset+")");
+				console.logNode(ca.inlineEdgeNodes[0].endNode, "("+ca.inlineEdgeNodes[0].endOffset+")");
 			}
-			function makeStrong()
+			function surround(tagName)
 			{
-				ed.surroundTextNodes("strong");
+				console.clear();
+				
+				mh.startMutationsBatch();
+				ed.surroundTextNodes(tagName?tagName:document.getElementById("tagName").value, true);
+				showHTML();
+			}
+			function split(startNodeId, startOffset, endNodeId, endOffset)
+			{
+				ed.surroundNodes("strong", ed.window.document.getElementById(startNodeId).firstChild, startOffset, ed.window.document.getElementById(endNodeId).firstChild, endOffset);
+				showHTML();
+			}
+			function showHTML()
+			{
+				document.getElementById('htmlView').value=ed.window.document.body.innerHTML
+			}
+			function selectElement(elementId, selectNode)
+			{
+				elementId=document.getElementById("elementId").value;
+				var element=ed.window.document.getElementById(elementId);
+				
+				var sel=ed.window.getSelection();
+				var range;
+				
+				try
+				{
+					range=sel.getRangeAt(0);
+				}
+				catch(err)
+				{
+					range=ed.window.document.createRange();
+				}
+				if(selectNode)
+				{
+					range.selectNode(element);
+				}
+				else
+				{
+					range.setStart(element, 0);
+					range.setEnd(element, element.childNodes.length);
+				}
+				sel.addRange(range);
+			}
+			function restoreInnerHTML()
+			{
+				ed.window.document.body.innerHTML=originalInnerHTML;
+			}
+		</script>
+		<script>
+			function TestsBatch()
+			{
+			}
+			with(TestsBatch)
+			{
+				prototype.tests=null;
+				prototype.numAssertions=0;
+				prototype.numFailedAssertions=0;
+				prototype.failedAssertions=[];
+				prototype.currentTest=null;
+				prototype.run=TestsBatch_run;
+				
+				/* Assertion methods*/
+				prototype.ASSERT=TestsBatch_ASSERT;
+				prototype.ASSERT_EQUALS=TestsBatch_ASSERT_EQUALS;
+			}
+			var testsBatch=new TestsBatch();
+			
+			function TestsBatch_run()
+			{
+				for(var methodName in this.tests)
+				{
+					if(typeof(this.tests[methodName])!="function")
+					{
+						continue;
+					}
+					this.currentTest=this.tests[methodName];
+					this.currentTest();
+				}
+				
+				console.log("Tests: "+this.tests.length);
+				console.log("Assertions "+this.numAssertions);
+				console.log("Failed assertions "+this.numFailedAssertions);
+				for(var i=0; i<=this.numAssertions; i++)
+				{
+					if(!this.failedAssertions[i])
+					{
+						continue;
+					}
+					
+					console.log("Expected: "+this.failedAssertions[i].expected+"; Received:"+this.failedAssertions[i].received);
+				}
+			}
+			function TestsBatch_ASSERT(cond, expectedValue, receivedValue)
+			{
+				this.numAssertions++;
+				if(!cond)
+				{
+					this.numFailedAssertions++;
+					this.failedAssertions[this.numAssertions]={"expected": expectedValue, "received" : receivedValue };
+				}
+			}
+			function TestsBatch_ASSERT_EQUALS(val1, val2)
+			{
+				this.ASSERT(val1==val2, val1, val2);
+			}
+			testsBatch.restoreInnerHTML=function()
+			{
+				ed.window.document.body.innerHTML=originalInnerHTML;
+			}
+			testsBatch.tests=
+			[
+				function()
+				{
+					var par2=ed.window.document.getElementById("par2");
+					var span5=ed.window.document.getElementById("span5");
+					
+					var startNode=span5.firstChild.firstChild.firstChild;
+					
+					var split=par2.splitChildAtDescendant(startNode, 0);
+					this.ASSERT_EQUALS(null, split);
+					//showHTML();
+					this.restoreInnerHTML();
+					
+					split=par2.splitChildAtDescendant(startNode.parentNode, 0);// <u>
+					this.ASSERT_EQUALS(null, split);
+					this.restoreInnerHTML();
+					
+					split=par2.splitChildAtDescendant(startNode.parentNode.parentNode, 0); //<span>
+					this.ASSERT_EQUALS(null, split);
+					this.restoreInnerHTML();
+					
+					split=par2.splitChildAtDescendant(startNode.parentNode.parentNode.parentNode, 0); //<span#span5>
+					this.ASSERT_EQUALS(null, split);
+					this.restoreInnerHTML();
+					
+					par2=ed.window.document.getElementById("par2");
+					startNode=ed.window.document.getElementById("b2");
+					
+					var split=par2.splitChildAtDescendant(startNode.parentNode, startNode.getIndex() ); //<b#b2>
+					
+					this.ASSERT_EQUALS(null, split);
+					this.restoreInnerHTML();
+					
+					par2=ed.window.document.getElementById("par2");
+					startNode=ed.window.document.getElementById("span5");
+					
+					var split=par2.splitChildAtDescendant(startNode.firstChild.firstChild.firstChild,  startNode.firstChild.firstChild.firstChild.length); //<span#span5><span><u>Text
+					
+					this.ASSERT_EQUALS(null, split);
+					
+					par2=ed.window.document.getElementById("par2");
+					startNode=ed.window.document.getElementById("span5");
+					
+					var split=par2.splitChildAtDescendant(startNode.firstChild.firstChild,  1); //<span#span5><span><u>Text
+					
+					this.ASSERT_EQUALS(null, split);
+					
+					//aceleasi teste dar cu toLeft=true
+					
+					par2=ed.window.document.getElementById("par2");
+					span5=ed.window.document.getElementById("span5");
+					
+					startNode=span5.firstChild.firstChild.firstChild;
+					
+					split=par2.splitChildAtDescendant(startNode, 0, true);
+					this.ASSERT_EQUALS(null, split);
+					
+					this.restoreInnerHTML();
+					
+					split=par2.splitChildAtDescendant(startNode.parentNode, 0, true);// <u>
+					this.ASSERT_EQUALS(null, split);
+					this.restoreInnerHTML();
+					
+					split=par2.splitChildAtDescendant(startNode.parentNode.parentNode, 0); //<span>
+					this.ASSERT_EQUALS(null, split, true);
+					this.restoreInnerHTML();
+					
+					split=par2.splitChildAtDescendant(startNode.parentNode.parentNode.parentNode, 0, true); //<span#span5>
+					this.ASSERT_EQUALS(null, split);
+					this.restoreInnerHTML();
+					
+					par2=ed.window.document.getElementById("par2");
+					startNode=ed.window.document.getElementById("b2");
+					
+					var split=par2.splitChildAtDescendant(startNode.parentNode, startNode.getIndex(), true ); //<b#b2>
+					
+					this.ASSERT_EQUALS(null, split);
+					this.restoreInnerHTML();
+					
+					par2=ed.window.document.getElementById("par2");
+					startNode=ed.window.document.getElementById("span5");
+					
+					var split=par2.splitChildAtDescendant(startNode.firstChild.firstChild.firstChild,  startNode.firstChild.firstChild.firstChild.length, true); //<span#span5><span><u>Text
+					
+					this.ASSERT_EQUALS(null, split);
+					
+					par2=ed.window.document.getElementById("par2");
+					startNode=ed.window.document.getElementById("span5");
+					
+					var split=par2.splitChildAtDescendant(startNode.firstChild.firstChild,  1, true); //<span#span5><span><u>Text
+					
+					this.ASSERT_EQUALS(null, split);
+					
+				}
+				
+				
+				/*
+				function()
+				{
+					var b1=ed.window.document.getElementById("b1");
+					var startNode=b1.firstChild;
+					var span4=ed.window.document.getElementById("span4");
+					var endNode=span4.firstChild.firstChild.firstChild.firstChild;
+					
+					var ca=ed.getInlineNodesEdges(startNode, startNode.textContent.length-2, endNode, 0);
+					//return;
+					this.ASSERT_EQUALS(startNode, ca.inlineEdgeNodes[0].startNode);
+					this.ASSERT_EQUALS(startNode.textContent.length-2, ca.inlineEdgeNodes[0].startOffset);
+					
+					this.ASSERT_EQUALS(ed.window.document.getElementById("em1"), ca.inlineEdgeNodes[0].endNode);
+					
+				},
+				function()
+				{
+					console.clear();
+					var par1=ed.window.document.getElementById("par1");
+					var sp3=ed.window.document.getElementById("sp3");
+					
+					var startNode=par1.firstChild;
+					var endNode=sp3.firstChild;
+					var ca=ed.getInlineNodesEdges(startNode, 9, endNode, 3);
+				}
+				
+				function()
+				{
+					console.clear();
+					console.log("DA");
+					var b1=ed.window.document.getElementById("b1");
+					var startNode=b1.firstChild;
+					var span4=ed.window.document.getElementById("span4");
+					var endNode=span4.firstChild.firstChild;
+					
+					var ca=ed.getInlineNodesEdges(startNode, startNode.textContent.length, endNode, 0);
+					
+					this.ASSERT_EQUALS(startNode, ca.inlineEdgeNodes[0].startNode);
+					this.ASSERT_EQUALS(startNode.textContent.length-2, ca.inlineEdgeNodes[0].startOffset);
+					
+					this.ASSERT_EQUALS(ed.window.document.getElementById("em1"), ca.inlineEdgeNodes[0].endNode);
+					
+				}
+				
+				function()
+				{
+					var par=ed.window.document.getElementById("par1");
+					var startNode=par.firstChild;
+					var endNode=par.firstChild.nextSibling.firstChild.firstChild;//"italic "
+					
+					var ca=ed.getInlineNodesEdges(startNode, 2, endNode, 3);
+					
+					this.ASSERT_EQUALS(1, ca.inlineEdgeNodes.length);
+					
+					this.ASSERT_EQUALS(startNode, ca.inlineEdgeNodes[0].startNode);
+					this.ASSERT_EQUALS(2, ca.inlineEdgeNodes[0].startOffset);
+					
+					this.ASSERT_EQUALS(endNode, ca.inlineEdgeNodes[0].endNode);
+					this.ASSERT_EQUALS(3, ca.inlineEdgeNodes[0].endOffset);
+				}
+				,
+				function()
+				{
+					console.log("####################################################");
+					var par=ed.window.document.getElementById("par1");
+					var startNode=par.firstChild.nextSibling.firstChild.firstChild;//end of <i>italic </i>
+					var endNode=par;//offset 3 before <br id="br1">
+					
+					var ca=ed.getInlineNodesEdges(startNode, startNode.textContent.length, endNode, 3);
+					
+					this.ASSERT_EQUALS(1, ca.inlineEdgeNodes.length);
+					this.ASSERT_EQUALS(par.firstChild.nextSibling.firstChild.nextSibling, ca.inlineEdgeNodes[0].startNode);
+					this.ASSERT_EQUALS(3, ca.inlineEdgeNodes[0].startNode.nodeType);
+					this.ASSERT_EQUALS("S", ca.inlineEdgeNodes[0].startNode.textContent);
+					this.ASSERT_EQUALS(0, ca.inlineEdgeNodes[0].startOffset);
+					
+					this.ASSERT_EQUALS(3, ca.inlineEdgeNodes[0].endNode.nodeType);//the new lines before <br>
+					this.ASSERT_EQUALS(4, ca.inlineEdgeNodes[0].endNode.textContent);
+					console.logNode(ca.inlineEdgeNodes[0].startNode);
+				}
+				*/
+				/*
+				function()
+				{
+					var textNode=ed.window.document.getElementById("span3").firstChild;
+					
+					//lo|rem
+					var newNode=textNode.split(2);
+					
+					this.ASSERT(newNode!=textNode);
+					this.ASSERT_EQUALS(textNode, newNode.previousSibling);
+					this.ASSERT_EQUALS("lo", textNode.textContent);
+					this.ASSERT_EQUALS("rem", newNode.textContent);
+					
+					this.restoreInnerHTML();
+					
+				}
+				,
+				function()
+				{
+					var textNode=ed.window.document.getElementById("span3").firstChild;
+					
+					//lo|rem
+					var newNode=textNode.split(0);
+					
+					this.ASSERT(newNode!=textNode);
+					this.ASSERT_EQUALS(newNode, textNode.nextSibling);
+					this.ASSERT_EQUALS("", textNode.textContent);
+					this.ASSERT_EQUALS("lorem", newNode.textContent);
+					
+					this.restoreInnerHTML();
+					
+				}
+				,
+				function()
+				{
+					var textNode=ed.window.document.getElementById("span3").firstChild;
+					
+					//lo|rem
+					var newNode=textNode.split(2, true);
+					
+					this.ASSERT(newNode!=textNode);
+					this.ASSERT_EQUALS(newNode, textNode.previousSibling);
+					this.ASSERT_EQUALS("lo", newNode.textContent);
+					this.ASSERT_EQUALS("rem", textNode.textContent);
+					
+					this.restoreInnerHTML();
+				}
+				,
+				function()
+				{
+					var textNode=ed.window.document.getElementById("span3").firstChild;
+					
+					//lo|rem
+					var newNode=textNode.split(5, true);
+					
+					this.ASSERT_EQUALS(newNode.nextSibling, textNode);
+					this.ASSERT_EQUALS("lorem", newNode.textContent);
+					this.ASSERT_EQUALS("", textNode.textContent);
+					
+					this.restoreInnerHTML();
+				}
+				,
+				function()
+				{
+					this.restoreInnerHTML();
+					var textNode=ed.window.document.getElementById("span3").firstChild;
+					var newNode;
+					try
+					{
+						newNode=textNode.split(-1);
+						this.ASSERT(false);
+					}
+					catch(err)
+					{
+						this.ASSERT_EQUALS("undefined", typeof newNode);
+						this.ASSERT_EQUALS(ERR_NODE_INDEX_SIZE, err.code);
+					}
+					
+				}
+				,
+				function()
+				{
+					this.restoreInnerHTML();
+					var textNode=ed.window.document.getElementById("span3").firstChild;
+					var newNode;
+					try
+					{
+						newNode=textNode.split(6);
+						this.ASSERT(false);
+					}
+					catch(err)
+					{
+						this.ASSERT_EQUALS("undefined", typeof newNode);
+						this.ASSERT_EQUALS(ERR_NODE_INDEX_SIZE, err.code);
+					}
+					
+				}
+				,
+				function()
+				{
+					this.restoreInnerHTML();
+					var div=ed.window.document.getElementById("div2");
+					
+					var newNode=div.split(1);
+					
+					this.ASSERT_EQUALS(div.nextSibling, newNode);
+					this.ASSERT_EQUALS(1, div.childNodes.length);
+					this.ASSERT_EQUALS(3, newNode.childNodes.length);
+				}
+				,
+				function()
+				{
+					this.restoreInnerHTML();
+					var div=ed.window.document.getElementById("div2");
+					
+					var newNode=div.split(0);
+					
+					this.ASSERT_EQUALS(div.nextSibling, newNode);
+										
+					this.ASSERT_EQUALS(0, div.childNodes.length);
+					this.ASSERT_EQUALS(4, newNode.childNodes.length);
+				}
+				,
+				function()
+				{
+					this.restoreInnerHTML();
+					var div=ed.window.document.getElementById("div2");
+					
+					var newNode=div.split(div.childNodes.length);
+					
+					this.ASSERT_EQUALS(div.nextSibling, newNode);
+							
+					this.ASSERT_EQUALS(4, div.childNodes.length);
+					this.ASSERT_EQUALS(0, newNode.childNodes.length);
+				}
+				,
+				function()
+				{
+					this.restoreInnerHTML();
+					var div=ed.window.document.getElementById("div2");
+					
+					var newNode=div.split(1, true);
+					
+					this.ASSERT_EQUALS(div.previousSibling, newNode);
+					this.ASSERT_EQUALS(1, newNode.childNodes.length);
+					this.ASSERT_EQUALS(3, div.childNodes.length);
+				}
+				,
+				function()
+				{
+					this.restoreInnerHTML();
+					var div=ed.window.document.getElementById("div2");
+					
+					var newNode=div.split(0, true);
+					
+					this.ASSERT_EQUALS(div.previousSibling, newNode);
+										
+					this.ASSERT_EQUALS(0, newNode.childNodes.length);
+					this.ASSERT_EQUALS(4, div.childNodes.length);
+				}
+				,
+				function()
+				{
+					this.restoreInnerHTML();
+					var div=ed.window.document.getElementById("div2");
+					
+					var newNode=div.split(div.childNodes.length, true);
+					
+					this.ASSERT_EQUALS(div.previousSibling, newNode);
+							
+					this.ASSERT_EQUALS(4, newNode.childNodes.length);
+					this.ASSERT_EQUALS(0, div.childNodes.length);
+				}
+				,
+				function()
+				{
+					this.restoreInnerHTML();
+					var div=ed.window.document.getElementById("div2");
+					
+					
+					var newNode;
+							
+					try
+					{
+						newNode=div.split(-1);
+						this.ASSERT(false);
+					}
+					catch(err)
+					{
+						this.ASSERT("undefined", typeof(newNode));
+						this.ASSERT_EQUALS(ERR_NODE_INDEX_SIZE, err.code);
+						
+					}
+					try
+					{
+						newNode=div.split(-1, true);
+						this.ASSERT(false);
+					}
+					catch(err)
+					{
+						this.ASSERT("undefined", typeof(newNode));
+						this.ASSERT_EQUALS(ERR_NODE_INDEX_SIZE, err.code);
+						
+					}
+					try
+					{
+						newNode=div.split(div.childNodes.length+1);
+						this.ASSERT(false);
+					}
+					catch(err)
+					{
+						this.ASSERT("undefined", typeof(newNode));
+						this.ASSERT_EQUALS(ERR_NODE_INDEX_SIZE, err.code);
+						
+					}
+					try
+					{
+						newNode=div.split(div.childNodes.length+1, true);
+						this.ASSERT(false);
+					}
+					catch(err)
+					{
+						this.ASSERT("undefined", typeof(newNode));
+						this.ASSERT_EQUALS(ERR_NODE_INDEX_SIZE, err.code);
+						
+					}
+				},
+				function()
+				{//split a node at its end
+					var b=ed.window.document.getElementById("span2");
+					var t=b.splitChildAtDescendant(b.firstChild.firstChild, b.firstChild.firstChild.textContent.length);
+					this.ASSERT_EQUALS("", t.textContent);
+				}
+				,
+				//Sourrounding with an element of a given tag name
+				//text from the same text node*
+				function()
+				{
+					
+					this.restoreInnerHTML();
+					var par=ed.window.document.getElementById("par1");
+					var fc=par.firstChild;
+					
+					var strong=ed.surroundNodes("strong", fc, 1, fc, 2);
+					
+					this.ASSERT_EQUALS("STRONG", strong.tagName.toUpperCase());
+					this.ASSERT_EQUALS(fc, strong.firstChild);
+					this.ASSERT_EQUALS(1, strong.firstChild.textContent.length);
+					
+					this.ASSERT("n", strong.firstChild.textContent);
+				}
+				,
+				//start and end in different text nodes
+				function()
+				{
+					this.restoreInnerHTML();
+					var node1=ed.window.document.getElementById("par1").firstChild;
+					var node2=ed.window.document.getElementById("em1").firstChild.firstChild.firstChild;
+					
+					var strong=ed.surroundNodes("strong", node1, 3, node2, 4);
+					
+					this.ASSERT_EQUALS("emph", strong.lastChild.lastChild.lastChild.lastChild.textContent);
+					this.ASSERT_EQUALS("paragraf cu un ", strong.firstChild.textContent);
+				}
+				,
+				//start at the end of a text node and end in different text node
+				function()
+				{
+					this.restoreInnerHTML();
+					var node1=ed.window.document.getElementById("par1").firstChild;
+					var node2=ed.window.document.getElementById("em1").firstChild.firstChild.firstChild;
+					
+					var strong=ed.surroundNodes("strong", node1, node1.textContent.length, node2, 4);
+					
+					this.ASSERT_EQUALS("emph", strong.lastChild.lastChild.lastChild.lastChild.textContent);
+					//console.logNode(strong.firstChild);
+					this.ASSERT_EQUALS("italic ", strong.firstChild.nextSibling.firstChild.firstChild.textContent);
+				}
+				,
+				//start at the end of a element node and end in different text node
+				function()
+				{
+					this.restoreInnerHTML();
+					var node1=ed.window.document.getElementById("b1").firstChild;
+					var node2=ed.window.document.getElementById("em1").firstChild.firstChild.firstChild;
+					
+					var strong=ed.surroundNodes("strong", node1, node1.textContent.length, node2, 4);
+					
+					this.ASSERT_EQUALS("emph", strong.lastChild.lastChild.lastChild.lastChild.textContent);
+					//console.logNode(strong.firstChild);
+					this.ASSERT_EQUALS("emph", strong.firstChild.nextSibling.firstChild.firstChild.textContent);
+				},
+				function()
+				{
+					this.restoreInnerHTML();
+					var startNode=ed.window.document.getElementById("b1").firstChild;
+					var endNode=ed.window.document.getElementById("em1").firstChild.firstChild.firstChild;
+					//var endNode=ed.window.document.getElementById("span2").nextSibling;
+					
+					var strong=ed.surroundTextNodes("strong", true,
+						startNode, startNode.textContent.length, endNode, endNode.textContent.length);
+						
+					this.ASSERT_EQUALS("em", strong[0].firstChild.tagName);
+				}
+				*/
+			]
+			function f()
+			{
+				var sel=ed.window.getSelection();
+				var r=sel.getRangeAt(0);
+				alert(
+					("Start range: "+(r.startContainer.nodeType==1?"<"+r.startContainer.tagName+"> ":"")+r.startContainer.textContent+":"+r.startOffset)
+					+
+					"\n"
+					+
+					("End range: "+(r.endContainer.nodeType==1?"<"+r.endContainer.tagName+(r.endContainer.id?"#"+r.endContainer.id:"")+"> ":"")+r.endContainer.nodeType+": "+r.endContainer.textContent+":"+r.endOffset));
+				//r.endContainer.textContent="|"
 			}
 		</script>
 	</head>
 
-	<body onload="setTimeout('bodyOnLoad()', 1000)">
+	<body onload="setTimeout('bodyOnLoad()', 300)">
 		<div class="clearfix" style="float: left;">
 			<iframe src="enum-selected-nodes.tpl.html" id="ifrm"></iframe>
 			<br>
 			<textarea style="border: 1px #c9c9c9  solid;" id="htmlView"></textarea>
 		</div>
 		<div id="toolbar">
+			<a href="#" onclick="mh.undo(); showHTML(); return false;">Undo</a>
+			<br>
+			<a href="#" onclick="mh.redo(); showHTML(); return false;">Redo</a>
+			<br>
 			<a href="#" onclick="visitSelection() ; return false;">Visit selection</a>
 			<br>
-			<a href="#" onclick="makeStrong() ; return false;">Make STRONG</a>
+			<a href="#" onclick="surround() ; return false;">Surround with </a><input type="text" id="tagName" size="10">
 			<br>
-			<a href="#" onclick="document.getElementById('htmlView').value=ed.window.document.body.innerHTML; return false;">View HTML</a>
+			<a href="#" onclick="surround('strong') ; return false;">Surround with STRONG</a>
+			
+			<br>
+			<a href="#" onclick="surround('i') ; return false;">Surround with I</a>
+			<br>
+			<a href="#" onclick="surround('b') ; return false;">Surround with B</a>
+			<br>
+			<a href="#" onclick="surround('u') ; return false;">Surround with U</a>
+			<br>
+			<a href="#" onclick="surround('s') ; return false;">Surround with S</a>
+			<br>
+			<a href="#" onclick="selectElement() ; return false;">Select element#</a><input type="text" id="elementId" size="10">
+			<br>
+			<a href="#" onclick="split('em2', 2, 'em1', 5) ; return false;">Split</a>
+			<br>
+			<a href="#" onclick="showHTML(); return false;">View HTML</a>
+			<br>
+			<a href="#" onclick="restoreInnerHTML(); return false;">Restore HTML</a>
+			<br>
+			<a href="#" onclick="f(); return false;">Range</a>
+			<br>
 		</div>
 		
 	</body>
