@@ -13,7 +13,7 @@
 				border: 1px #999999 solid;
 				padding: 0;
 				width: 600px;
-				height: 200px;
+				height: 400px;
 				float: left;
 			}
 			#htmlView
@@ -40,6 +40,7 @@
 			{
 				ed=new EditableContent(document.getElementById("ifrm"));
 				mh=new MutationHistory(ed.window.document.body, true);
+				
 				mh.observe(ed.window.document.body);
 				
 				showHTML();
@@ -49,27 +50,77 @@
 				
 			}
 			
-			function visitSelectedNode(node, close, endVisit, callbackMethodArguments, startOffset)
+			function visitSelectedNode(node, offset, close, endVisit, callbackMethodArguments)
 			{
-				console.log("DA");
-				//console.logNode(node, (endVisit?"Finish ":"")+"("+startOffset+")", close);
+				//var close;
+				
+				//close=((node.isText() && offset==node.textContent.length) || (node.isElement() && offset==node.childNodes.length)
+				
+				console.logNode(node,"("+offset+")", close, "Callback "+(endVisit?" end visit ":""));
 			}
 			function visitSelection()
 			{
 				console.clear();
-				//ed.visitSelectedNodes("visitSelectedNode");
-				var ca=ed.getInlineNodesEdges();//startNode, startOffset, endNode, endOffset, ca/*callback arguments*/)
-				return;
-				console.clear();
-				console.logNode(ca.inlineEdgeNodes[0].startNode, "("+ca.inlineEdgeNodes[0].startOffset+")");
-				console.logNode(ca.inlineEdgeNodes[0].endNode, "("+ca.inlineEdgeNodes[0].endOffset+")");
+				var sel=ed.window.getSelection();
+				var range;
+				
+				try
+				{
+					range=sel.getRangeAt(0);
+				}
+				catch(err)
+				{
+					range=ed.window.document.createRange();
+				}
+				
+				var startNode, startOffset;
+				var endNode, endOffset;
+				
+				if(range.collapsed)
+				{
+					startNode=ed.window.document.getElementById("par1");
+					startOffset=4;
+					endNode=ed.window.document.getElementById("em1");
+					endOffset=0;
+				}
+				/*ed.visitSelectedNodes("visitSelectedNode", null, 
+					ed.window.document.getElementById("par1").firstChild, 3, 
+					ed.window.document.getElementById("sp3").firstChild, 4 );
+				ed.visitSelectedNodes("visitSelectedNode", null, 
+					ed.window.document.getElementById("par1"), 4, 
+					ed.window.document.getElementById("b1").firstChild, 0 );
+				*/
+				var ca=ed.getInlineNodesEdges(startNode, startOffset, endNode, endOffset);
+				
 			}
-			function surround(tagName)
+			function surround(tagName, tagAttributes)
 			{
 				console.clear();
 				
-				mh.startMutationsBatch();
-				ed.surroundTextNodes(tagName?tagName:document.getElementById("tagName").value, true);
+				if(!tagAttributes)
+				{
+					tagAttributes={};
+					var strTagAttributes=document.getElementById("tagAttributes").value;
+					var arrTagAttributes=strTagAttributes.split(";");
+					
+					for(var i=0; i<arrTagAttributes.length; i++)
+					{
+						var attr=arrTagAttributes[i].split("=");
+						tagAttributes[attr[0]]=attr[1];
+					}
+				}
+				
+				try
+				{
+					mh.startMutationsBatch();
+					ed.surroundTextNodes(tagName?tagName:document.getElementById("tagName").value, 
+									tagAttributes,
+									true);
+				}
+				catch(err)
+				{
+					alert(err.message);
+				}
 				showHTML();
 			}
 			function split(startNodeId, startOffset, endNodeId, endOffset)
@@ -671,6 +722,15 @@
 					("End range: "+(r.endContainer.nodeType==1?"<"+r.endContainer.tagName+(r.endContainer.id?"#"+r.endContainer.id:"")+"> ":"")+"Type:"+r.endContainer.nodeType+": "+r.endContainer.textContent+", offset="+r.endOffset));
 				//r.endContainer.textContent="|"
 			}
+			function logMutations()
+			{
+				var idx=mh.mutations.length-1;
+				
+				for(var i=0; i<mh.mutations[idx].length; i++)
+				{
+					mh.logMutation(mh.mutations[idx][i])
+				}
+			}
 		</script>
 	</head>
 
@@ -687,18 +747,22 @@
 			<br>
 			<a href="#" onclick="visitSelection() ; return false;">Visit selection</a>
 			<br>
-			<a href="#" onclick="surround() ; return false;">Surround with </a><input type="text" id="tagName" size="10">
+			<a href="#" onclick="surround() ; return false;">Surround with </a><input type="text" id="tagName" size="10">, attributes <input type="text" id="tagAttributes" size="16">
 			<br>
 			<a href="#" onclick="surround('strong') ; return false;">Surround with STRONG</a>
 			
 			<br>
-			<a href="#" onclick="surround('i') ; return false;">Surround with I</a>
+			<a href="#" onclick="surround('em') ; return false;">Surround with EM</a>
 			<br>
-			<a href="#" onclick="surround('b') ; return false;">Surround with B</a>
+			<a href="#" onclick="surround('code') ; return false;">Surround with CODE</a>
 			<br>
-			<a href="#" onclick="surround('u') ; return false;">Surround with U</a>
+			<a href="#" onclick="surround('del') ; return false;">Surround with DEL</a>
 			<br>
-			<a href="#" onclick="surround('s') ; return false;">Surround with S</a>
+			<a href="#" onclick="surround('ins') ; return false;">Surround with INS</a>
+			<br>
+			<a href="#" onclick="surround('blockquote') ; return false;">Surround with BLOCKQUOTE</a>
+			<br>
+			<a href="#" onclick="surround('q') ; return false;">Surround with Q</a>
 			<br>
 			<a href="#" onclick="selectElement() ; return false;">Select element#</a><input type="text" id="elementId" size="10">
 			<br>
@@ -709,6 +773,8 @@
 			<a href="#" onclick="restoreInnerHTML(); return false;">Restore HTML</a>
 			<br>
 			<a href="#" onclick="f(); return false;">Range</a>
+			<br>
+			<a href="#" onclick="logMutations(); return false;">Log last mutation</a>
 			<br>
 		</div>
 		
