@@ -129,11 +129,13 @@
 				
 				try
 				{
-					ed.mutationHistory.startMutationsBatch();
+					//ed.mutationHistory.startMutationsBatch();
 					ed.surroundTextNodes(tagName?tagName:document.getElementById("tagName").value, 
 									true,
 									tagAttributes,
 									true);
+					//ed.mutationHistory.endMutationsBatch();
+					//ed.mutationHistory.selectMutationsBatchRange(mutationsBatchIndex, after)
 				}
 				catch(err)
 				{
