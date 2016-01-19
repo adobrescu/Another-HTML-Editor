@@ -39,15 +39,15 @@
 			function bodyOnLoad()
 			{
 				ed=new EditableContent(document.getElementById("ifrm"));
-				mh=new MutationHistory(ed.window.document.body, true);
+				//mh=new MutationHistory(ed.window.document.body, true);
 				
-				mh.observe(ed.window.document.body);
+				//mh.observe(ed.window.document.body);
 				
 				showHTML();
 				
 				originalInnerHTML=ed.window.document.body.innerHTML;
 				
-				setTimeout("testsBatch.run()", 300);
+				//setTimeout("testsBatch.run()", 300);
 				
 			}
 			
@@ -98,7 +98,7 @@
 			{
 				try
 				{
-					mh.startMutationsBatch();
+					ed.mutationHistory.startMutationsBatch();
 					ed.surroundTextNodes(tagName?tagName:document.getElementById("tagName").value, 
 									false,
 									null,
@@ -129,7 +129,7 @@
 				
 				try
 				{
-					mh.startMutationsBatch();
+					ed.mutationHistory.startMutationsBatch();
 					ed.surroundTextNodes(tagName?tagName:document.getElementById("tagName").value, 
 									true,
 									tagAttributes,
@@ -137,7 +137,7 @@
 				}
 				catch(err)
 				{
-					console.log("Error: "+err.message);
+					console.log("Error here: "+err.message);
 				}
 				showHTML();
 			}
@@ -805,9 +805,9 @@
 			<textarea style="border: 1px #c9c9c9  solid;" id="htmlView"></textarea>
 		</div>
 		<div id="toolbar">
-			<a href="#" onclick="mh.undo(); showHTML(); return false;">Undo</a>
+			<a href="#" onclick="ed.mutationHistory.undo(); showHTML(); return false;">Undo</a>
 			<br>
-			<a href="#" onclick="mh.redo(); showHTML(); return false;">Redo</a>
+			<a href="#" onclick="ed.mutationHistory.redo(); showHTML(); return false;">Redo</a>
 			<br>
 			<a href="#" onclick="visitSelection() ; return false;">Visit selection</a>
 			<br>
