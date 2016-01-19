@@ -27,3 +27,13 @@ italic, underline -> css
 
 Editor manages EditableContent objects;
 
+15.ian.2015
+
+Which elements are allowed inside a given element (eg. div in p is now allowed)
+
+Block formatting (h1, div, p etc)
+Lists
+Tables
+
+
+
