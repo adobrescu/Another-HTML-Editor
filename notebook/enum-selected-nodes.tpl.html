@@ -12,47 +12,81 @@
 		body
 		{
 			font-family: Verdana;
+			padding: 30px;
+		}
+		#toolbox
+		{
+			-moz-user-select: none;
+		}
+		td
+		{
+			border-top: 1px #c9c9c9 solid;
+			border-right: 1px #c9c9c9 solid;
+		}
+		table
+		{
+			border-left: 1px #c9c9c9 solid;
+			border-bottom: 1px #c9c9c9 solid;
+			padding: 10px;
 		}
 	</style>
 </head>
-<body contentEditable="true"><div>Un <h2>text <b>bolduit</b> put</h2>in</div>
+<body>
+	<div id="EditableContentCanvas" style="outline: 1px #777777 dotted;" contentEditable="true">
+	<div>Un <h2>text <b>bolduit</b> put</h2>in</div>
 	
-	<div class="" id="div1">
-		<p id="par1">Un paragraf cu un <span id="span1" style="color: red; border: 1px green solid;"><i>italic </i>S<em id="em2">PAN </em></span>
-			<span> </span><span id="span7"></span><span id="test"><span id="test2"><br id="br1"></span></span>
-			si acum
-			<span id="span2"><span id="spbr1"><span id="spbr2"><b id="b1">bold text </b></span></span><em id="em1"><u><s>emphasize</s></u></em></span><span id="span4"><span id="sp1"><span id="sp2"><span id="sp3"> oaresce</span></span></span></span>
+		<div class="" id="div1">
+			<p id="par1">Un paragraf cu un <span id="span1" style="color: red; border: 1px green solid;"><i>italic </i>S<em id="em2">PAN </em></span>
+				<span> </span><span id="span7"></span><span id="test"><span id="test2"><br id="br1"></span></span>
+				si acum
+				<span id="span2"><span id="spbr1"><span id="spbr2"><b id="b1">bold text </b></span></span><em id="em1"><u><s>emphasize</s></u></em></span><span id="span4"><span id="sp1"><span id="sp2"><span id="sp3"> oaresce</span></span></span></span>
+			</p>
+			word
+			lorem
+			<div id="div2" class="div_class2"><span id="span6"> some  2</span> writing <b> 12345678</b><span> armadore</span></div> first div again
+		</div>
+		OUT
+		<p style="border: 1px red solid; margin: 0px; outline: 1px #c9c9c9 dotted; padding: 10px;"></p>
+		text
+		<img src="IrisAndDana.JPG" width="100" alt="Danuta si Iris">
+		<div id="div3">
+			<p id="par2">
+				<span id="span5"><span><u>Lorem Ipsum</u></span></span> <s><b id="b2">boldum est </b> </s><span id="span8">ending <i id="i2">italicum</i></span> ahatore</p>
+		</div>
+		<ol id="ol1">
+			<li>aas</li>
+		</ol>
+
+		<a href="#" id="a2">link 2<span> cu span</span> in <b><i> link </i></b></a>
+		text
+		<p>
+			<a href="#" id="a1">link inside a paragraph</a>
 		</p>
-		word
-		lorem
-		<div id="div2" class="div_class2"><span id="span6"> some  2</span> writing <b> 12345678</b><span> armadore</span></div> first div again
+		text
+
+		<div>
+			A div with a
+			<a href="sadasd" id="a3"><p>
+				paragraph inside
+			</p>
+			</a>
+			With a link
+		</div>
+		<table>
+			<caption>Table Caption</caption>
+			<tr>
+				<td> TD 1,1</td>
+				<td> TD 1,2</td>
+				<td> TD 1,3</td>
+			</tr>
+			<tr>
+				<td> TD 2,1</td>
+				<td> TD 2,2</td>
+				<td> TD 2,3</td>
+			</tr>
+		</table>
 	</div>
-	OUT
-	<p style="border: 1px red solid; margin: 0px; outline: 1px #c9c9c9 dotted; padding: 10px;"></p>
-	text
-	<img src="IrisAndDana.JPG" width="100">
-	<div id="div3">
-		<p id="par2">
-			<span id="span5"><span><u>Lorem Ipsum</u></span></span> <s><b id="b2">boldum est </b> </s><span id="span6">ending <i id="i2">italicum</i></span> ahatore</p>
-	</div>
-	<ol id="ol1">
-		<li>aas</li>
-	</ol>
-	
-	<a href="#" id="a2">link 2<span> cu span</span> in <b><i> link </i></b></a>
-	text
-	<p>
-		<a href="#" id="a1">link inside a paragraph</a>
-	</p>
-	text
-	
-	<div>
-		A div with a
-		<a href="sadasd" id="a3"><p>
-			paragraph inside
-		</p>
-		</a>
-		With a link
+	<div id="toolbox">Oaresce</div>
 </body>
 
 </html> 
