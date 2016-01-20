@@ -13,7 +13,7 @@
 				border: 1px #999999 solid;
 				padding: 0;
 				width: 600px;
-				height: 400px;
+				height: 800px;
 				float: left;
 			}
 			#htmlView
@@ -91,7 +91,7 @@
 					ed.window.document.getElementById("par1"), 4, 
 					ed.window.document.getElementById("b1").firstChild, 0 );
 				*/
-				var ca=ed.getInlineNodesEdges(startNode, startOffset, endNode, endOffset);
+				var ca=ed.getInlineNodesEdges(startNode, startOffset, endNode, endOffset, null, "strong");
 				
 			}
 			function surroundBlock(tagName)
@@ -832,6 +832,10 @@
 			<br>
 			<a href="#" onclick="surroundBlock('h1') ; return false;">Surround with H1</a>
 			<br>
+			<a href="#" onclick="surroundBlock('sup') ; return false;">Surround with SUP</a>
+			<br>
+			<a href="#" onclick="surroundBlock('sub') ; return false;">Surround with SUB</a>
+			<br>
 			<a href="#" onclick="selectElement() ; return false;">Select element#</a><input type="text" id="elementId" size="10">
 			<br>
 			<a href="#" onclick="split('em2', 2, 'em1', 5) ; return false;">Split</a>
@@ -844,7 +848,7 @@
 			<br>
 			<a href="#" onclick="logMutations(); return false;">Log last mutation</a>
 			<br>
-			<a href="#" onclick="var p=ed.window.document.getElementById('par1'); p.visitDescendants([p, 'isPhrasingContentNodes']); return false;">Visit</a>
+			<a href="#" onclick="alert(ed.mutationHistory.mutations.length); return false;">Visit</a>
 			
 			<br>
 		</div>
