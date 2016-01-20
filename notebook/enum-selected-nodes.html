@@ -112,21 +112,27 @@
 			}
 			function surround(tagName, tagAttributes)
 			{
-				console.clear();
 				
+				console.clear();
+				var strTagAttributes
 				if(!tagAttributes)
 				{
-					tagAttributes={};
-					var strTagAttributes=document.getElementById("tagAttributes").value;
-					var arrTagAttributes=strTagAttributes.split(";");
 					
-					for(var i=0; i<arrTagAttributes.length; i++)
-					{
-						var attr=arrTagAttributes[i].split("=");
-						tagAttributes[attr[0]]=attr[1];
-					}
+					strTagAttributes=document.getElementById("tagAttributes").value;
 				}
-				
+				else
+				{
+					strTagAttributes=tagAttributes;
+				}
+				tagAttributes={};
+				var arrTagAttributes=strTagAttributes.split(",");
+					
+				for(var i=0; i<arrTagAttributes.length; i++)
+				{
+					var attr=arrTagAttributes[i].split("=");
+					tagAttributes[attr[0]]=attr[1];
+				}
+								
 				try
 				{
 					//ed.mutationHistory.startMutationsBatch();
@@ -815,26 +821,73 @@
 			<br>
 			<a href="#" onclick="surround() ; return false;">Surround with </a><input type="text" id="tagName" size="10">, attributes <input type="text" id="tagAttributes" size="16">
 			<br>
-			<a href="#" onclick="surround('strong') ; return false;">Surround with STRONG</a>
-			
-			<br>
-			<a href="#" onclick="surround('em') ; return false;">Surround with EM</a>
-			<br>
-			<a href="#" onclick="surround('code') ; return false;">Surround with CODE</a>
-			<br>
-			<a href="#" onclick="surround('del') ; return false;">Surround with DEL</a>
-			<br>
-			<a href="#" onclick="surround('ins') ; return false;">Surround with INS</a>
-			<br>
-			<a href="#" onclick="surround('blockquote') ; return false;">Surround with BLOCKQUOTE</a>
-			<br>
-			<a href="#" onclick="surround('q') ; return false;">Surround with Q</a>
-			<br>
-			<a href="#" onclick="surroundBlock('h1') ; return false;">Surround with H1</a>
-			<br>
-			<a href="#" onclick="surroundBlock('sup') ; return false;">Surround with SUP</a>
-			<br>
-			<a href="#" onclick="surroundBlock('sub') ; return false;">Surround with SUB</a>
+			<a href="#" onclick="surround(document.getElementById('selectTagName').value, document.getElementById('selectTagAttributes').value) ; return false;">Surround with </a>
+			<select id="selectTagName">
+				<optgroup label="Sectioning">
+					<option value="ADDRESS">ADDRESS</option>
+					<option value="ARTICLE">ARTICLE</option>
+					<option value="ASIDE">ASIDE</option>
+					<option value="FOOTER">FOOTER</option>
+					<option value="H1">H1</option>
+					<option value="H2">H2</option>
+					<option value="H3">H3</option>
+					<option value="H4">H4</option>
+					<option value="H5">H5</option>
+					<option value="H6">H6</option>
+					<option value="HEADER">HEADER</option>
+					<option value="NAV">NAV</option>
+					<option value="SECTION">SECTION</option>
+				</optgroup>
+				<optgroup label="Grouping">
+					<option value="BLOCKQUOTE">BLOCKQUOTE</option>
+					<option value="P">P</option>
+					<option value="HR">HR</option>
+					<option value="BR">BR</option>
+					<option value="PRE">PRE</option>
+					<option value="DIALOG">DIALOG</option>
+					<option value="OL">OL</option>
+					<option value="UL">UL</option>
+					<option value="LI">LI</option>
+					<option value="DL">DL</option>
+					<option value="DT">DT</option>
+					<option value="DD">DD</option>
+				</optgroup>
+				<optgroup label="Grouping">
+					<option value="A">A</option>
+					<option value="ABBR">ABBR</option>
+					<option value="B">B</option>
+					<option value="BDO">BDO</option>
+					<option value="CITE">CITE</option>
+					<option value="CODE">CODE</option>
+					<option value="DFN">DFN</option>
+					<option value="EM">EM</option>
+					<option value="I">I</option>
+					<option value="KBD">KBD</option>
+					<option value="MARK">MARK</option>
+					<option value="METER">METER</option>
+					<option value="PROGRESS">PROGRESS</option>
+					<option value="RP">RP</option>
+					<option value="RT">RT</option>
+					<option value="RUBY">RUBY</option>
+					<option value="Q">Q</option>
+					<option value="SAMP">SAMP</option>
+					<option value="SMALL">SMALL</option>
+					<option value="SPAN">SPAN</option>
+					<option value="STRONG">STRONG</option>
+					<option value="SUB">SUB</option>
+					<option value="SUP">SUP</option>
+					<option value="TIME">TIME</option>
+					<option value="VAR">VAR</option>
+				</optgroup>
+				<optgroup label="Edits">
+					<option value="DEL">DEL</option>
+					<option value="INS">INS</option>
+				</optgroup>
+				<optgroup label="None">
+					<option value="DIV">DIV</option>
+				</optgroup>
+			</select>
+			, attributes <input type="text" id="selectTagAttributes" size="46">
 			<br>
 			<a href="#" onclick="selectElement() ; return false;">Select element#</a><input type="text" id="elementId" size="10">
 			<br>
