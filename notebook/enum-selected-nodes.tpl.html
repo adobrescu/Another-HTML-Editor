@@ -16,7 +16,13 @@
 		}
 		#toolbox
 		{
-			-moz-user-select: none;
+			-webkit-user-select: none; /* Chrome/Safari */        
+			-moz-user-select: none; /* Firefox */
+			-ms-user-select: none; /* IE10+ */
+
+			/* Rules below not implemented in browsers yet */
+			-o-user-select: none;
+			user-select: none;
 		}
 		td
 		{
@@ -34,81 +40,36 @@
 			background-color: #f1f1f1;
 			outline: 1px blue dotted;
 		}
+		#EditableContentCanvas
+		{
+			padding: 20px;
+		}
+		p
+		{
+			border: 1px blue dotted;
+		}
 	</style>
 </head>
 <body>
 	<div id="EditableContentCanvas" style="outline: 1px #777777 dotted;" contentEditable="true">
-		<h1>Title </h1>
-	<div>Un <h2>text <b>bolduit</b> put</h2>in</div>
-	<strong> test pentru <i> split noduri text</i></strong>
-		<div class="" id="div1">
-			<p id="par1">Un paragraf cu un <span id="span1" style="color: red; border: 1px green solid;"><i>italic </i>S<em id="em2">PAN </em></span>
-				<span> </span><span id="span7"></span><span id="test"><span id="test2"><br id="br1"></span></span>
-				si acum
-				<span id="span2"><span id="spbr1"><span id="spbr2"><b id="b1">bold text </b></span></span><em id="em1"><u><s>emphasize</s></u></em></span><span id="span4"><span id="sp1"><span id="sp2"><span id="sp3"> oaresce</span></span></span></span>
-			</p>
-			word
-			lorem
-			<div id="div2" class="div_class2"><span id="span6"> some  2</span> writing <b> 12345678</b><span> armadore</span></div> first div again
-		</div>
-		OUT
-		<p style="border: 1px red solid; margin: 0px; outline: 1px #c9c9c9 dotted; padding: 10px;"></p>
-		text
-		<img src="IrisAndDana.JPG" width="100" alt="Danuta si Iris">
-		<div id="div3">
-			<p id="par2">
-				<span id="span5"><span><u>Lorem Ipsum</u></span></span> <s><b id="b2">boldum est </b> </s><span id="span8">ending <i id="i2">italicum</i></span> ahatore</p> text <span>span</span>
-		</div>
-		<ol id="ol1">
-			<li>Ordered list item</li>
-			<li>Another Ordered list item</li>
-			<li>Last list item</li>
-		</ol>
-
-		<a href="#" id="a2">link 2<span> cu span</span> in <b><i> link </i></b></a>
-		text
-		<p>
-			<a href="#" id="a1">link inside a paragraph</a>
+		Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
+		
+		<h1 id="h11">Lorem Ipsum</h1>
+				
+		<p id="par1">
+			<span id="span1"> <span id="span2"> <span id="span3"> Sed at mollis mi. In ac tempus massa. </span></span></span> Aculum edice.
 		</p>
-		text
-
-		<div>
-			A div with a
-			<a href="sadasd" id="a3"><p>
-				paragraph inside
-			</p>
-			</a>
-			With a link <x-custom-tag>custom tag</x-custom-tag>
-		</div>
-		<table>
-			<caption>Table Caption</caption>
-			<thead>
-				<tr>
-					<td> TD Header 1,1</td>
-					<td> TD Header 1,2</td>
-					<td> TD Header 1,3</td>
-				</tr>
-			</thead>
-			<tr>
-				<td> TD 1,1</td>
-				<td> TD 1,2</td>
-				<td> TD 1,3</td>
-			</tr>
-			<tr>
-				<td> TD 2,1</td>
-				<td> TD 2,2</td>
-				<td> TD 2,3</td>
-			</tr>
-			<tfoot>
-				<tr>
-					<td> TD Footer 2,1</td>
-					<td> TD Footer 2,2</td>
-					<td> TD Footer 2,3</td>
-				</tr>
-			</tfoot>
-		</table>
+		<p id="par2">
+			Sed nib<span id="span4">h nibh, <span id="span5">ornare eu venenatis non</span>, consequat at nisi. In posuere, nisl sit amet placera</span>t tristique, ex sapien pharetra erat, at varius justo odio at felis.
+		</p>
+		<ul>
+			<li> List item in a paragraph</li>
+			<li> List item in a paragraph</li>
+			<li> List item in a paragraph</li>
+		</ul>
+		
 	</div>
-	<div id="toolbox">Oaresce</div>
+	<div id="toolbox">Toolbox</div>
 </body>
 
 </html> 
