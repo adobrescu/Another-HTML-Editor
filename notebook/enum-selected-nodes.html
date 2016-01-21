@@ -394,6 +394,31 @@
 					this.ASSERT_EQUALS(1, newNodes.length);
 					//alert(startNode.textContent);
 					
+					//////////////////////////////////////////////////////////////////////
+					restoreInnerHTML();
+					
+					startNode=el("span3").firstChild;
+					endNode=el("par2");
+					
+					newNodes=ed.surroundTextNodes("P", {"id": "par4"},	true, startNode, 0, endNode, endNode.childNodes.length-1);
+					this.ASSERT_FALSE(newNodes[0].nextSibling.tagName=="P")
+					
+					
+					//////////////////////////////////////////////////////////////////////
+					restoreInnerHTML();
+					
+					startNode=endNode=el("h21").childNodes[1].firstChild.firstChild.firstChild;
+					
+					newNodes=ed.surroundTextNodes("H2", {"id": "h21"},	true, startNode, 0, endNode, endNode.textContent.length);
+					this.ASSERT_FALSE(newNodes[0].previousSibling.tagName=="H2");
+					
+					//////////////////////////////////////////////////////////////////////
+					restoreInnerHTML();
+					
+					startNode=endNode=el("h21").childNodes[1].firstChild.firstChild.firstChild;
+					
+					newNodes=ed.surroundTextNodes("H2", {"id": "h21"},	true, startNode, 0, endNode, endNode.textContent.length);
+					this.ASSERT_FALSE(newNodes[0].nextSibling.tagName=="H2");
 					showHTML();
 				}
 			];
