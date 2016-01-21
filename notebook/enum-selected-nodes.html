@@ -378,7 +378,7 @@
 					newNodes=ed.surroundTextNodes("P", {"id": "par3"},	true, startNode, 1, endNode, 10);
 					
 					//par1 got empty so it was removed
-					this.ASSERT_EQUALS(2, ed.window.document.getElementsByTagName("P").length);
+					this.ASSERT_EQUALS(3, ed.window.document.getElementsByTagName("P").length);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS("par3", newNodes[0].id);
@@ -389,7 +389,7 @@
 					endNode=startNode=el("par3").nextSibling.firstChild;
 					newNodes=ed.surroundTextNodes("P", {"id": "par4"},	true, startNode, 10, endNode, 20);
 					
-					this.ASSERT_EQUALS(4, ed.window.document.getElementsByTagName("P").length);
+					this.ASSERT_EQUALS(5, ed.window.document.getElementsByTagName("P").length);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					//alert(startNode.textContent);
