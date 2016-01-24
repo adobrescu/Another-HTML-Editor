@@ -47,16 +47,35 @@
 		#EditableContentCanvas
 		{
 			padding: 20px;
-			border: 1px red solid;
+			border: 3px red solid;
+			margin-bottom: 20px;
 		}
 		p
 		{
 			border: 1px blue dotted;
 		}
+		a
+		{
+			color: red;
+		}
+		span
+		{
+			outline: 1px red dotted;
+		}
+		div
+		{
+			padding: 10px;
+			border: 1px green solid;
+		}
 	</style>
 </head>
 <body>
 	<div id="EditableContentCanvas" style="outline: 1px #777777 dotted;" contentEditable="true">
+		Cum <em>sociis natoque penat<span><span><x> x element</x></span></span>ibus et magnis dis parturient montes, nas</em>cetur
+		<br>
+		<br>
+		<br>
+		<br>
 		Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
 		
 		<h1 id="h11">Lorem Ipsum</h1>
@@ -70,19 +89,22 @@
 		<div>
 			<h2 id="h21">  <span><span><span id="span6">Heading 2 element </span></span></span>  </h2>
 		</div>
+		ad asdasdad
 		<ul>
-			<li> List item in a paragraph</li>
-			<li> List item in a paragraph</li>
-			<li> List item in a paragraph</li>
-		</ul>
+			<li> List item 1 in a paragraph</li>
+			<li> List item 2 in a paragraph</li>
+			<li> List item 3 in a paragraph</li>
+			</ul>
+
 		<table>
 			<tr>
-				<td>TD 1,1</td>
-				<td>TD 2,1</td>
-				<td>TD 3,1</td>
+				<td id="td1">TD 1,1</td>
+				<td id="td2">TD 2,1</td>
+				<td id="td3">TD 3,1</td>
+				<td id="td4">TD 4,1</td>
 			</tr>
-		</table>
-		<strong></strong>
+			</table>
+		
 		<p>
 			Line one
 			<br>
@@ -94,6 +116,26 @@
 			<br>
 			Line six
 		</p>
+		<div style="border: 1px red solid;">
+			Ala bala
+			<p>
+				portocala
+			</p></div><p>
+			noi sintem copii de scoala
+		</p>
+		<div>
+			Lorem
+			<div>
+				Ipsum
+				<div>
+					Mana
+					<div>
+						Acet
+					</div>
+				</div>
+			</div>
+		</div>
+		Oaresce
 	</div>
 	<div id="toolbox">Toolbox</div>
 </body>

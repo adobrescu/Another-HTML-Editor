@@ -47,7 +47,7 @@
 				
 				
 				
-				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; testsBatch.run()", 300);
+				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; //testsBatch.run()", 300);
 				
 			}
 			
@@ -61,6 +61,8 @@
 			}
 			function visitSelection()
 			{
+				var ca=ed.getInlineNodesEdges(startNode, startOffset, endNode, endOffset, null, "B");
+				return;
 				console.clear();
 				var sel=ed.window.getSelection();
 				var range;
@@ -118,7 +120,7 @@
 					tagAttributes[attr[0]]=attr[1];
 				}
 				
-				try
+				//try
 				{
 					//ed.mutationHistory.startMutationsBatch();
 					ed.surroundTextNodes(tagName?tagName:document.getElementById("tagName").value, 
@@ -127,9 +129,9 @@
 					//ed.mutationHistory.endMutationsBatch();
 					//ed.mutationHistory.selectMutationsBatchRange(mutationsBatchIndex, after)
 				}
-				catch(err)
+				//catch(err)
 				{
-					console.log("Error here: "+err.message);
+				//	console.log("Error here: "+err.message);
 				}
 				showHTML();
 			}
@@ -378,7 +380,7 @@
 					newNodes=ed.surroundTextNodes("P", {"id": "par3"},	true, startNode, 1, endNode, 10);
 					
 					//par1 got empty so it was removed
-					this.ASSERT_EQUALS(3, ed.window.document.getElementsByTagName("P").length);
+					
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS("par3", newNodes[0].id);
@@ -389,7 +391,7 @@
 					endNode=startNode=el("par3").nextSibling.firstChild;
 					newNodes=ed.surroundTextNodes("P", {"id": "par4"},	true, startNode, 10, endNode, 20);
 					
-					this.ASSERT_EQUALS(5, ed.window.document.getElementsByTagName("P").length);
+					
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					//alert(startNode.textContent);
@@ -420,6 +422,18 @@
 					newNodes=ed.surroundTextNodes("H2", {"id": "h21"},	true, startNode, 0, endNode, endNode.textContent.length);
 					this.ASSERT_FALSE(newNodes[0].nextSibling.tagName=="H2");
 					showHTML();
+				},
+				function()
+				{
+					//////////////////////////////////////////////////////////////////////
+					restoreInnerHTML();
+					
+					var startNode, endNode, newNodes;
+					
+					startNode=el("par2").firstChild;
+					endNode=el("span4").nextSibling;
+					
+					//newNodes=ed.surroundTextNodes("A", null,	true, startNode, 2, endNode, 10);
 				}
 			];
 			function el(elId)
@@ -454,12 +468,12 @@
 		<div class="clearfix" style="float: left;">
 			<iframe src="enum-selected-nodes.tpl.html" id="ifrm"></iframe>
 			<br>
-			<textarea style="border: 1px #c9c9c9  solid;" id="htmlView"></textarea>
+			
 		</div>
 		<div id="toolbar">
-			<a href="#" onclick="ed.undo(); showHTML(); return false;">Undo</a>
+			<a href="#" onclick="ed.undo(); ; return false;">Undo</a>
 			<br>
-			<a href="#" onclick="ed.redo(); showHTML(); return false;">Redo</a>
+			<a href="#" onclick="ed.redo(); ; return false;">Redo</a>
 			<br>
 			<a href="#" onclick="visitSelection() ; return false;">Visit selection</a>
 			<br>
@@ -545,6 +559,7 @@
 			<br>
 			<a href="#" onclick="logMutations(); return false;">Log last mutation</a>			
 			<br>
+			<textarea style="border: 1px #c9c9c9  solid;" id="htmlView"></textarea>
 		</div>
 		
 	</body>
