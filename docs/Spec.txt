@@ -37,3 +37,12 @@ Tables
 
 
 
+24.ian.2015
+
+Offline Mutation History
+
+Set IDs on all nodes of mutations (if not already set)
+If a mutation change an ID then find that node in history. If the nodes are different, set a new ID for the modified node;
+On window.beforeunload, send the history to a server
+In constructor restore the history from the date sent above;
+What about text nodes? They don't have IDs;
