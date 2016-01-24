@@ -1,4 +1,20 @@
- <!DOCTYPE html>
+<?php
+	session_start();
+	if(isset($_GET['r']))
+	{
+		session_destroy();
+		header('Location: '.$_SERVER['PHP_SELF']);
+		exit();
+	}
+			
+	if($_POST)
+	{
+		$_SESSION['test']=$_POST;
+		//exit();
+	}
+	
+?>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title></title>
@@ -38,7 +54,7 @@
 			var ed, originalInnerHTML, mh;
 			function bodyOnLoad()
 			{
-				ed=new EditableContent(document.getElementById("ifrm"));
+				ed=new EditableContent(document.getElementById("ifrm"), <?=json_encode($_SESSION['test']['innerHTML'])?>, <?=json_encode($_SESSION['test']['serializedHistory'])?>, <?=json_encode($_SESSION['test']['removedNodesContainerInnerHTML'])?>);
 				//mh=new MutationHistory(ed.window.document.body, true);
 				
 				//mh.observe(ed.window.document.body);
@@ -440,8 +456,17 @@
 			{
 				return ed.window.document.getElementById(elId);
 			}
-			function f()
+			function test2()
 			{
+				
+			}
+			function test()
+			{
+				
+				ed.normalize(); return;
+				var s1, s2;
+				
+				
 				var sel=ed.window.getSelection();
 				var r=sel.getRangeAt(0);
 				alert(
@@ -465,15 +490,22 @@
 	</head>
 
 	<body onload="setTimeout('bodyOnLoad()', 300)">
+		<pre>
+<?php
+			print_r($_SESSION['test']['serializedHistory']);
+			//print_r($_SESSION['test']);
+			//echo 'Received: '.$_SESSION['message'].', '.$_SESSION['var'];
+?>
+		</pre>
 		<div class="clearfix" style="float: left;">
 			<iframe src="enum-selected-nodes.tpl.html" id="ifrm"></iframe>
 			<br>
 			
 		</div>
 		<div id="toolbar">
-			<a href="#" onclick="ed.undo(); ; return false;">Undo</a>
+			<a href="#" onclick="ed.undo(); showHTML(); return false;">Undo</a>
 			<br>
-			<a href="#" onclick="ed.redo(); ; return false;">Redo</a>
+			<a href="#" onclick="ed.redo(); showHTML(); return false;">Redo</a>
 			<br>
 			<a href="#" onclick="visitSelection() ; return false;">Visit selection</a>
 			<br>
@@ -486,7 +518,7 @@
 					<option value="ARTICLE">ARTICLE</option>
 					<option value="ASIDE">ASIDE</option>
 					<option value="FOOTER">FOOTER</option>
-					<option value="H1">H1</option>
+					<option value="H1" selected>H1</option>
 					<option value="H2">H2</option>
 					<option value="H3">H3</option>
 					<option value="H4">H4</option>
@@ -513,7 +545,7 @@
 				<optgroup label="Text-Level Semantics">
 					<option value="A">A</option>
 					<option value="ABBR">ABBR</option>
-					<option value="B" selected>B</option>
+					<option value="B" >B</option>
 					<option value="BDO">BDO</option>
 					<option value="CITE">CITE</option>
 					<option value="CODE">CODE</option>
@@ -555,13 +587,20 @@
 			<br>
 			<a href="#" onclick="restoreInnerHTML(); return false;">Restore HTML</a>
 			<br>
-			<a href="#" onclick="f(); return false;">Range</a>
+			<a href="#" onclick="test(); return false;">Test</a>
+			<br>
+			<a href="#" onclick="test2(); return false;">Test2</a>
 			<br>
 			<a href="#" onclick="logMutations(); return false;">Log last mutation</a>			
+			<br>
+			<a href="#" onclick="ed.mutationHistory.serialize(); showHTML(); return false;">Serialize mutations history</a>
+			<br>
+			<a href="#" onclick="window.location='<?=$_SERVER['PHP_SELF']?>?r=1'; return false;">Reload</a>
+			<br>
+			<a href="#" onclick="alert(ed.mutationHistory.mutations.length); return false;">Len</a>
 			<br>
 			<textarea style="border: 1px #c9c9c9  solid;" id="htmlView"></textarea>
 		</div>
 		
 	</body>
-
 </html> 
