@@ -9,6 +9,7 @@
 			
 	if($_POST)
 	{
+		
 		$_SESSION['test']=$_POST;
 		//exit();
 	}
@@ -29,7 +30,7 @@
 				border: 1px #999999 solid;
 				padding: 0;
 				width: 600px;
-				height: 500px;
+				height: 1100px;
 				float: left;
 			}
 			#htmlView
@@ -54,7 +55,11 @@
 			var ed, originalInnerHTML, mh;
 			function bodyOnLoad()
 			{
-				ed=new EditableContent(document.getElementById("ifrm"), <?=json_encode($_SESSION['test']['innerHTML'])?>, <?=json_encode($_SESSION['test']['serializedHistory'])?>, <?=json_encode($_SESSION['test']['removedNodesContainerInnerHTML'])?>);
+				ed=new EditableContent(document.getElementById("ifrm"), 
+					<?=json_encode($_SESSION['test']['innerHTML'])?>, 
+					<?=json_encode($_SESSION['test']['serializedHistory'])?>, 
+					<?=json_encode($_SESSION['test']['removedNodesContainerInnerHTML'])?>,
+					<?=json_encode($_SESSION['test']['mutationHistoryRanges'])?> );
 				//mh=new MutationHistory(ed.window.document.body, true);
 				
 				//mh.observe(ed.window.document.body);
@@ -444,11 +449,15 @@
 					//////////////////////////////////////////////////////////////////////
 					restoreInnerHTML();
 					
-					var startNode, endNode, newNodes;
+					var startNode, endNode, endOffset, newNodes;
 					
-					startNode=el("par2").firstChild;
-					endNode=el("span4").nextSibling;
+					startNode=el("EditableContentCanvas").firstChild;
+					endNode=el("EditableContentCanvas");
+					endOffset=9;
+					newNodes=ed.surroundTextNodes("P", {"id": "par3"},	true, startNode, 0, endNode, endOffset);
 					
+					this.ASSERT_EQUALS(1, newNodes.length);
+					this.ASSERT_EQUALS(el("br4"), newNodes[0].nextSibling.nextSibling);
 					//newNodes=ed.surroundTextNodes("A", null,	true, startNode, 2, endNode, 10);
 				}
 			];
@@ -458,23 +467,56 @@
 			}
 			function test2()
 			{
-				
+				ed.onBeforeUnload();
 			}
 			function test()
 			{
-				
+				ed.onBeforeUnload();
 				ed.normalize(); return;
 				var s1, s2;
 				
 				
+				
+			}
+			function highlightAdjacentTextNodes(node, offset, close, endVisit, ca)
+			{
+				
+				if(close)
+				{
+					return;
+				}
+				if(!node.isText() || !ca.prev.isText() || (ca.prev && ca.prev.parentNode!=node.parentNode ))
+				{
+					ca.prev=node;
+					return;
+				}
+				node.textContent="|"+node.textContent;
+				//ca.prev.textContent+=node.textContent;
+				//node.parentNode.removeChild(node);
+				
+			}
+			function showAdjacentTextNodes()
+			{
+				var ca={};
+				ca.prev=null;
+				ed.visitSelectedNodes([this, "highlightAdjacentTextNodes"], 
+							ca
+							);
+			}
+			function range()
+			{
 				var sel=ed.window.getSelection();
 				var r=sel.getRangeAt(0);
+				var startContainer, endContainer;
+				
+				endContainer=r.endContainer.isElement() ? r.endContainer.childNodes[r.endOffset] : r.endContainer;
+				
 				alert(
 					("Start range: "+(r.startContainer.nodeType==1?"<"+r.startContainer.tagName+(r.startContainer.id?"#"+r.startContainer.id:"")+"> ":"Text")+", offset="+r.startOffset)
 					+
 					"\n"
 					+
-					("End range: "+(r.endContainer.nodeType==1?"<"+r.endContainer.tagName+(r.endContainer.id?"#"+r.endContainer.id:"")+"> ":"Text")+", offset="+r.endOffset));
+					("End range: "+(endContainer.nodeType==1?"<"+endContainer.tagName+(endContainer.id?"#"+endContainer.id:"")+"> ":"Text")+", offset="+r.endOffset));
 				//r.endContainer.textContent="|"
 			}
 			function logMutations()
@@ -492,7 +534,10 @@
 	<body onload="setTimeout('bodyOnLoad()', 300)">
 		<pre>
 <?php
-			print_r($_SESSION['test']['serializedHistory']);
+			//print_r(htmlentities($_SESSION['test']['innerHTML']));
+			//echo 'End';
+			//print_r($_SESSION['test']['serializedHistory']);
+			//print_r($_SESSION['test']);
 			//print_r($_SESSION['test']);
 			//echo 'Received: '.$_SESSION['message'].', '.$_SESSION['var'];
 ?>
@@ -518,7 +563,7 @@
 					<option value="ARTICLE">ARTICLE</option>
 					<option value="ASIDE">ASIDE</option>
 					<option value="FOOTER">FOOTER</option>
-					<option value="H1" selected>H1</option>
+					<option value="H1">H1</option>
 					<option value="H2">H2</option>
 					<option value="H3">H3</option>
 					<option value="H4">H4</option>
@@ -530,7 +575,7 @@
 				</optgroup>
 				<optgroup label="Grouping">
 					<option value="BLOCKQUOTE">BLOCKQUOTE</option>
-					<option value="P">P</option>
+					<option value="P" selected>P</option>
 					<option value="HR">HR</option>
 					<option value="BR">BR</option>
 					<option value="PRE">PRE</option>
@@ -587,13 +632,17 @@
 			<br>
 			<a href="#" onclick="restoreInnerHTML(); return false;">Restore HTML</a>
 			<br>
-			<a href="#" onclick="test(); return false;">Test</a>
+			<a href="#" onclick="showAdjacentTextNodes(); return false;">Show adjacent text nodes</a>
+			<br>
+			<a href="#" onclick="ed.normalize(); return false;">Normalize</a>
+			<br>
+			<a href="#" onclick="range(); return false;">Range</a>
 			<br>
 			<a href="#" onclick="test2(); return false;">Test2</a>
 			<br>
 			<a href="#" onclick="logMutations(); return false;">Log last mutation</a>			
 			<br>
-			<a href="#" onclick="ed.mutationHistory.serialize(); showHTML(); return false;">Serialize mutations history</a>
+			<a href="#" onclick="ed.onBeforeUnload(); showHTML(); return false;">Serialize mutations history</a>
 			<br>
 			<a href="#" onclick="window.location='<?=$_SERVER['PHP_SELF']?>?r=1'; return false;">Reload</a>
 			<br>
