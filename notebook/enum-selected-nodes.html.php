@@ -10,10 +10,11 @@
 	if($_POST)
 	{
 		
-		$_SESSION['test']=$_POST;
+		//$_SESSION['test']=$_POST;
 		//exit();
 	}
 	
+	//print_r($_SESSION['test']['mutationHistoryRanges']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -59,7 +60,7 @@
 					<?=json_encode($_SESSION['test']['innerHTML'])?>, 
 					<?=json_encode($_SESSION['test']['serializedHistory'])?>, 
 					<?=json_encode($_SESSION['test']['removedNodesContainerInnerHTML'])?>,
-					<?=json_encode($_SESSION['test']['mutationHistoryRanges'])?> );
+					"<?=addslashes($_SESSION['test']['mutationHistoryRanges'])?>" );
 				//mh=new MutationHistory(ed.window.document.body, true);
 				
 				//mh.observe(ed.window.document.body);
