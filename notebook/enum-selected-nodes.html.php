@@ -471,12 +471,12 @@
 			}
 			function test()
 			{
-				ed.onBeforeUnload();
-				ed.normalize(); return;
-				var s1, s2;
+				//console.logNode(el("h21"));
+				var b=el("a1").isAllowedInNode(el("div1"));
+				console.log(b);
+				//ed.surroundTextNodes("H3", {"id": "h31"},	true, el("h21"), 0, el("h21"), el("h21").childNodes.length);
 				
-				
-				
+				//showHTML();
 			}
 			function highlightAdjacentTextNodes(node, offset, close, endVisit, ca)
 			{
@@ -575,7 +575,7 @@
 				</optgroup>
 				<optgroup label="Grouping">
 					<option value="BLOCKQUOTE">BLOCKQUOTE</option>
-					<option value="P" selected>P</option>
+					<option value="P">P</option>
 					<option value="HR">HR</option>
 					<option value="BR">BR</option>
 					<option value="PRE">PRE</option>
@@ -588,7 +588,7 @@
 					<option value="DD">DD</option>
 				</optgroup>
 				<optgroup label="Text-Level Semantics">
-					<option value="A">A</option>
+					<option value="A" selected>A</option>
 					<option value="ABBR">ABBR</option>
 					<option value="B" >B</option>
 					<option value="BDO">BDO</option>
@@ -640,7 +640,9 @@
 			<br>
 			<a href="#" onclick="test2(); return false;">Test2</a>
 			<br>
-			<a href="#" onclick="logMutations(); return false;">Log last mutation</a>			
+			<a href="#" onclick="logMutations(); return false;">Log last mutation</a>
+			<br>
+			<a href="#" onclick="test(); return false;">Test</a>
 			<br>
 			<a href="#" onclick="ed.onBeforeUnload(); showHTML(); return false;">Serialize mutations history</a>
 			<br>
