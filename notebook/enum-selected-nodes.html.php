@@ -57,10 +57,8 @@
 			function bodyOnLoad()
 			{
 				ed=new EditableContent(document.getElementById("ifrm"), 
-					<?=json_encode($_SESSION['test']['innerHTML'])?>, 
-					<?=json_encode($_SESSION['test']['serializedHistory'])?>, 
-					<?=json_encode($_SESSION['test']['removedNodesContainerInnerHTML'])?>,
-					"<?=addslashes($_SESSION['test']['mutationHistoryRanges'])?>" );
+					<?=$_SESSION['test']['innerHTML']?$_SESSION['test']['innerHTML']:'""'?>,
+					<?=$_SESSION['test']['serializedHistory']?$_SESSION['test']['serializedHistory']:'""'?>);
 				//mh=new MutationHistory(ed.window.document.body, true);
 				
 				//mh.observe(ed.window.document.body);
@@ -69,7 +67,7 @@
 				
 				
 				
-				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; //testsBatch.run()", 300);
+				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; testsBatch.run()", 300);
 				
 			}
 			
@@ -432,8 +430,9 @@
 					restoreInnerHTML();
 					
 					startNode=endNode=el("h21").childNodes[1].firstChild.firstChild.firstChild;
-					
+					//alert(endNode.textContent);
 					newNodes=ed.surroundTextNodes("H2", {"id": "h21"},	true, startNode, 0, endNode, endNode.textContent.length);
+					
 					this.ASSERT_FALSE(newNodes[0].previousSibling.tagName=="H2");
 					
 					//////////////////////////////////////////////////////////////////////
@@ -441,7 +440,7 @@
 					
 					startNode=endNode=el("h21").childNodes[1].firstChild.firstChild.firstChild;
 					
-					newNodes=ed.surroundTextNodes("H2", {"id": "h21"},	true, startNode, 0, endNode, endNode.textContent.length);
+					newNodes=ed.surroundTextNodes("H2", {"id": "h211"},	true, startNode, 0, endNode, endNode.textContent.length);
 					this.ASSERT_FALSE(newNodes[0].nextSibling.tagName=="H2");
 					showHTML();
 				},
@@ -460,6 +459,15 @@
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(el("br4"), newNodes[0].nextSibling.nextSibling);
 					//newNodes=ed.surroundTextNodes("A", null,	true, startNode, 2, endNode, 10);
+				},
+				function()
+				{
+					restoreInnerHTML();
+					var a=ed.window.document.createElement("A");
+					a.href="oaresce";
+					el("h11").appendChild(a);
+					this.ASSERT_TRUE(a.isAllowedInNode(el("h11")));
+					showHTML();
 				}
 			];
 			function el(elId)
@@ -470,8 +478,14 @@
 			{
 				ed.onBeforeUnload();
 			}
+			
 			function test()
 			{
+				
+				//ed.mutationHistory.stringsDiff("1abcedfgh2", "3abf12gh4");
+				//ed.mutationHistory.stringsDiff("abcedfgh", "abf12gh");
+				//ed.mutationHistory.stringsDiff(" Aculum edice. ", " edice. ");
+				return;
 				//console.logNode(el("h21"));
 				var b=el("a1").isAllowedInNode(el("div1"));
 				console.log(b);
@@ -539,7 +553,7 @@
 			//echo 'End';
 			//print_r($_SESSION['test']['serializedHistory']);
 			//print_r($_SESSION['test']);
-			//print_r($_SESSION['test']);
+			
 			//echo 'Received: '.$_SESSION['message'].', '.$_SESSION['var'];
 ?>
 		</pre>
@@ -549,6 +563,10 @@
 			
 		</div>
 		<div id="toolbar">
+			<a href="#" onclick="ed.mutationHistory.undoAll(); showHTML(); return false;">Undo all</a>
+			<br>
+			<a href="#" onclick="ed.mutationHistory.redoAll(); showHTML(); return false;">Redo all</a>
+			<br>
 			<a href="#" onclick="ed.undo(); showHTML(); return false;">Undo</a>
 			<br>
 			<a href="#" onclick="ed.redo(); showHTML(); return false;">Redo</a>
@@ -623,7 +641,7 @@
 					<option value="DIV">DIV</option>
 				</optgroup>
 			</select>
-			, attributes <input type="text" id="selectTagAttributes" size="46">
+			, attributes <input type="text" id="selectTagAttributes" size="46" value="style=color: green; font-style: italic;">
 			<br>
 			<a href="#" onclick="selectElement() ; return false;">Select element#</a><input type="text" id="elementId" size="10">
 			<br>
