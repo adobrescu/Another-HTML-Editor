@@ -467,6 +467,7 @@
 					a.href="oaresce";
 					el("h11").appendChild(a);
 					this.ASSERT_TRUE(a.isAllowedInNode(el("h11")));
+					restoreInnerHTML();
 					showHTML();
 				}
 			];
