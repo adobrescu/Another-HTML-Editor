@@ -77,11 +77,16 @@
 				
 				//close=((node.isText() && offset==node.textContent.length) || (node.isElement() && offset==node.childNodes.length)
 				
-				console.logNode(node,"("+offset+")", close, "Callback "+(endVisit?" end visit ":""));
+				console.logNode(node,"("+offset+")", close, "");
 			}
 			function visitSelection()
 			{
-				var ca=ed.getInlineNodesEdges(startNode, startOffset, endNode, endOffset, null, "B");
+				
+				return ed.visitSelectedNodes("visitSelectedNode", 
+						null,
+						startNode, startOffset, endNode, endOffset, true, 
+						true);
+				var ca=ed.getInsertionBoundaryNodes(startNode, startOffset, endNode, endOffset, null, "A", true);
 				return;
 				console.clear();
 				var sel=ed.window.getSelection();
@@ -113,7 +118,7 @@
 					ed.window.document.getElementById("par1"), 4, 
 					ed.window.document.getElementById("b1").firstChild, 0 );
 				*/
-				var ca=ed.getInlineNodesEdges(startNode, startOffset, endNode, endOffset, null, "del");
+				var ca=ed.getInsertionBoundaryNodes(startNode, startOffset, endNode, endOffset, null, "del");
 				
 			}
 			function surround(tagName, tagAttributes)
@@ -143,7 +148,7 @@
 				//try
 				{
 					//ed.mutationHistory.startMutationsBatch();
-					ed.surroundTextNodes(tagName?tagName:document.getElementById("tagName").value, 
+					ed.surroundNodes(tagName?tagName:document.getElementById("tagName").value, 
 									tagAttributes,
 									true);
 					//ed.mutationHistory.endMutationsBatch();
@@ -194,6 +199,7 @@
 			function restoreInnerHTML()
 			{
 				el("EditableContentCanvas").innerHTML=originalInnerHTML;
+				showHTML();
 			}
 		</script>
 		<script>
@@ -275,7 +281,7 @@
 					var node=el("EditableContentCanvas").firstChild;
 					var newNodes;
 					
-					newNodes=ed.surroundTextNodes("B", {"id": "b1"},	true, node, 4, node, 7);
+					newNodes=ed.surroundNodes("B", {"id": "b1"},	true, node, 4, node, 7);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(newNodes[0], el("b1"));
@@ -285,7 +291,7 @@
 					this.ASSERT_EQUALS("um ", el("b1").firstChild.textContent);
 					
 					node=el("h11").firstChild;
-					newNodes=ed.surroundTextNodes("EM", {"id": "em1"},	true, node, 4, node, 7);
+					newNodes=ed.surroundNodes("EM", {"id": "em1"},	true, node, 4, node, 7);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(newNodes[0], el("em1"));
@@ -295,7 +301,7 @@
 					this.ASSERT_EQUALS("m I", el("em1").firstChild.textContent);
 					
 					node=el("span3").firstChild;
-					newNodes=ed.surroundTextNodes("STRONG", {"id": "strong1"},	true, node, 4, node, 7);
+					newNodes=ed.surroundNodes("STRONG", {"id": "strong1"},	true, node, 4, node, 7);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(newNodes[0], el("strong1"));
@@ -311,7 +317,7 @@
 					
 					len=node.textContent.length;
 					
-					newNodes=ed.surroundTextNodes("B", {"id": "b1"},	true, node, 0, node, len);
+					newNodes=ed.surroundNodes("B", {"id": "b1"},	true, node, 0, node, len);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(newNodes[0], el("b1"));
@@ -321,7 +327,7 @@
 					
 					node=el("h11").firstChild;
 					len=node.textContent.length;
-					newNodes=ed.surroundTextNodes("EM", {"id": "em1"},	true, node, 0, node, len);
+					newNodes=ed.surroundNodes("EM", {"id": "em1"},	true, node, 0, node, len);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(newNodes[0], el("em1"));
@@ -331,7 +337,7 @@
 					
 					node=el("span3").firstChild;
 					len=node.textContent.length;
-					newNodes=ed.surroundTextNodes("STRONG", {"id": "strong1"},	true, node, 0, node, len);
+					newNodes=ed.surroundNodes("STRONG", {"id": "strong1"},	true, node, 0, node, len);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(newNodes[0], el("strong1"));
@@ -352,7 +358,7 @@
 					startNode=el("span3").firstChild;
 					endNode=el("span4").nextSibling;
 					
-					newNodes=ed.surroundTextNodes("B", {"id": "strong1"},	true, startNode, 1, endNode, 5);
+					newNodes=ed.surroundNodes("B", {"id": "strong1"},	true, startNode, 1, endNode, 5);
 					
 					this.ASSERT_EQUALS(2, newNodes.length);
 					this.ASSERT_EQUALS(el("par1").lastChild, newNodes[0]);
@@ -364,7 +370,7 @@
 					startNode=el("span3");
 					endNode=el("span4").nextSibling;
 					
-					newNodes=ed.surroundTextNodes("B", {"id": "strong1"},	true, startNode, 0, endNode, 5);
+					newNodes=ed.surroundNodes("B", {"id": "strong1"},	true, startNode, 0, endNode, 5);
 					this.ASSERT_EQUALS(2, newNodes.length);
 					this.ASSERT_EQUALS(el("par1").lastChild, newNodes[0]);
 					this.ASSERT_EQUALS(el("par2").firstChild, newNodes[1]);
@@ -384,7 +390,7 @@
 					endNode=startNode=el("EditableContentCanvas").firstChild;
 					startNodeNextSibling=startNode.nextSibling;
 					
-					newNodes=ed.surroundTextNodes("P", {"id": "par3"},	true, startNode, 0, endNode, startNode.textContent.length);
+					newNodes=ed.surroundNodes("P", {"id": "par3"},	true, startNode, 0, endNode, startNode.textContent.length);
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS("P", newNodes[0].tagName);
 					this.ASSERT_EQUALS("par3", newNodes[0].id);
@@ -397,7 +403,7 @@
 					startNode=el("span3").firstChild;
 					endNode=el("span4").nextSibling;
 					
-					newNodes=ed.surroundTextNodes("P", {"id": "par3"},	true, startNode, 1, endNode, 10);
+					newNodes=ed.surroundNodes("P", {"id": "par3"},	true, startNode, 1, endNode, 10);
 					
 					//par1 got empty so it was removed
 					
@@ -409,7 +415,7 @@
 					
 					//////////////////////////////////////////////////////////////////////
 					endNode=startNode=el("par3").nextSibling.firstChild;
-					newNodes=ed.surroundTextNodes("P", {"id": "par4"},	true, startNode, 10, endNode, 20);
+					newNodes=ed.surroundNodes("P", {"id": "par4"},	true, startNode, 10, endNode, 20);
 					
 					
 					
@@ -422,7 +428,7 @@
 					startNode=el("span3").firstChild;
 					endNode=el("par2");
 					
-					newNodes=ed.surroundTextNodes("P", {"id": "par4"},	true, startNode, 0, endNode, endNode.childNodes.length-1);
+					newNodes=ed.surroundNodes("P", {"id": "par4"},	true, startNode, 0, endNode, endNode.childNodes.length-1);
 					this.ASSERT_FALSE(newNodes[0].nextSibling.tagName=="P")
 					
 					
@@ -431,7 +437,7 @@
 					
 					startNode=endNode=el("h21").childNodes[1].firstChild.firstChild.firstChild;
 					//alert(endNode.textContent);
-					newNodes=ed.surroundTextNodes("H2", {"id": "h21"},	true, startNode, 0, endNode, endNode.textContent.length);
+					newNodes=ed.surroundNodes("H2", {"id": "h21"},	true, startNode, 0, endNode, endNode.textContent.length);
 					
 					this.ASSERT_FALSE(newNodes[0].previousSibling.tagName=="H2");
 					
@@ -440,8 +446,10 @@
 					
 					startNode=endNode=el("h21").childNodes[1].firstChild.firstChild.firstChild;
 					
-					newNodes=ed.surroundTextNodes("H2", {"id": "h211"},	true, startNode, 0, endNode, endNode.textContent.length);
+					newNodes=ed.surroundNodes("H2", {"id": "h211"},	true, startNode, 0, endNode, endNode.textContent.length);
+					
 					this.ASSERT_FALSE(newNodes[0].nextSibling.tagName=="H2");
+					
 					showHTML();
 				},
 				function()
@@ -454,11 +462,11 @@
 					startNode=el("EditableContentCanvas").firstChild;
 					endNode=el("EditableContentCanvas");
 					endOffset=9;
-					newNodes=ed.surroundTextNodes("P", {"id": "par3"},	true, startNode, 0, endNode, endOffset);
+					newNodes=ed.surroundNodes("P", {"id": "par3"},	true, startNode, 0, endNode, endOffset);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(el("br4"), newNodes[0].nextSibling.nextSibling);
-					//newNodes=ed.surroundTextNodes("A", null,	true, startNode, 2, endNode, 10);
+					//newNodes=ed.surroundNodes("A", null,	true, startNode, 2, endNode, 10);
 				},
 				function()
 				{
@@ -469,6 +477,31 @@
 					this.ASSERT_TRUE(a.isAllowedInNode(el("h11")));
 					restoreInnerHTML();
 					showHTML();
+				},
+				function()
+				{
+					//test expand boundaries for ranges with satrt/end text nodes that don't start at offset 0 but have only spaces at beginnig/end
+					restoreInnerHTML();
+					
+					var newNodes=ed.surroundNodes("A", {"id": "a101"},	true, el("span3").firstChild, 1, el("span1").nextSibling, 17);
+					
+					this.ASSERT_EQUALS(newNodes[0].firstChild, el("par1"));
+					
+					var testStr=el("span5").firstChild.textContent.substr(4);
+					
+					newNodes=ed.surroundNodes("A", {"id": "a102"},	true, el("par2").firstChild, 7, el("span5").firstChild, 4);
+					this.ASSERT_EQUALS(el("par2").firstChild.nextSibling, newNodes[0]);
+					this.ASSERT_EQUALS(testStr, newNodes[0].nextSibling.firstChild.firstChild.textContent)
+				},
+				function()
+				{
+					//test that if an insertion boundaries contains only one element with the same tag and start offset zero
+					//and end offset childNodes.length, a new element is not created
+					restoreInnerHTML();
+					
+					var newNodes=ed.surroundNodes("A", {"id": "a103"},	true, el("span3").firstChild, 24, el("span3").firstChild, 32);
+					var newNodes2=ed.surroundNodes("A", {"id": "a104"},	true, newNodes[0].firstChild, 1, newNodes[0].firstChild, 8);
+					
 				}
 			];
 			function el(elId)
@@ -482,7 +515,14 @@
 			
 			function test()
 			{
+				restoreInnerHTML();
+					
+				var a =ed.window.document.createElement("A");
+				el("par1").insertBefore(a, el("par1").firstChild);
 				
+				a.appendChild(el("par1").removeChild(el("par1").childNodes[1]));
+				
+				showHTML();
 				//ed.mutationHistory.stringsDiff("1abcedfgh2", "3abf12gh4");
 				//ed.mutationHistory.stringsDiff("abcedfgh", "abf12gh");
 				//ed.mutationHistory.stringsDiff(" Aculum edice. ", " edice. ");
@@ -490,7 +530,7 @@
 				//console.logNode(el("h21"));
 				var b=el("a1").isAllowedInNode(el("div1"));
 				console.log(b);
-				//ed.surroundTextNodes("H3", {"id": "h31"},	true, el("h21"), 0, el("h21"), el("h21").childNodes.length);
+				//ed.surroundNodes("H3", {"id": "h31"},	true, el("h21"), 0, el("h21"), el("h21").childNodes.length);
 				
 				//showHTML();
 			}
@@ -528,11 +568,11 @@
 				endContainer=r.endContainer.isElement() ? r.endContainer.childNodes[r.endOffset] : r.endContainer;
 				
 				alert(
-					("Start range: "+(r.startContainer.nodeType==1?"<"+r.startContainer.tagName+(r.startContainer.id?"#"+r.startContainer.id:"")+"> ":"Text")+", offset="+r.startOffset)
+					("Start range: "+(r.startContainer.nodeType==1?"<"+r.startContainer.tagName+(r.startContainer.id?"#"+r.startContainer.id:"")+"> ":"Text: "+r.startContainer.textContent)+", offset="+r.startOffset)
 					+
 					"\n"
 					+
-					("End range: "+(endContainer.nodeType==1?"<"+endContainer.tagName+(endContainer.id?"#"+endContainer.id:"")+"> ":"Text")+", offset="+r.endOffset));
+					("End range: "+(endContainer.nodeType==1?"<"+endContainer.tagName+(endContainer.id?"#"+endContainer.id:"")+"> ":"Text: "+endContainer.textContent)+", offset="+r.endOffset));
 				//r.endContainer.textContent="|"
 			}
 			function logMutations()
@@ -654,7 +694,7 @@
 			<br>
 			<a href="#" onclick="showAdjacentTextNodes(); return false;">Show adjacent text nodes</a>
 			<br>
-			<a href="#" onclick="ed.normalize(); return false;">Normalize</a>
+			<a href="#" onclick="ed.documentContainer.normalize(); return false;">Normalize</a>
 			<br>
 			<a href="#" onclick="range(); return false;">Range</a>
 			<br>

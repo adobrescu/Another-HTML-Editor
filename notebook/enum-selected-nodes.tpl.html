@@ -29,16 +29,22 @@
 			border-top: 1px #c9c9c9 solid;
 			border-right: 1px #c9c9c9 solid;
 		}
+		tr
+		{
+			_moz_resizing: none;
+		}
 		table
 		{
 			border-left: 1px #c9c9c9 solid;
 			border-bottom: 1px #c9c9c9 solid;
-			
+			_moz_resizing: none;
 		}
 		td
 		{
 			padding: 10px;
+			_moz_resizing: none;
 		}
+		
 		x-custom-tag
 		{
 			background-color: #f1f1f1;
@@ -81,10 +87,16 @@
 		<h1 id="h11">Lorem Ipsum</h1>
 				
 		<p id="par1">
-			<span id="span1"> <span id="span2"> <span id="span3"> Sed at mollis mi. In ac tempus massX. </span></span></span> Aculum edice.
+			<span id="span1">   <span id="span2">   <span id="span3"> Sed at mollis mi. In ac tempus massX. </span> </span>   </span> Aculum edice.
 		</p>
 		<p id="par2">
 			Sed nib<span id="span4">h nibh, <span id="span5">ornare eu venenatis non</span>, consequat at nisi. In posuere, nisl sit amet placera</span>t tristique, ex sapien pharetra erat, at varius justo odio at felis.<span>   </span>
+		</p>
+		<p id="par3">
+			<span id="span9">   <span id="span10">   <span id="span11"> Lorem ipsum dolor sit amet, </span> </span>   </span>  consectetur adipiscing elit. <span id="span12">  <span id="span13">  </span>   </span>
+		</p>
+		<p id="par4">
+			Ala bala portocala 
 		</p>
 		<div id="div1"> 
 			<h2 id="h21">  <span id="span8"><span id="span7"><span id="span6">   Heading 2 element </span></span></span>  </h2>
@@ -96,12 +108,12 @@
 			<li> List item 3 in a paragraph</li>
 			</ul>
 
-		<table>
-			<tr>
-				<td id="td1">TD 1,1</td>
-				<td id="td2">TD 2,1</td>
-				<td id="td3">TD 3,1</td>
-				<td id="td4">TD 4,1</td>
+		<table contenteditable="false">
+			<tr contenteditable="false">
+				<td id="td1" contenteditable="true">TD 1,1</td>
+				<td id="td2" contenteditable="true">TD 2,1</td>
+				<td id="td3" contenteditable="true">TD 3,1</td>
+				<td id="td4" contenteditable="true">TD 4,1</td>
 			</tr>
 			</table>
 		
@@ -112,7 +124,7 @@
 			<br><br>
 			Line four
 			<br>
-			<img src="IrisAndDana.JPG" alt="ala" style="width: 200px;">
+			<img src="IrisAndDana.JPG" alt="ala" style="width: 200px;" contenteditable="false">
 			<br>
 			Line six
 		</p>
