@@ -43,6 +43,16 @@
 				float: left;
 				margin-left: 20px;
 			}
+			#quickToolbar
+			{
+				position: fixed;
+				top: 10px;
+				right: 10px;
+				width: 200px;
+				border: 1px #777777 solid;
+				padding: 12px;
+				background-color: #ffffff;
+			}
 			.clearfix:before,
 			.clearfix:after {
 				content: "";
@@ -148,7 +158,7 @@
 				//try
 				{
 					//ed.mutationHistory.startMutationsBatch();
-					ed.surroundNodes(tagName?tagName:document.getElementById("tagName").value, 
+					ed.surroundContentFragment(tagName?tagName:document.getElementById("tagName").value, 
 									tagAttributes,
 									true);
 					//ed.mutationHistory.endMutationsBatch();
@@ -162,7 +172,7 @@
 			}
 			function split(startNodeId, startOffset, endNodeId, endOffset)
 			{
-				ed.surroundNodes("strong", ed.window.document.getElementById(startNodeId).firstChild, startOffset, ed.window.document.getElementById(endNodeId).firstChild, endOffset);
+				ed.surroundContentFragment("strong", ed.window.document.getElementById(startNodeId).firstChild, startOffset, ed.window.document.getElementById(endNodeId).firstChild, endOffset);
 				showHTML();
 			}
 			function showHTML()
@@ -281,7 +291,7 @@
 					var node=el("EditableContentCanvas").firstChild;
 					var newNodes;
 					
-					newNodes=ed.surroundNodes("B", {"id": "b1"},	true, node, 4, node, 7);
+					newNodes=ed.surroundContentFragment("B", {"id": "b1"},	true, node, 4, node, 7);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(newNodes[0], el("b1"));
@@ -291,7 +301,7 @@
 					this.ASSERT_EQUALS("um ", el("b1").firstChild.textContent);
 					
 					node=el("h11").firstChild;
-					newNodes=ed.surroundNodes("EM", {"id": "em1"},	true, node, 4, node, 7);
+					newNodes=ed.surroundContentFragment("EM", {"id": "em1"},	true, node, 4, node, 7);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(newNodes[0], el("em1"));
@@ -301,7 +311,7 @@
 					this.ASSERT_EQUALS("m I", el("em1").firstChild.textContent);
 					
 					node=el("span3").firstChild;
-					newNodes=ed.surroundNodes("STRONG", {"id": "strong1"},	true, node, 4, node, 7);
+					newNodes=ed.surroundContentFragment("STRONG", {"id": "strong1"},	true, node, 4, node, 7);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(newNodes[0], el("strong1"));
@@ -317,7 +327,7 @@
 					
 					len=node.textContent.length;
 					
-					newNodes=ed.surroundNodes("B", {"id": "b1"},	true, node, 0, node, len);
+					newNodes=ed.surroundContentFragment("B", {"id": "b1"},	true, node, 0, node, len);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(newNodes[0], el("b1"));
@@ -327,7 +337,7 @@
 					
 					node=el("h11").firstChild;
 					len=node.textContent.length;
-					newNodes=ed.surroundNodes("EM", {"id": "em1"},	true, node, 0, node, len);
+					newNodes=ed.surroundContentFragment("EM", {"id": "em1"},	true, node, 0, node, len);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(newNodes[0], el("em1"));
@@ -337,7 +347,7 @@
 					
 					node=el("span3").firstChild;
 					len=node.textContent.length;
-					newNodes=ed.surroundNodes("STRONG", {"id": "strong1"},	true, node, 0, node, len);
+					newNodes=ed.surroundContentFragment("STRONG", {"id": "strong1"},	true, node, 0, node, len);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(newNodes[0], el("strong1"));
@@ -358,7 +368,7 @@
 					startNode=el("span3").firstChild;
 					endNode=el("span4").nextSibling;
 					
-					newNodes=ed.surroundNodes("B", {"id": "strong1"},	true, startNode, 1, endNode, 5);
+					newNodes=ed.surroundContentFragment("B", {"id": "strong1"},	true, startNode, 1, endNode, 5);
 					
 					this.ASSERT_EQUALS(2, newNodes.length);
 					this.ASSERT_EQUALS(el("par1").lastChild, newNodes[0]);
@@ -370,7 +380,7 @@
 					startNode=el("span3");
 					endNode=el("span4").nextSibling;
 					
-					newNodes=ed.surroundNodes("B", {"id": "strong1"},	true, startNode, 0, endNode, 5);
+					newNodes=ed.surroundContentFragment("B", {"id": "strong1"},	true, startNode, 0, endNode, 5);
 					this.ASSERT_EQUALS(2, newNodes.length);
 					this.ASSERT_EQUALS(el("par1").lastChild, newNodes[0]);
 					this.ASSERT_EQUALS(el("par2").firstChild, newNodes[1]);
@@ -390,7 +400,7 @@
 					endNode=startNode=el("EditableContentCanvas").firstChild;
 					startNodeNextSibling=startNode.nextSibling;
 					
-					newNodes=ed.surroundNodes("P", {"id": "par3"},	true, startNode, 0, endNode, startNode.textContent.length);
+					newNodes=ed.surroundContentFragment("P", {"id": "par3"},	true, startNode, 0, endNode, startNode.textContent.length);
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS("P", newNodes[0].tagName);
 					this.ASSERT_EQUALS("par3", newNodes[0].id);
@@ -403,7 +413,7 @@
 					startNode=el("span3").firstChild;
 					endNode=el("span4").nextSibling;
 					
-					newNodes=ed.surroundNodes("P", {"id": "par3"},	true, startNode, 1, endNode, 10);
+					newNodes=ed.surroundContentFragment("P", {"id": "par3"},	true, startNode, 1, endNode, 10);
 					
 					//par1 got empty so it was removed
 					
@@ -415,7 +425,7 @@
 					
 					//////////////////////////////////////////////////////////////////////
 					endNode=startNode=el("par3").nextSibling.firstChild;
-					newNodes=ed.surroundNodes("P", {"id": "par4"},	true, startNode, 10, endNode, 20);
+					newNodes=ed.surroundContentFragment("P", {"id": "par4"},	true, startNode, 10, endNode, 20);
 					
 					
 					
@@ -428,7 +438,7 @@
 					startNode=el("span3").firstChild;
 					endNode=el("par2");
 					
-					newNodes=ed.surroundNodes("P", {"id": "par4"},	true, startNode, 0, endNode, endNode.childNodes.length-1);
+					newNodes=ed.surroundContentFragment("P", {"id": "par4"},	true, startNode, 0, endNode, endNode.childNodes.length-1);
 					this.ASSERT_FALSE(newNodes[0].nextSibling.tagName=="P")
 					
 					
@@ -437,7 +447,7 @@
 					
 					startNode=endNode=el("h21").childNodes[1].firstChild.firstChild.firstChild;
 					//alert(endNode.textContent);
-					newNodes=ed.surroundNodes("H2", {"id": "h21"},	true, startNode, 0, endNode, endNode.textContent.length);
+					newNodes=ed.surroundContentFragment("H2", {"id": "h21"},	true, startNode, 0, endNode, endNode.textContent.length);
 					
 					this.ASSERT_FALSE(newNodes[0].previousSibling.tagName=="H2");
 					
@@ -446,7 +456,7 @@
 					
 					startNode=endNode=el("h21").childNodes[1].firstChild.firstChild.firstChild;
 					
-					newNodes=ed.surroundNodes("H2", {"id": "h211"},	true, startNode, 0, endNode, endNode.textContent.length);
+					newNodes=ed.surroundContentFragment("H2", {"id": "h211"},	true, startNode, 0, endNode, endNode.textContent.length);
 					
 					this.ASSERT_FALSE(newNodes[0].nextSibling.tagName=="H2");
 					
@@ -462,11 +472,11 @@
 					startNode=el("EditableContentCanvas").firstChild;
 					endNode=el("EditableContentCanvas");
 					endOffset=9;
-					newNodes=ed.surroundNodes("P", {"id": "par3"},	true, startNode, 0, endNode, endOffset);
+					newNodes=ed.surroundContentFragment("P", {"id": "par3"},	true, startNode, 0, endNode, endOffset);
 					
 					this.ASSERT_EQUALS(1, newNodes.length);
 					this.ASSERT_EQUALS(el("br4"), newNodes[0].nextSibling.nextSibling);
-					//newNodes=ed.surroundNodes("A", null,	true, startNode, 2, endNode, 10);
+					//newNodes=ed.surroundContentFragment("A", null,	true, startNode, 2, endNode, 10);
 				},
 				function()
 				{
@@ -483,13 +493,13 @@
 					//test expand boundaries for ranges with satrt/end text nodes that don't start at offset 0 but have only spaces at beginnig/end
 					restoreInnerHTML();
 					
-					var newNodes=ed.surroundNodes("A", {"id": "a101"},	true, el("span3").firstChild, 1, el("span1").nextSibling, 17);
+					var newNodes=ed.surroundContentFragment("A", {"id": "a101"},	true, el("span3").firstChild, 1, el("span1").nextSibling, 17);
 					
 					this.ASSERT_EQUALS(newNodes[0].firstChild, el("par1"));
 					
 					var testStr=el("span5").firstChild.textContent.substr(4);
 					
-					newNodes=ed.surroundNodes("A", {"id": "a102"},	true, el("par2").firstChild, 7, el("span5").firstChild, 4);
+					newNodes=ed.surroundContentFragment("A", {"id": "a102"},	true, el("par2").firstChild, 7, el("span5").firstChild, 4);
 					this.ASSERT_EQUALS(el("par2").firstChild.nextSibling, newNodes[0]);
 					this.ASSERT_EQUALS(testStr, newNodes[0].nextSibling.firstChild.firstChild.textContent)
 				},
@@ -499,8 +509,8 @@
 					//and end offset childNodes.length, a new element is not created
 					restoreInnerHTML();
 					
-					var newNodes=ed.surroundNodes("A", {"id": "a103"},	true, el("span3").firstChild, 24, el("span3").firstChild, 32);
-					var newNodes2=ed.surroundNodes("A", {"id": "a104"},	true, newNodes[0].firstChild, 1, newNodes[0].firstChild, 8);
+					var newNodes=ed.surroundContentFragment("A", {"id": "a103"},	true, el("span3").firstChild, 24, el("span3").firstChild, 32);
+					var newNodes2=ed.surroundContentFragment("A", {"id": "a104"},	true, newNodes[0].firstChild, 1, newNodes[0].firstChild, 8);
 					
 				}
 			];
@@ -530,7 +540,7 @@
 				//console.logNode(el("h21"));
 				var b=el("a1").isAllowedInNode(el("div1"));
 				console.log(b);
-				//ed.surroundNodes("H3", {"id": "h31"},	true, el("h21"), 0, el("h21"), el("h21").childNodes.length);
+				//ed.surroundContentFragment("H3", {"id": "h31"},	true, el("h21"), 0, el("h21"), el("h21").childNodes.length);
 				
 				//showHTML();
 			}
@@ -603,18 +613,18 @@
 			<br>
 			
 		</div>
-		<div id="toolbar">
-			<a href="#" onclick="ed.mutationHistory.undoAll(); showHTML(); return false;">Undo all</a>
-			<br>
-			<a href="#" onclick="ed.mutationHistory.redoAll(); showHTML(); return false;">Redo all</a>
-			<br>
+		<div id="quickToolbar">
 			<a href="#" onclick="ed.undo(); showHTML(); return false;">Undo</a>
 			<br>
 			<a href="#" onclick="ed.redo(); showHTML(); return false;">Redo</a>
 			<br>
+			<a href="#" onclick="showHTML(); return false;">View HTML</a>
+			<br>
+			<a href="#" onclick="restoreInnerHTML(); return false;">Restore HTML</a>
+			<br>
 			<a href="#" onclick="visitSelection() ; return false;">Visit selection</a>
 			<br>
-			<a href="#" onclick="surround() ; return false;">Surround with </a><input type="text" id="tagName" size="10">, attributes <input type="text" id="tagAttributes" size="16">
+			<a href="#" onclick="ed.deleteContentFragment(); showHTML(); return false;">Delete selection</a>
 			<br>
 			<a href="#" onclick="surround(document.getElementById('selectTagName').value, document.getElementById('selectTagAttributes').value) ; return false;">Surround with </a>
 			<select id="selectTagName">
@@ -682,23 +692,33 @@
 					<option value="DIV">DIV</option>
 				</optgroup>
 			</select>
-			, attributes <input type="text" id="selectTagAttributes" size="46" value="style=color: green; font-style: italic;">
+			, attributes <input type="text" id="selectTagAttributes" size="26" value="style=color: green; font-style: italic;">
+		</div>
+		<div id="toolbar">
+			
+			<a href="#" onclick="surround() ; return false;">Surround with </a><input type="text" id="tagName" size="10">, attributes <input type="text" id="tagAttributes" size="16">
+			<br>
+			<a href="#" onclick="ed.mutationHistory.undoAll(); showHTML(); return false;">Undo all</a>
+			<br>
+			<a href="#" onclick="ed.mutationHistory.redoAll(); showHTML(); return false;">Redo all</a>
+			<br>
+			
 			<br>
 			<a href="#" onclick="selectElement() ; return false;">Select element#</a><input type="text" id="elementId" size="10">
 			<br>
 			<a href="#" onclick="split('em2', 2, 'em1', 5) ; return false;">Split</a>
 			<br>
-			<a href="#" onclick="showHTML(); return false;">View HTML</a>
-			<br>
-			<a href="#" onclick="restoreInnerHTML(); return false;">Restore HTML</a>
-			<br>
+			
 			<a href="#" onclick="showAdjacentTextNodes(); return false;">Show adjacent text nodes</a>
-			<br>
-			<a href="#" onclick="ed.documentContainer.normalize(); return false;">Normalize</a>
+			
 			<br>
 			<a href="#" onclick="range(); return false;">Range</a>
 			<br>
 			<a href="#" onclick="test2(); return false;">Test2</a>
+			<br>
+			<a href="#" onclick="ed.window.document.execCommand(document.getElementById('command').value); return false;">execCommand</a>
+			<input type="text" id="command" size="16" value="">
+			<br>
 			<br>
 			<a href="#" onclick="logMutations(); return false;">Log last mutation</a>
 			<br>
