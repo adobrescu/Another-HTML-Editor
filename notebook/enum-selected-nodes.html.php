@@ -175,9 +175,15 @@
 				ed.surroundContentFragment("strong", ed.window.document.getElementById(startNodeId).firstChild, startOffset, ed.window.document.getElementById(endNodeId).firstChild, endOffset);
 				showHTML();
 			}
+			function updateHTML()
+			{
+				
+				ed.documentContainer.innerHTML=document.getElementById('htmlView').value;
+				
+			}
 			function showHTML()
 			{
-				document.getElementById('htmlView').value=ed.window.document.body.innerHTML
+				document.getElementById('htmlView').value=ed.documentContainer.innerHTML;
 			}
 			function selectElement(elementId, selectNode)
 			{
@@ -223,8 +229,10 @@
 				prototype.numFailedAssertions=0;
 				prototype.failedAssertions=[];
 				prototype.currentTest=null;
-				prototype.run=TestsBatch_run;
+				prototype.break=false;
 				
+				prototype.run=TestsBatch_run;
+				prototype.stop=TestsBatch_stop;
 				/* Assertion methods*/
 				prototype.ASSERT=TestsBatch_ASSERT;
 				prototype.ASSERT_TRUE=TestsBatch_ASSERT_TRUE;
@@ -243,6 +251,10 @@
 					}
 					this.currentTest=this.tests[methodName];
 					this.currentTest();
+					if(this.break)
+					{
+						break;
+					}
 				}
 				
 				console.log("Tests: "+this.tests.length);
@@ -257,6 +269,10 @@
 					
 					console.log("Expected: "+this.failedAssertions[i].expected+"; Received:"+this.failedAssertions[i].received);
 				}
+			}
+			function TestsBatch_stop()
+			{
+				this.break=true;
 			}
 			function TestsBatch_ASSERT(cond, expectedValue, receivedValue)
 			{
@@ -287,6 +303,33 @@
 			[
 				function()
 				{
+					//this.stop();
+					//test node splitting
+					var si;//split info
+					var p, d;//parent, descendant
+					
+					p=el("par5");
+					d=p.lastChild;
+					
+					si=p.splitAtDescendant(d, d.textContent.length, false, true);
+					
+					this.ASSERT_EQUALS(0, si[SPLIT_NODE_INDEX]);
+					this.ASSERT_EQUALS(p, si[si[SPLIT_NODE_INDEX]]);
+				}
+				,
+				function()
+				{
+					
+					
+					restoreInnerHTML();
+					
+					ed.surroundContentFragment("P",  null, true, el("span3").firstChild, 1, el("par5").lastChild, 7);
+					
+					
+				},
+				function()
+				{
+					
 					//Tests with phrasing node (B, SSTRONG etc) where start text node == end text node
 					var node=el("EditableContentCanvas").firstChild;
 					var newNodes;
@@ -360,6 +403,7 @@
 				},
 				function()
 				{
+					
 					//Tests with phrasing nodes, where start node different than end node, and both are of type text
 					var startNode, endNode, newNodes;
 					
@@ -390,6 +434,7 @@
 				,
 				function()
 				{
+					
 					//Flow content formatting (<H1>, <P>, etc
 					
 					restoreInnerHTML();
@@ -464,6 +509,7 @@
 				},
 				function()
 				{
+					
 					//////////////////////////////////////////////////////////////////////
 					restoreInnerHTML();
 					
@@ -501,16 +547,57 @@
 					
 					newNodes=ed.surroundContentFragment("A", {"id": "a102"},	true, el("par2").firstChild, 7, el("span5").firstChild, 4);
 					this.ASSERT_EQUALS(el("par2").firstChild.nextSibling, newNodes[0]);
-					this.ASSERT_EQUALS(testStr, newNodes[0].nextSibling.firstChild.firstChild.textContent)
+					this.ASSERT_EQUALS(testStr, newNodes[0].nextSibling.firstChild.firstChild.textContent);
 				},
+				/* 
+				 * Trebuie scrise teste pentru tipurile de content:
+				 * 
+				 * - phrasing content (B, STRONG, SPAN etc)
+				 * - transparent content ( A, DEL, INS etc)
+				 * - flow content (DIV, P) etc
+				 */
 				function()
 				{
-					//test that if an insertion boundaries contains only one element with the same tag and start offset zero
-					//and end offset childNodes.length, a new element is not created
 					restoreInnerHTML();
+					var n=ed.surroundContentFragment("A", {"id": "a103"},	true, el("li1").firstChild, 1, el("par7").firstChild, 0, true);
+					this.ASSERT_EQUALS("LI", n[0].parentNode.tagName);
+					this.ASSERT_EQUALS(el("li1").firstChild, n[0]);
 					
-					var newNodes=ed.surroundContentFragment("A", {"id": "a103"},	true, el("span3").firstChild, 24, el("span3").firstChild, 32);
-					var newNodes2=ed.surroundContentFragment("A", {"id": "a104"},	true, newNodes[0].firstChild, 1, newNodes[0].firstChild, 8);
+					n=ed.surroundContentFragment("A", {"id": "a103"},	true, el("span14").firstChild, 3, el("par7").firstChild, 9, true);
+					this.ASSERT_EQUALS(2, n.length);
+					
+					this.ASSERT_FALSE(el("li1").firstChild.isElement() && el("li1").firstChild.tagName=="A");
+					this.ASSERT_FALSE(el("li2").firstChild.isElement() && el("li2").firstChild.tagName=="A");
+					this.ASSERT_FALSE(el("li3").firstChild.isElement() && el("li3").firstChild.tagName=="A");
+					
+				}
+				,
+				function()
+				{
+					restoreInnerHTML();
+					var n=ed.surroundContentFragment("A", {"id": "a110"}, true, el("em2").firstChild, 4, el("par7").firstChild, 10);
+					
+					
+					this.ASSERT_EQUALS(2, n.length);
+					this.ASSERT_EQUALS("EM", n[0].firstChild.tagName);
+					this.ASSERT_EQUALS(el("ul1").parentNode, n[0]);
+					this.ASSERT_EQUALS(el("ul1"), n[0].lastChild);
+					
+					this.ASSERT_EQUALS(el("par7"), n[1].parentNode);
+					this.ASSERT_EQUALS(el("par7").firstChild, n[1]);
+					
+					
+					var n2=ed.surroundContentFragment("DEL", {"id": "del100"}, true);
+					this.ASSERT_EQUALS(n[0], n2[0].firstChild);
+					this.ASSERT_EQUALS(n[0], n2[0].lastChild);
+					
+					this.ASSERT_EQUALS(n[1], n2[1].firstChild);
+					this.ASSERT_EQUALS(n[1], n2[1].lastChild);
+					
+					this.ASSERT_EQUALS(el("par7"), n2[1].parentNode);
+					this.ASSERT_EQUALS(el("par7").firstChild, n2[1]);
+					
+					
 					
 				}
 			];
@@ -645,7 +732,7 @@
 				</optgroup>
 				<optgroup label="Grouping">
 					<option value="BLOCKQUOTE">BLOCKQUOTE</option>
-					<option value="P">P</option>
+					<option value="P" selected>P</option>
 					<option value="HR">HR</option>
 					<option value="BR">BR</option>
 					<option value="PRE">PRE</option>
@@ -658,7 +745,7 @@
 					<option value="DD">DD</option>
 				</optgroup>
 				<optgroup label="Text-Level Semantics">
-					<option value="A" selected>A</option>
+					<option value="A">A</option>
 					<option value="ABBR">ABBR</option>
 					<option value="B" >B</option>
 					<option value="BDO">BDO</option>
@@ -692,7 +779,7 @@
 					<option value="DIV">DIV</option>
 				</optgroup>
 			</select>
-			, attributes <input type="text" id="selectTagAttributes" size="26" value="style=color: green; font-style: italic;">
+			, attributes <input type="text" id="selectTagAttributes" size="26" value="id=axxa">
 		</div>
 		<div id="toolbar">
 			
@@ -729,6 +816,8 @@
 			<a href="#" onclick="window.location='<?=$_SERVER['PHP_SELF']?>?r=1'; return false;">Reload</a>
 			<br>
 			<a href="#" onclick="alert(ed.mutationHistory.mutations.length); return false;">Len</a>
+			<br>
+			<a href="#" onclick="updateHTML(); return false;">Update HTML</a>
 			<br>
 			<textarea style="border: 1px #c9c9c9  solid;" id="htmlView"></textarea>
 		</div>
