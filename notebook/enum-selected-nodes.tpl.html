@@ -58,7 +58,12 @@
 		}
 		p
 		{
-			border: 1px blue dotted;
+			outline: 1px blue dotted;
+			margin: 0px 0px 12px 0px;
+		}
+		li p
+		{
+			margin: 0;
 		}
 		a
 		{
@@ -66,12 +71,12 @@
 		}
 		span
 		{
-			outline: 1px red dotted;
+			background-color: rgba(200, 200, 200, 0.2);
 		}
 		div
 		{
 			padding: 10px;
-			border: 1px green solid;
+			
 		}
 		#span3
 		{
@@ -80,6 +85,33 @@
 		#span1
 		{
 			font-weight: bold;
+		}
+		x-highlight
+		{
+			background-color: #ffcccc;
+			outline: 1px #ffcccc solid;
+		}
+		x-highlight.block
+		{
+			display: block;		
+		}
+		x-highlight.not-phrasing-content
+		{
+			outline: 1px red dotted;
+		}
+		x-highlight.not-phrasing-content:before
+		{
+			font-size: 36px;
+			line-height: 12px;
+			text-decoration: none;
+			color: red;
+			content: "\022C6";
+			margin-right: 6px;
+			float: right;
+			width: 14px;
+			height: 14px;
+			display: block;
+			overflow: hidden;
 		}
 	</style>
 </head>
@@ -90,7 +122,7 @@
 		<br id="br2">
 		<br id="br3">
 		<br id="br4">
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+		Lorem ipsum dolor sit amet , consectetur adipiscing elit. 
 		
 		<h1 id="h11">Lorem Ipsum</h1>
 				
@@ -113,12 +145,15 @@
 		<div id="div1"> 
 			<h2 id="h21">  <span id="span8"><span id="span7"><span id="span6">   Heading 2 element </span></span></span>  </h2>
 		</div>
-		<p id="par6">	paragraph Six</p><em id="em2">sociis natoque penat<span id="span7"><span id="span8"><x> x element</x></span></span>ibus et <span id="span14">magnis dis</span> parturient montes, nas</em>cetur
+		<p id="par6">	paragraph Six</p>
+		<em id="em2">soci is natoque penat<span id="span7"><span id="span8"><x> x element</x></span></span>ibus et <span id="span14">magnis dis</span> parturient montes, nas</em>cetur
 		<ul id="ul1">
-			<li id="li1"> List item 1 in a paragraph</li>
+			<li id="li1"> List <b id="b1">item</b>	<i id="i1"> 1</i> in a paragraph</li>
 			<li id="li2"> LIST <b>item <i>2 in a</i> par</b>agraph</li>
 			<li id="li3"> List item 3 in a paragraph</li>
-			</ul>
+			<li id="li4"> List item 3 four</li>
+		</ul>
+		
 		<p id="par7">
 				Paragraph after the list
 		</p>
@@ -129,8 +164,42 @@
 				<td id="td3">TD 3,1</td>
 				<td id="td4">TD 4,1</td>
 			</tr>
-			</table>
-		
+			</table><span id="span503">
+			<del>
+				<a href="#">link 
+					<div> 
+						<div> 
+							aha
+						</div> 
+					</div>
+				</a>
+			</del>
+			Un text simplu 
+			<span id="span500">
+				urmat 
+				<b>
+					de un SPAN
+				</b> 
+				incorect 
+				<div id="div500">
+					cu un 
+					<div id="div501">
+						DIV
+					</div>
+					in el
+				</div>
+				si iarasi text
+			</span>
+			si iar te
+		</span>
+		xt simplu 
+		<span id="span501"> 
+			si span 
+			<div> 
+				cu aceeasi problema 
+			</div> 
+			cu div 
+		</span>
 		<p>
 			Line one
 			<br>

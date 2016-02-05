@@ -24,6 +24,7 @@
 		<script src="../lib/Node.class.js"></script>
 		<script src="../lib/EditableContent.class.js"></script>
 		<script src="../lib/console.js"></script>
+		<script src="../lib/Tests.class.js"></script>
 		<style>
 			#ifrm,
 			#htmlView
@@ -77,7 +78,7 @@
 				
 				
 				
-				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; testsBatch.run()", 300);
+				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; //testsBatch.run()", 300);
 				
 			}
 			
@@ -92,7 +93,7 @@
 			function visitSelection()
 			{
 				
-				return ed.visitSelectedNodes("visitSelectedNode", 
+				return ed.visitContentFragmentNodes("visitSelectedNode", 
 						null,
 						startNode, startOffset, endNode, endOffset, true, 
 						true);
@@ -121,10 +122,10 @@
 					endNode=ed.window.document.getElementById("em1");
 					endOffset=0;
 				}
-				/*ed.visitSelectedNodes("visitSelectedNode", null, 
+				/*ed.visitContentFragmentNodes("visitSelectedNode", null, 
 					ed.window.document.getElementById("par1").firstChild, 3, 
 					ed.window.document.getElementById("sp3").firstChild, 4 );
-				ed.visitSelectedNodes("visitSelectedNode", null, 
+				ed.visitContentFragmentNodes("visitSelectedNode", null, 
 					ed.window.document.getElementById("par1"), 4, 
 					ed.window.document.getElementById("b1").firstChild, 0 );
 				*/
@@ -219,88 +220,33 @@
 			}
 		</script>
 		<script>
-			function TestsBatch()
-			{
-			}
-			with(TestsBatch)
-			{
-				prototype.tests=null;
-				prototype.numAssertions=0;
-				prototype.numFailedAssertions=0;
-				prototype.failedAssertions=[];
-				prototype.currentTest=null;
-				prototype.break=false;
-				
-				prototype.run=TestsBatch_run;
-				prototype.stop=TestsBatch_stop;
-				/* Assertion methods*/
-				prototype.ASSERT=TestsBatch_ASSERT;
-				prototype.ASSERT_TRUE=TestsBatch_ASSERT_TRUE;
-				prototype.ASSERT_FALSE=TestsBatch_ASSERT_FALSE;
-				prototype.ASSERT_EQUALS=TestsBatch_ASSERT_EQUALS;
-			}
 			var testsBatch=new TestsBatch();
 			
-			function TestsBatch_run()
-			{
-				for(var methodName in this.tests)
-				{
-					if(typeof(this.tests[methodName])!="function")
-					{
-						continue;
-					}
-					this.currentTest=this.tests[methodName];
-					this.currentTest();
-					if(this.break)
-					{
-						break;
-					}
-				}
-				
-				console.log("Tests: "+this.tests.length);
-				console.log("Assertions "+this.numAssertions);
-				console.log("Failed assertions "+this.numFailedAssertions);
-				for(var i=0; i<=this.numAssertions; i++)
-				{
-					if(!this.failedAssertions[i])
-					{
-						continue;
-					}
-					
-					console.log("Expected: "+this.failedAssertions[i].expected+"; Received:"+this.failedAssertions[i].received);
-				}
-			}
-			function TestsBatch_stop()
-			{
-				this.break=true;
-			}
-			function TestsBatch_ASSERT(cond, expectedValue, receivedValue)
-			{
-				this.numAssertions++;
-				if(!cond)
-				{
-					this.numFailedAssertions++;
-					this.failedAssertions[this.numAssertions]={"expected": expectedValue, "received" : receivedValue };
-				}
-			}
-			function TestsBatch_ASSERT_TRUE(receivedValue)
-			{
-				return this.ASSERT(receivedValue==true, true, receivedValue);
-			}
-			function TestsBatch_ASSERT_FALSE(receivedValue)
-			{
-				return this.ASSERT(receivedValue==false, false, receivedValue);
-			}
-			function TestsBatch_ASSERT_EQUALS(val1, val2)
-			{
-				this.ASSERT(val1==val2, val1, val2);
-			}
 			testsBatch.restoreInnerHTML=function()
 			{
 				ed.window.document.body.innerHTML=originalInnerHTML;
 			}
 			testsBatch.tests=
 			[
+				function()
+				{
+					var tn=el("h11").firstChild;
+					ed.setSelection(el("h11"), 1, el("h11"), 1);
+					ed.highlightCurrentParagraph();
+					this.ASSERT_EQUALS(tn, ed.crtHighlightElements[0].marker.firstChild);
+					//ed.documentContainer.focus();
+					
+					
+				}
+				,
+				function()
+				{
+					ed.highlightParagraph(ed.getNodeParagraph(el("par3")));
+					
+					this.ASSERT_EQUALS("X-HIGHLIGHT", el("par3").firstChild.tagName);
+					this.ASSERT_EQUALS(1, ed.crtHighlightElements.length);
+					
+				},
 				function()
 				{
 					//this.stop();
@@ -613,23 +559,8 @@
 			function test()
 			{
 				restoreInnerHTML();
-					
-				var a =ed.window.document.createElement("A");
-				el("par1").insertBefore(a, el("par1").firstChild);
 				
-				a.appendChild(el("par1").removeChild(el("par1").childNodes[1]));
-				
-				showHTML();
-				//ed.mutationHistory.stringsDiff("1abcedfgh2", "3abf12gh4");
-				//ed.mutationHistory.stringsDiff("abcedfgh", "abf12gh");
-				//ed.mutationHistory.stringsDiff(" Aculum edice. ", " edice. ");
-				return;
-				//console.logNode(el("h21"));
-				var b=el("a1").isAllowedInNode(el("div1"));
-				console.log(b);
-				//ed.surroundContentFragment("H3", {"id": "h31"},	true, el("h21"), 0, el("h21"), el("h21").childNodes.length);
-				
-				//showHTML();
+				alert(el("b1").nextSibling.nodeType);
 			}
 			function highlightAdjacentTextNodes(node, offset, close, endVisit, ca)
 			{
@@ -652,7 +583,7 @@
 			{
 				var ca={};
 				ca.prev=null;
-				ed.visitSelectedNodes([this, "highlightAdjacentTextNodes"], 
+				ed.visitContentFragmentNodes([this, "highlightAdjacentTextNodes"], 
 							ca
 							);
 			}
@@ -695,7 +626,9 @@
 			//echo 'Received: '.$_SESSION['message'].', '.$_SESSION['var'];
 ?>
 		</pre>
+		
 		<div class="clearfix" style="float: left;">
+			<input>
 			<iframe src="enum-selected-nodes.tpl.html" id="ifrm"></iframe>
 			<br>
 			
