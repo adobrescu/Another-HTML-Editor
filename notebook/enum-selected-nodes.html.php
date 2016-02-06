@@ -558,6 +558,10 @@
 			
 			function test()
 			{
+				alert(ed.mutationHistory.mutationBatches.length+":"+ed.mutationHistory.mutationBatches[1].mutations[0].type);
+				ed.mutationHistory.mutationsBatchIndex=0;
+				ed.mutationHistory.redo();
+				return;
 				restoreInnerHTML();
 				
 				alert(el("b1").nextSibling.nodeType);
@@ -647,7 +651,7 @@
 			<a href="#" onclick="ed.deleteContentFragment(); showHTML(); return false;">Delete selection</a>
 			<br>
 			<a href="#" onclick="surround(document.getElementById('selectTagName').value, document.getElementById('selectTagAttributes').value) ; return false;">Surround with </a>
-			<select id="selectTagName">
+			<select id="selectTagName" onchange="if(!ed.getRange().collapsed){surround(document.getElementById('selectTagName').value, document.getElementById('selectTagAttributes').value) ;}">
 				<optgroup label="Sectioning">
 					<option value="ADDRESS">ADDRESS</option>
 					<option value="ARTICLE">ARTICLE</option>
@@ -665,7 +669,7 @@
 				</optgroup>
 				<optgroup label="Grouping">
 					<option value="BLOCKQUOTE">BLOCKQUOTE</option>
-					<option value="P" selected>P</option>
+					<option value="P">P</option>
 					<option value="HR">HR</option>
 					<option value="BR">BR</option>
 					<option value="PRE">PRE</option>
@@ -680,7 +684,7 @@
 				<optgroup label="Text-Level Semantics">
 					<option value="A">A</option>
 					<option value="ABBR">ABBR</option>
-					<option value="B" >B</option>
+					<option value="B" selected>B</option>
 					<option value="BDO">BDO</option>
 					<option value="CITE">CITE</option>
 					<option value="CODE">CODE</option>
