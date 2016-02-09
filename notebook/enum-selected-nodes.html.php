@@ -558,6 +558,8 @@
 			
 			function test()
 			{
+				ed.mutationHistory.joinMutations(2, ed.mutationHistory.mutations.length-1);
+				return;
 				alert(ed.mutationHistory.mutationBatches.length+":"+ed.mutationHistory.mutationBatches[1].mutations[0].type);
 				ed.mutationHistory.mutationsBatchIndex=0;
 				ed.mutationHistory.redo();
