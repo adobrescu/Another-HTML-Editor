@@ -78,7 +78,7 @@
 				
 				
 				
-				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; //testsBatch.run()", 300);
+				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; testsBatch.run()", 300);
 				
 			}
 			
@@ -241,10 +241,15 @@
 				,
 				function()
 				{
+					ed.unhighlightParagraph();
 					ed.highlightParagraph(ed.getNodeParagraph(el("par3")));
 					
 					this.ASSERT_EQUALS("X-HIGHLIGHT", el("par3").firstChild.tagName);
 					this.ASSERT_EQUALS(1, ed.crtHighlightElements.length);
+					for (var i=0; i<ed.crtHighlightElements.length; i++)
+					{
+						ed.crtHighlightElements[i].marker.style.border="1px red solid";
+					}
 					
 				},
 				function()
