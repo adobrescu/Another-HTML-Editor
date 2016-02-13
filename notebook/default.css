@@ -1,0 +1,18 @@
+#quickToolbar
+{
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	width: 200px;
+	border: 1px #777777 solid;
+	padding: 12px;
+	background-color: #ffffff;
+}
+.clearfix:before,
+.clearfix:after {
+	content: "";
+	display: table;
+}
+.clearfix:after {
+	clear: both;
+}

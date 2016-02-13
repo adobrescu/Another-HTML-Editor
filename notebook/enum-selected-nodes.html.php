@@ -25,6 +25,7 @@
 		<script src="../lib/EditableContent.class.js"></script>
 		<script src="../lib/console.js"></script>
 		<script src="../lib/Tests.class.js"></script>
+		<link rel="stylesheet" type="text/css" href="default.css">
 		<style>
 			#ifrm,
 			#htmlView
@@ -44,24 +45,7 @@
 				float: left;
 				margin-left: 20px;
 			}
-			#quickToolbar
-			{
-				position: fixed;
-				top: 10px;
-				right: 10px;
-				width: 200px;
-				border: 1px #777777 solid;
-				padding: 12px;
-				background-color: #ffffff;
-			}
-			.clearfix:before,
-			.clearfix:after {
-				content: "";
-				display: table;
-			}
-			.clearfix:after {
-				clear: both;
-			}
+			
 		</style>
 		<script>
 			var ed, originalInnerHTML, mh;
@@ -78,7 +62,7 @@
 				
 				
 				
-				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; testsBatch.run()", 300);
+				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; //testsBatch.run()", 300);
 				
 			}
 			
@@ -245,12 +229,7 @@
 					ed.highlightParagraph(ed.getNodeParagraph(el("par3")));
 					
 					this.ASSERT_EQUALS("X-HIGHLIGHT", el("par3").firstChild.tagName);
-					this.ASSERT_EQUALS(1, ed.crtHighlightElements.length);
-					for (var i=0; i<ed.crtHighlightElements.length; i++)
-					{
-						ed.crtHighlightElements[i].marker.style.border="1px red solid";
-					}
-					
+					this.ASSERT_EQUALS(1, ed.crtHighlightElements.length);					
 				},
 				function()
 				{
@@ -559,19 +538,20 @@
 			function test2()
 			{
 				ed.onBeforeUnload();
+				var img=ed.documentContainer.ownerDocument.createElement("img");
+				//alert(ed.documentContainer.ownerDocument.documentElement.childNodes[2])
+				img.alt="ALT";
+				console.logNode(img);
 			}
 			
 			function test()
 			{
-				ed.mutationHistory.joinMutations(2, ed.mutationHistory.mutations.length-1);
-				return;
-				alert(ed.mutationHistory.mutationBatches.length+":"+ed.mutationHistory.mutationBatches[1].mutations[0].type);
-				ed.mutationHistory.mutationsBatchIndex=0;
-				ed.mutationHistory.redo();
-				return;
-				restoreInnerHTML();
-				
-				alert(el("b1").nextSibling.nodeType);
+				var c=[];
+				for(var i=0; i<100; i++)
+				{
+					c[i]=ed.documentContainer.cloneNode(true);
+				}
+				alert(c[0].firstChild.textContent);
 			}
 			function highlightAdjacentTextNodes(node, offset, close, endVisit, ca)
 			{
@@ -616,12 +596,7 @@
 			}
 			function logMutations()
 			{
-				var idx=mh.mutations.length-1;
-				
-				for(var i=0; i<mh.mutations[idx].length; i++)
-				{
-					mh.logMutation(mh.mutations[idx][i])
-				}
+				console.logMutation(ed.mutationHistory.mutations[ed.mutationHistory.mutations.length-1])
 			}
 		</script>
 	</head>
@@ -644,87 +619,9 @@
 			<br>
 			
 		</div>
-		<div id="quickToolbar">
-			<a href="#" onclick="ed.undo(); showHTML(); return false;">Undo</a>
-			<br>
-			<a href="#" onclick="ed.redo(); showHTML(); return false;">Redo</a>
-			<br>
-			<a href="#" onclick="showHTML(); return false;">View HTML</a>
-			<br>
-			<a href="#" onclick="restoreInnerHTML(); return false;">Restore HTML</a>
-			<br>
-			<a href="#" onclick="visitSelection() ; return false;">Visit selection</a>
-			<br>
-			<a href="#" onclick="ed.deleteContentFragment(); showHTML(); return false;">Delete selection</a>
-			<br>
-			<a href="#" onclick="surround(document.getElementById('selectTagName').value, document.getElementById('selectTagAttributes').value) ; return false;">Surround with </a>
-			<select id="selectTagName" onchange="if(!ed.getRange().collapsed){surround(document.getElementById('selectTagName').value, document.getElementById('selectTagAttributes').value) ;}">
-				<optgroup label="Sectioning">
-					<option value="ADDRESS">ADDRESS</option>
-					<option value="ARTICLE">ARTICLE</option>
-					<option value="ASIDE">ASIDE</option>
-					<option value="FOOTER">FOOTER</option>
-					<option value="H1">H1</option>
-					<option value="H2">H2</option>
-					<option value="H3">H3</option>
-					<option value="H4">H4</option>
-					<option value="H5">H5</option>
-					<option value="H6">H6</option>
-					<option value="HEADER">HEADER</option>
-					<option value="NAV">NAV</option>
-					<option value="SECTION">SECTION</option>
-				</optgroup>
-				<optgroup label="Grouping">
-					<option value="BLOCKQUOTE">BLOCKQUOTE</option>
-					<option value="P">P</option>
-					<option value="HR">HR</option>
-					<option value="BR">BR</option>
-					<option value="PRE">PRE</option>
-					<option value="DIALOG">DIALOG</option>
-					<option value="OL">OL</option>
-					<option value="UL">UL</option>
-					<option value="LI">LI</option>
-					<option value="DL">DL</option>
-					<option value="DT">DT</option>
-					<option value="DD">DD</option>
-				</optgroup>
-				<optgroup label="Text-Level Semantics">
-					<option value="A">A</option>
-					<option value="ABBR">ABBR</option>
-					<option value="B" selected>B</option>
-					<option value="BDO">BDO</option>
-					<option value="CITE">CITE</option>
-					<option value="CODE">CODE</option>
-					<option value="DFN">DFN</option>
-					<option value="EM">EM</option>
-					<option value="I">I</option>
-					<option value="KBD">KBD</option>
-					<option value="MARK">MARK</option>
-					<option value="METER">METER</option>
-					<option value="PROGRESS">PROGRESS</option>
-					<option value="RP">RP</option>
-					<option value="RT">RT</option>
-					<option value="RUBY">RUBY</option>
-					<option value="Q">Q</option>
-					<option value="SAMP">SAMP</option>
-					<option value="SMALL">SMALL</option>
-					<option value="SPAN">SPAN</option>
-					<option value="STRONG">STRONG</option>
-					<option value="SUB">SUB</option>
-					<option value="SUP">SUP</option>
-					<option value="TIME">TIME</option>
-					<option value="VAR">VAR</option>
-				</optgroup>
-				<optgroup label="Edits">
-					<option value="DEL">DEL</option>
-					<option value="INS">INS</option>
-				</optgroup>
-				<optgroup label="None">
-					<option value="DIV">DIV</option>
-				</optgroup>
-			</select>
-			, attributes <input type="text" id="selectTagAttributes" size="26" value="id=axxa">
-		</div>
+<?php
+	include('quick-toolbar.html.php');
+?>
 		<div id="toolbar">
 			
 			<a href="#" onclick="surround() ; return false;">Surround with </a><input type="text" id="tagName" size="10">, attributes <input type="text" id="tagAttributes" size="16">
