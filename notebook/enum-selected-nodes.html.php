@@ -25,6 +25,7 @@
 		<script src="../lib/EditableContent.class.js"></script>
 		<script src="../lib/console.js"></script>
 		<script src="../lib/Tests.class.js"></script>
+		<script src="../lib/NodeDiff.class.js"></script>
 		<link rel="stylesheet" type="text/css" href="default.css">
 		<style>
 			#ifrm,
@@ -33,7 +34,7 @@
 				border: 1px #999999 solid;
 				padding: 0;
 				width: 600px;
-				height: 1100px;
+				height: 660px;
 				float: left;
 			}
 			#htmlView
@@ -546,12 +547,7 @@
 			
 			function test()
 			{
-				var c=[];
-				for(var i=0; i<100; i++)
-				{
-					c[i]=ed.documentContainer.cloneNode(true);
-				}
-				alert(c[0].firstChild.textContent);
+				alert(el("span8").setAttribute("attr2", "oaresce"));
 			}
 			function highlightAdjacentTextNodes(node, offset, close, endVisit, ca)
 			{
