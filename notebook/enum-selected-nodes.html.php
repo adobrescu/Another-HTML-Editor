@@ -26,6 +26,7 @@
 		<script src="../lib/console.js"></script>
 		<script src="../lib/Tests.class.js"></script>
 		<script src="../lib/NodeDiff.class.js"></script>
+		<script src="../lib/Table.class.js"></script>
 		<link rel="stylesheet" type="text/css" href="default.css">
 		<style>
 			#ifrm,
@@ -561,11 +562,7 @@
 			}
 			function test2()
 			{
-				var e;
-				e=document.createElement("span");
-				e.id="AXXA";
-				document.body.appendChild(e)
-				alert(document.querySelectorAll("[id=AXXA]")[0]);
+				alert(el("table1").firstChild.nextSibling.nextSibling.nextSibling.childNodes[3].firstChild);
 			}
 			
 			function test()
@@ -617,6 +614,28 @@
 			{
 				console.logMutation(ed.mutationHistory.mutations[ed.mutationHistory.mutations.length-1])
 			}
+			function insertTableRows()
+			{
+				ed.getTable().insertRows(document.getElementById("numRows").value, 
+						ed.getRangeCommonAncestorByTagName('TR'),
+						document.getElementById("insertTableRowsBefore").value);
+			}
+			function insertTableColumns()
+			{
+				ed.getTable().insertColumns(document.getElementById("numCols").value, 
+						ed.getRangeCommonAncestorByTagName('TD'),
+						document.getElementById("insertTableColsBefore").value);
+			}
+			function removeTableRows()
+			{
+				ed.getTable().removeRows(1, 
+						ed.getRangeCommonAncestorByTagName('TR'),
+						true);
+			}
+			function setTableCaption()
+			{
+					ed.getTable().setCaption(document.getElementById("tableCaption").value);
+			}
 		</script>
 	</head>
 
@@ -643,7 +662,19 @@
 	include('quick-toolbar.html.php');
 ?>
 		<div id="toolbar">
+			Table
+			<br>
+			<a href="#" onclick="ed.insertTable( 2, 5) ; return false;">Insert Table</a>
+			<br>
+			<a href="#" onclick="insertTableRows(); return false;">Insert </a><input type="text" size="4" id="numRows">Table Rows <select id="insertTableRowsBefore"><option value="1">Before</option><option value="">After</option></select>
+			<br>
+			<a href="#" onclick="removeTableRows(); return false;">Remove Table Row </a>
+			<br>
+			<a href="#" onclick="setTableCaption(); return false;">Set Table Caption:</a> <input id="tableCaption" size="15">
+			<br>
+			<a href="#" onclick="insertTableColumns(); return false;">Insert </a><input type="text" size="4" id="numCols">Table Columns <select id="insertTableColsBefore"><option value="1">Before</option><option value="">After</option></select>
 			
+			<hr>
 			<a href="#" onclick="surround() ; return false;">Surround with </a><input type="text" id="tagName" size="10">, attributes <input type="text" id="tagAttributes" size="16">
 			<br>
 			<a href="#" onclick="ed.mutationHistory.undoAll(); showHTML(); return false;">Undo all</a>
@@ -655,8 +686,8 @@
 			<a href="#" onclick="selectElement() ; return false;">Select element#</a><input type="text" id="elementId" size="10">
 			<br>
 			<a href="#" onclick="split('em2', 2, 'em1', 5) ; return false;">Split</a>
-			<br>
 			
+			<br>
 			<a href="#" onclick="showAdjacentTextNodes(); return false;">Show adjacent text nodes</a>
 			
 			<br>

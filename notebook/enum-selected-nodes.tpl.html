@@ -24,7 +24,7 @@
 			-o-user-select: none;
 			user-select: none;
 		}
-		td
+		td, th
 		{
 			border-top: 1px #c9c9c9 solid;
 			border-right: 1px #c9c9c9 solid;
@@ -116,6 +116,33 @@
 </head>
 <body>
 	<div id="EditableContentCanvas" style="outline: 1px #777777 dotted;" contentEditable="true">
+		<table id="table1">
+			<caption></caption>
+			<thead>
+				<tr>
+					<th>asas</th>
+					<th>asas</th>
+					<th>asas</th>
+					<th>asas</th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td id="td1">TD 1,1</td>
+				<td id="td2">TD 2,1</td>
+				<td id="td3">TD 3,1</td>
+				<td id="td4">TD 4,1</td>
+			</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td id="tdf1">TD f 1,1</td>
+					<td id="tdf2">TD f 2,1</td>
+					<td id="tdf3">TD f 3,1</td>
+					<td id="tdf4">TD f 4,1</td>
+				</tr>
+			</tfoot>
+			</table>
 		Cum <em>sociis natoque penat<span id="span7"><span id="span8"><x> x element</x></span></span>ibus et magnis dis parturient montes, nas</em>cetur
 		<br id="br1">
 		<br id="br2">
@@ -143,10 +170,10 @@
 				scoala</b> aha
 		</p>
 		<div id="div1"> 
-			<h2 id="h21">  <span id="span8"><span id="span7"><span id="span6">   Heading 2 element </span></span></span>  </h2>
+			<h2 id="h21">  <span id="span8_1"><span id="span7_1"><span id="span6">   Heading 2 element </span></span></span>  </h2>
 		</div>
 		<p id="par6">	paragraph Six</p>
-		<em id="em2">soci is natoque penat<span id="span7"><span id="span8"><x> x element</x></span></span>ibus et <span id="span14">magnis dis</span> parturient montes, nas</em>cetur
+		<em id="em2">soci is natoque penat<span id="span7_2"><span id="span8_2"><x> x element</x></span></span>ibus et <span id="span14">magnis dis</span> parturient montes, nas</em>cetur
 		<ul id="ul1">
 			<li id="li1"> List <b id="b1">item</b>	<i id="i1"> 1</i> in a paragraph</li><li id="li2"> LIST <b>item <i>2 in a</i> par</b>agraph</li><li id="li3"> List item 3 in a paragraph</li><li id="li4"> List item 4 four</li>
 		</ul>
@@ -154,13 +181,21 @@
 		<p id="par7">
 				Paragraph after the list
 		</p>
-		<table>
+		<table id="table1">
 			<tr>
 				<td id="td1">TD 1,1</td>
 				<td id="td2">TD 2,1</td>
 				<td id="td3">TD 3,1</td>
 				<td id="td4">TD 4,1</td>
 			</tr>
+			<tfoot>
+				<tr>
+					<td id="tdf1">TD f 1,1</td>
+					<td id="tdf2">TD f 2,1</td>
+					<td id="tdf3">TD f 3,1</td>
+					<td id="tdf4">TD f 4,1</td>
+				</tr>
+			</tfoot>
 			</table><span id="span503">
 			<del>
 				<a href="#">link 
