@@ -9,11 +9,11 @@
 			
 	if($_POST)
 	{
-		
 		//$_SESSION['test']=$_POST;
+		
 		//exit();
 	}
-	
+	//print_r($_SESSION['test']);
 	//print_r($_SESSION['test']['mutationHistoryRanges']);
 ?>
 <!DOCTYPE html>
@@ -33,8 +33,8 @@
 			{
 				border: 1px #999999 solid;
 				padding: 0;
-				width: 600px;
-				height: 660px;
+				width: 500px;
+				height: 600px;
 				float: left;
 			}
 			#htmlView
@@ -531,6 +531,29 @@
 					
 					
 				}
+				,
+				function()
+				{
+					var d=el("div500");
+					var par1=ed.getNodeParagraph(d);
+					//ed.highlightParagraph(par1);
+					
+					var s=el("span501");
+					var par2=ed.getNodeParagraph(s);
+					ed.highlightParagraph(par1);
+					
+					this.ASSERT_EQUALS(par1.length, par2.length);
+					
+					for(var i=0; i<par1.length; i++)
+					{
+						this.ASSERT_EQUALS(par1[i].length, par2[i].length);
+						
+						for(var j=0; j<par1[i].length; j++)
+						{
+							this.ASSERT_EQUALS(par1[i][j], par2[i][j]);
+						}
+					}
+				}
 			];
 			function el(elId)
 			{
@@ -538,16 +561,16 @@
 			}
 			function test2()
 			{
-				ed.onBeforeUnload();
-				var img=ed.documentContainer.ownerDocument.createElement("img");
-				//alert(ed.documentContainer.ownerDocument.documentElement.childNodes[2])
-				img.alt="ALT";
-				console.logNode(img);
+				var e;
+				e=document.createElement("span");
+				e.id="AXXA";
+				document.body.appendChild(e)
+				alert(document.querySelectorAll("[id=AXXA]")[0]);
 			}
 			
 			function test()
 			{
-				alert(el("span8").setAttribute("attr2", "oaresce"));
+				alert(ed.mutationHistory.mutations.length);
 			}
 			function highlightAdjacentTextNodes(node, offset, close, endVisit, ca)
 			{
@@ -600,6 +623,7 @@
 	<body onload="setTimeout('bodyOnLoad()', 300)">
 		<pre>
 <?php
+			//echo htmlentities($_SESSION['test']['innerHTML']);
 			//print_r(htmlentities($_SESSION['test']['innerHTML']));
 			//echo 'End';
 			//print_r($_SESSION['test']['serializedHistory']);

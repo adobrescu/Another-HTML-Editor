@@ -77,5 +77,5 @@
 					<option value="DIV">DIV</option>
 				</optgroup>
 			</select>
-			, attributes <input type="text" id="selectTagAttributes" size="26" value="id=axxa">
+			, attributes <input type="text" id="selectTagAttributes" size="26" value="">
 		</div>
