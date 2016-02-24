@@ -562,7 +562,7 @@
 			}
 			function test2()
 			{
-				alert(el("table1").firstChild.nextSibling.nextSibling.nextSibling.childNodes[3].firstChild);
+				console.logObjectsDiff(el("td1"), el("td1_2"));
 			}
 			
 			function test()
@@ -616,9 +616,44 @@
 			}
 			function insertTableRows()
 			{
-				ed.getTable().insertRows(document.getElementById("numRows").value, 
+				var table, tableSection;
+				
+				table=ed.getTable();
+				tableSection=document.getElementById("insertRowsTo").value;
+								
+				table.insertRows(document.getElementById("numRows").value, 
 						ed.getRangeCommonAncestorByTagName('TR'),
+						tableSection,
 						document.getElementById("insertTableRowsBefore").value);
+			}
+			function mergeTableCells()
+			{
+				var table, startTD, endTD;
+				var range, start, end;
+				
+				table=ed.getTable();
+				
+				if(ed.window.getSelection().rangeCount>1)
+				{
+					for(var i=0; i<ed.window.getSelection().rangeCount; i++)
+					{
+						range=ed.window.getSelection().getRangeAt(i);
+						console.logNode(range.startOffset);
+					}
+				}
+				else
+				{
+					range=ed.getRange();
+					
+					console.logNode(range.endContainer, "", "", "eC: ");//.getAncestorByTagName("td"));
+					start=ed.getRangeBoundary(range, true);
+					end=ed.getRangeBoundary(range, false);
+
+					console.logNode(start.container.getAncestorByTagName("TD"));
+
+
+					table.mergeCellsInBetweenCells(start.container.getAncestorByTagName("TD"), end.container.getAncestorByTagName("TD"));
+				}
 			}
 			function insertTableColumns()
 			{
@@ -666,14 +701,28 @@
 			<br>
 			<a href="#" onclick="ed.insertTable( 2, 5) ; return false;">Insert Table</a>
 			<br>
-			<a href="#" onclick="insertTableRows(); return false;">Insert </a><input type="text" size="4" id="numRows">Table Rows <select id="insertTableRowsBefore"><option value="1">Before</option><option value="">After</option></select>
+			<a href="#" onclick="insertTableRows(); return false;">Insert </a>
+			<input type="text" size="4" id="numRows">
+			Table
+			<select id="insertRowsTo">
+				<option value="TBODY">Body</option>
+				<option value="THEAD">Header</option>
+				<option value="TFOOT">Footer</option>
+				<option value="">Current Selection</option>
+			</select>
+			 Rows 
+			<select id="insertTableRowsBefore">
+					<option value="1">Before</option>
+					<option value="">After</option>
+			</select>
 			<br>
 			<a href="#" onclick="removeTableRows(); return false;">Remove Table Row </a>
 			<br>
 			<a href="#" onclick="setTableCaption(); return false;">Set Table Caption:</a> <input id="tableCaption" size="15">
 			<br>
 			<a href="#" onclick="insertTableColumns(); return false;">Insert </a><input type="text" size="4" id="numCols">Table Columns <select id="insertTableColsBefore"><option value="1">Before</option><option value="">After</option></select>
-			
+			<br>
+			<a href="#" onclick="mergeTableCells(); return false;">Merge Table Cells:</a> <input id="tableCaption" size="15">
 			<hr>
 			<a href="#" onclick="surround() ; return false;">Surround with </a><input type="text" id="tagName" size="10">, attributes <input type="text" id="tagAttributes" size="16">
 			<br>
