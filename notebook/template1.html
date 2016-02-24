@@ -1,19 +1,53 @@
 <html>
 	<head>
+		<script src="../lib/Node.class.js"></script>
+		<script src="../lib/Document.class.js"></script>
+		<script src="../lib/console.js"></script>
 		<style>
-			p
-			{
-				border: 1px red solid;
-				margin: 0;
-			}
+		x-highlight
+		{
+			background-color: #ffcccc;
+			outline: 1px #ffcccc solid;
+		}
+		x-highlight.block
+		{
+			display: block;		
+		}
+		x-highlight.not-phrasing-content
+		{
+			outline: 1px red dotted;
+		}
+		x-highlight.not-phrasing-content:before
+		{
+			font-size: 36px;
+			line-height: 12px;
+			text-decoration: none;
+			color: red;
+			content: "\022C6";
+			margin-right: 6px;
+			float: right;
+			width: 14px;
+			height: 14px;
+			display: block;
+			overflow: hidden;
+		}
+		x-content-not-editable
+		{
+			display: block;
+		}
 		</style>
 	</head>
-	<body contentEditable="true">
+	<body>
+		<div id="EditableContentCanvas" style="outline: 1px #777777 dotted;" contentEditable="true">
 		<div id="div1">
-			Lorem Ipsum
-			<p id="par1">x	
-				Paragraph
-			</p>
+			<div style="float: none; width: 45%;" contenteditable="false">
+				This is not editable  lorem ipsum bla bla 
+			</div>
+			<span contenteditable="false">axa lorem ipsum bla bla </span>
+			<div contenteditable="true" id="div2">
+					This is editable
+			</div>
+		</div>
 		</div>
 	</body>
 </html>

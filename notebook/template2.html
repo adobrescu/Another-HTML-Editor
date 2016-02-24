@@ -1,10 +1,43 @@
 <html>
 	<head>
+		<script src="../lib/Node.class.js"></script>
+		<script src="../lib/Document.class.js"></script>
+		<script src="../lib/console.js"></script>
+		<style>
+		x-highlight
+		{
+			background-color: #ffcccc;
+			outline: 1px #ffcccc solid;
+		}
+		x-highlight.block
+		{
+			display: block;		
+		}
+		x-highlight.not-phrasing-content
+		{
+			outline: 1px red dotted;
+		}
+		x-highlight.not-phrasing-content:before
+		{
+			font-size: 36px;
+			line-height: 12px;
+			text-decoration: none;
+			color: red;
+			content: "\022C6";
+			margin-right: 6px;
+			float: right;
+			width: 14px;
+			height: 14px;
+			display: block;
+			overflow: hidden;
+		}
+		</style>
 	</head>
-	<body contenteditable="true">
+	<body>
+		<div id="EditableContentCanvas" style="outline: 1px red dotted;" contentEditable="true">
 		<p id="par1">
 			Lorem Ipsum
 		</p>
-		
+		</div>
 	</body>
 </html>
