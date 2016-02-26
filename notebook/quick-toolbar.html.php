@@ -1,7 +1,7 @@
 <div id="quickToolbar">
-			<a href="#" onclick="ed.undo(); showHTML(); return false;">Undo</a>
+			<a href="#" onclick="ed.currentEditableContent.undo(); showHTML(); return false;">Undo</a>
 			<br>
-			<a href="#" onclick="ed.redo(); showHTML(); return false;">Redo</a>
+			<a href="#" onclick="ed.currentEditableContent.redo(); showHTML(); return false;">Redo</a>
 			<br>
 			<a href="#" onclick="showHTML(); return false;">View HTML</a>
 			<br>
@@ -9,10 +9,10 @@
 			<br>
 			<a href="#" onclick="visitSelection() ; return false;">Visit selection</a>
 			<br>
-			<a href="#" onclick="ed.deleteContentFragment(); showHTML(); return false;">Delete selection</a>
+			<a href="#" onclick="ed.currentEditableContent.deleteContentFragment(); showHTML(); return false;">Delete selection</a>
 			<br>
 			<a href="#" onclick="surround(document.getElementById('selectTagName').value, document.getElementById('selectTagAttributes').value) ; return false;">Surround with </a>
-			<select id="selectTagName" onchange="if(!ed.getRange().collapsed){surround(document.getElementById('selectTagName').value, document.getElementById('selectTagAttributes').value) ;}">
+			<select id="selectTagName" onchange="if(!ed.currentEditableContent.getRange().collapsed){surround(document.getElementById('selectTagName').value, document.getElementById('selectTagAttributes').value) ;}">
 				<optgroup label="Sectioning">
 					<option value="ADDRESS">ADDRESS</option>
 					<option value="ARTICLE">ARTICLE</option>
