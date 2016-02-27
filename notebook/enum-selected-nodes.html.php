@@ -147,9 +147,13 @@
 				//try
 				{
 					//ed.currentEditableContent.mutationHistory.startMutationsBatch();
-					ed.currentEditableContent.surroundContentFragment(tagName?tagName:document.getElementById("tagName").value, 
+					
+					ed.currentEditableContent.surroundSelection(tagName?tagName:document.getElementById("tagName").value, 
 									tagAttributes,
 									true);
+					/*ed.currentEditableContent.surroundContentFragment(tagName?tagName:document.getElementById("tagName").value, 
+									tagAttributes,
+									true);*/
 					//ed.currentEditableContent.mutationHistory.endMutationsBatch();
 					//ed.currentEditableContent.mutationHistory.selectMutationsBatchRange(mutationsBatchIndex, after)
 				}
@@ -564,11 +568,21 @@
 			}
 			function test2()
 			{
-				var e;
-				e=document.createElement("span");
-				e.id="AXXA";
-				document.body.appendChild(e)
-				alert(document.querySelectorAll("[id=AXXA]")[0]);
+				var sel=ed.currentEditableContent.window.getSelection();
+				
+				sel.removeAllRanges();
+				
+				var r1=ed.currentEditableContent.documentContainer.ownerDocument.createRange();
+				
+				r1.selectNode(el("par1"));
+				sel.addRange(r1);
+				
+				var r2=ed.currentEditableContent.documentContainer.ownerDocument.createRange();
+				
+				r2.selectNode(el("par3"));
+				sel.addRange(r2);
+				
+				ed.currentEditableContent.documentContainer.focus();
 			}
 			
 			function test()
