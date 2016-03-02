@@ -80,7 +80,6 @@
 			}
 			function visitSelection()
 			{
-				
 				return ed.currentEditableContent.visitContentFragmentNodes("visitSelectedNode", 
 						null,
 						startNode, startOffset, endNode, endOffset, true, 
@@ -117,7 +116,7 @@
 				{
 					//ed.currentEditableContent.mutationHistory.startMutationsBatch();
 					
-					ed.currentEditableContent.surroundSelection(tagName?tagName:document.getElementById("tagName").value, 
+					ed.currentEditableContent.surroundSelectedContentFragments(tagName?tagName:document.getElementById("tagName").value, 
 									tagAttributes,
 									true);
 					/*ed.currentEditableContent.surroundContentFragment(tagName?tagName:document.getElementById("tagName").value, 
@@ -194,7 +193,7 @@
 					
 					
 					ed.currentEditableContent.clearSelection();
-					ed.currentEditableContent.addSelection(el("par8").firstChild, 10, el("i2"), 1);
+					ed.currentEditableContent.addSelection(el("par8").firstChild, 10, el("par8").firstChild, 12);
 					ed.currentEditableContent.addSelection(el("b2").nextSibling, 6, el("b2").nextSibling, 9);
 					ed.currentEditableContent.addSelection(el("span16").nextSibling, 11, el("span16").nextSibling, 17);
 					ed.currentEditableContent.addSelection(el("strong1").firstChild, 2, el("strong1").firstChild, 4);
@@ -211,7 +210,7 @@
 					ed.currentEditableContent.addSelection(el("span4").lastChild, 3, el("span4").lastChild, 10);
 					ed.currentEditableContent.addSelection(el("span4").lastChild, 16, el("span4").lastChild, 20);
 					ed.currentEditableContent.addSelection(el("span4").lastChild, 24, el("span4").lastChild, 30);
-					ed.currentEditableContent.surroundSelection("B");
+					ed.currentEditableContent.surroundSelectedContentFragments("B");
 					//ed.currentEditableContent.documentContainer.focus();
 					
 					
