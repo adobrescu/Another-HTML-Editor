@@ -65,8 +65,7 @@
 				showHTML();
 				
 				
-				
-				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; //testsBatch.run()", 300);
+				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; testsBatch.run()", 300);
 				
 			}
 			
@@ -200,12 +199,12 @@
 					
 				
 					
-					this.stop(); return;
+					//this.stop(); return;
 				}
 				,
 				function()
 				{
-					return;
+					//return;
 					ed.currentEditableContent.clearSelection();
 					ed.currentEditableContent.addSelection(el("span4").lastChild, 3, el("span4").lastChild, 10);
 					ed.currentEditableContent.addSelection(el("span4").lastChild, 16, el("span4").lastChild, 20);
@@ -238,30 +237,11 @@
 				},
 				function()
 				{
-					return;
-					// @todo: put back 
-					//test node splitting
-					var si;//split info
-					var p, d;//parent, descendant
-					
-					p=el("par5");
-					d=p.lastChild;
-					
-					si=p.splitAtDescendant(d, d.textContent.length, false, true);
-					
-					
-					this.ASSERT_EQUALS(0, si[SPLIT_NODE_INDEX]);
-					this.ASSERT_EQUALS(p, si[si[SPLIT_NODE_INDEX]]);
-					
-				}
-				,
-				function()
-				{
 					
 					
 					restoreInnerHTML();
 					
-					ed.currentEditableContent.surroundContentFragment("P",  null, true, el("span3").firstChild, 1, el("par5").lastChild, 7);
+					ed.currentEditableContent.surroundContentFragment("P",  null, el("span3").firstChild, 1, el("par5").lastChild, 7);
 					
 					
 				},
@@ -272,33 +252,33 @@
 					var node=el("EditableContentCanvas").firstChild;
 					var newNodes;
 					
-					newNodes=ed.currentEditableContent.surroundContentFragment("B", {"id": "b1"},	true, node, 4, node, 7);
+					newNodes=ed.currentEditableContent.surroundContentFragment("B", {"id": "b1"}, node, 4, node, 7);
 					
-					this.ASSERT_EQUALS(1, newNodes.containers.length);
+					this.ASSERT_EQUALS(1, newNodes.length);
 					
-					this.ASSERT_EQUALS(newNodes.containers[0].container, el("b1"));
+					this.ASSERT_EQUALS(newNodes[0], el("b1"));
 					
-					this.ASSERT_EQUALS("B", newNodes.containers[0].container.tagName);
+					this.ASSERT_EQUALS("B", newNodes[0].tagName);
 					this.ASSERT_EQUALS(node, el("b1").firstChild);
 					this.ASSERT_EQUALS(3, el("b1").firstChild.textContent.length);
 					this.ASSERT_EQUALS("um ", el("b1").firstChild.textContent);
 					
 					node=el("h11").firstChild;
-					newNodes=ed.currentEditableContent.surroundContentFragment("EM", {"id": "em1"},	true, node, 4, node, 7);
+					newNodes=ed.currentEditableContent.surroundContentFragment("EM", {"id": "em1"},	node, 4, node, 7);
 					
-					this.ASSERT_EQUALS(1, newNodes.containers.length);
-					this.ASSERT_EQUALS(newNodes.containers[0].container, el("em1"));
-					this.ASSERT_EQUALS("EM", newNodes.containers[0].container.tagName);
+					this.ASSERT_EQUALS(1, newNodes.length);
+					this.ASSERT_EQUALS(newNodes[0], el("em1"));
+					this.ASSERT_EQUALS("EM", newNodes[0].tagName);
 					this.ASSERT_EQUALS(node, el("em1").firstChild);
 					this.ASSERT_EQUALS(3, el("em1").firstChild.textContent.length);
 					this.ASSERT_EQUALS("m I", el("em1").firstChild.textContent);
 					
 					node=el("span3").firstChild;
-					newNodes=ed.currentEditableContent.surroundContentFragment("STRONG", {"id": "strong1"},	true, node, 4, node, 7);
+					newNodes=ed.currentEditableContent.surroundContentFragment("STRONG", {"id": "strong1"},	node, 4, node, 7);
 					
-					this.ASSERT_EQUALS(1, newNodes.containers.length);
-					this.ASSERT_EQUALS(newNodes.containers[0].container, el("strong1"));
-					this.ASSERT_EQUALS("STRONG", newNodes.containers[0].container.tagName);
+					this.ASSERT_EQUALS(1, newNodes.length);
+					this.ASSERT_EQUALS(newNodes[0], el("strong1"));
+					this.ASSERT_EQUALS("STRONG", newNodes[0].tagName);
 					this.ASSERT_EQUALS(node, el("strong1").firstChild);
 					this.ASSERT_EQUALS(3, el("strong1").firstChild.textContent.length);
 					this.ASSERT_EQUALS(" at", el("strong1").firstChild.textContent);
@@ -310,31 +290,31 @@
 					
 					len=node.textContent.length;
 					
-					newNodes=ed.currentEditableContent.surroundContentFragment("B", {"id": "b1"},	true, node, 0, node, len);
+					newNodes=ed.currentEditableContent.surroundContentFragment("B", {"id": "b1"}, node, 0, node, len);
 					
-					this.ASSERT_EQUALS(1, newNodes.containers.length);
-					this.ASSERT_EQUALS(newNodes.containers[0].container, el("b1"));
-					this.ASSERT_EQUALS("B", newNodes.containers[0].container.tagName);
+					this.ASSERT_EQUALS(1, newNodes.length);
+					this.ASSERT_EQUALS(newNodes[0], el("b1"));
+					this.ASSERT_EQUALS("B", newNodes[0].tagName);
 					this.ASSERT_EQUALS(node, el("b1").firstChild);
 					this.ASSERT_EQUALS(len, el("b1").firstChild.textContent.length);
 					
 					node=el("h11").firstChild;
 					len=node.textContent.length;
-					newNodes=ed.currentEditableContent.surroundContentFragment("EM", {"id": "em1"},	true, node, 0, node, len);
+					newNodes=ed.currentEditableContent.surroundContentFragment("EM", {"id": "em1"}, node, 0, node, len);
 					
-					this.ASSERT_EQUALS(1, newNodes.containers.length);
-					this.ASSERT_EQUALS(newNodes.containers[0].container, el("em1"));
-					this.ASSERT_EQUALS("EM", newNodes.containers[0].container.tagName);
+					this.ASSERT_EQUALS(1, newNodes.length);
+					this.ASSERT_EQUALS(newNodes[0], el("em1"));
+					this.ASSERT_EQUALS("EM", newNodes[0].tagName);
 					this.ASSERT_EQUALS(node, el("em1").firstChild);
 					this.ASSERT_EQUALS(len, el("em1").firstChild.textContent.length);
 					
 					node=el("span3").firstChild;
 					len=node.textContent.length;
-					newNodes=ed.currentEditableContent.surroundContentFragment("STRONG", {"id": "strong1"},	true, node, 0, node, len);
+					newNodes=ed.currentEditableContent.surroundContentFragment("STRONG", {"id": "strong1"},	node, 0, node, len);
 					
-					this.ASSERT_EQUALS(1, newNodes.containers.length);
-					this.ASSERT_EQUALS(newNodes.containers[0].container, el("strong1"));
-					this.ASSERT_EQUALS("STRONG", newNodes.containers[0].container.tagName);
+					this.ASSERT_EQUALS(1, newNodes.length);
+					this.ASSERT_EQUALS(newNodes[0], el("strong1"));
+					this.ASSERT_EQUALS("STRONG", newNodes[0].tagName);
 					this.ASSERT_EQUALS(node, el("strong1").firstChild);
 					this.ASSERT_EQUALS(len, el("strong1").firstChild.textContent.length);
 					
@@ -352,11 +332,11 @@
 					startNode=el("span3").firstChild;
 					endNode=el("span4").nextSibling;
 					
-					newNodes=ed.currentEditableContent.surroundContentFragment("B", {"id": "strong1"},	true, startNode, 1, endNode, 5);
+					newNodes=ed.currentEditableContent.surroundContentFragment("B", {"id": "strong1"}, startNode, 1, endNode, 5);
 					
-					this.ASSERT_EQUALS(2, newNodes.containers.length);
-					this.ASSERT_EQUALS(el("par1").lastChild, newNodes.containers[0].container);
-					this.ASSERT_EQUALS(el("par2").firstChild, newNodes.containers[1].container);
+					this.ASSERT_EQUALS(2, newNodes.length);
+					this.ASSERT_EQUALS(el("par1").lastChild, newNodes[0]);
+					this.ASSERT_EQUALS(el("par2").firstChild, newNodes[1]);
 					
 					//////////////////////////////////////////////////////////////////////
 					restoreInnerHTML();
@@ -364,10 +344,10 @@
 					startNode=el("span3");
 					endNode=el("span4").nextSibling;
 					
-					newNodes=ed.currentEditableContent.surroundContentFragment("B", {"id": "strong1"},	true, startNode, 0, endNode, 5);
-					this.ASSERT_EQUALS(2, newNodes.containers.length);
-					this.ASSERT_EQUALS(el("par1").lastChild, newNodes.containers[0].container);
-					this.ASSERT_EQUALS(el("par2").firstChild, newNodes.containers[1].container);
+					newNodes=ed.currentEditableContent.surroundContentFragment("B", {"id": "strong1"}, startNode, 0, endNode, 5);
+					this.ASSERT_EQUALS(2, newNodes.length);
+					this.ASSERT_EQUALS(el("par1").lastChild, newNodes[0]);
+					this.ASSERT_EQUALS(el("par2").firstChild, newNodes[1]);
 					
 					showHTML();
 					
@@ -386,12 +366,12 @@
 					endNode=startNode=el("EditableContentCanvas").firstChild;
 					startNodeNextSibling=startNode.nextSibling;
 					
-					newNodes=ed.currentEditableContent.surroundContentFragment("P", {"id": "par3"},	true, startNode, 0, endNode, startNode.textContent.length);
-					this.ASSERT_EQUALS(1, newNodes.containers.length);
-					this.ASSERT_EQUALS("P", newNodes.containers[0].container.tagName);
-					this.ASSERT_EQUALS("par3", newNodes.containers[0].container.id);
-					this.ASSERT_EQUALS(startNode, newNodes.containers[0].container.firstChild);
-					this.ASSERT_EQUALS(startNodeNextSibling, newNodes.containers[0].container.nextSibling);
+					newNodes=ed.currentEditableContent.surroundContentFragment("P", {"id": "par3"}, startNode, 0, endNode, startNode.textContent.length);
+					this.ASSERT_EQUALS(1, newNodes.length);
+					this.ASSERT_EQUALS("P", newNodes[0].tagName);
+					this.ASSERT_EQUALS("par3", newNodes[0].id);
+					this.ASSERT_EQUALS(startNode, newNodes[0].firstChild);
+					this.ASSERT_EQUALS(startNodeNextSibling, newNodes[0].nextSibling);
 					
 					//////////////////////////////////////////////////////////////////////
 					restoreInnerHTML();
@@ -399,23 +379,23 @@
 					startNode=el("span3").firstChild;
 					endNode=el("span4").nextSibling;
 					
-					newNodes=ed.currentEditableContent.surroundContentFragment("P", {"id": "par3"},	true, startNode, 1, endNode, 10);
+					newNodes=ed.currentEditableContent.surroundContentFragment("P", {"id": "par3"}, startNode, 1, endNode, 10);
 					
 					//par1 got empty so it was removed
 					
 					
-					this.ASSERT_EQUALS(1, newNodes.containers.length);
-					this.ASSERT_EQUALS("par3", newNodes.containers[0].container.id);
-					this.ASSERT_EQUALS(el("h11").nextSibling, newNodes.containers[0].container.previousSibling);
-					this.ASSERT_EQUALS("P", newNodes.containers[0].container.nextSibling.tagName);
+					this.ASSERT_EQUALS(1, newNodes.length);
+					this.ASSERT_EQUALS("par3", newNodes[0].id);
+					//this.ASSERT_EQUALS(el("h11").nextSibling, newNodes[0].previousSibling);this.stop(); return;
+					this.ASSERT_EQUALS("P", newNodes[0].nextSibling.tagName);
 					
 					//////////////////////////////////////////////////////////////////////
 					endNode=startNode=el("par3").nextSibling.firstChild;
-					newNodes=ed.currentEditableContent.surroundContentFragment("P", {"id": "par4"},	true, startNode, 10, endNode, 20);
+					newNodes=ed.currentEditableContent.surroundContentFragment("P", {"id": "par4"}, startNode, 10, endNode, 20);
 					
 					
 					
-					this.ASSERT_EQUALS(1, newNodes.containers.length);
+					this.ASSERT_EQUALS(1, newNodes.length);
 					//alert(startNode.textContent);
 					
 					//////////////////////////////////////////////////////////////////////
@@ -424,8 +404,8 @@
 					startNode=el("span3").firstChild;
 					endNode=el("par2");
 					
-					newNodes=ed.currentEditableContent.surroundContentFragment("P", {"id": "par4"},	true, startNode, 0, endNode, endNode.childNodes.length-1);
-					this.ASSERT_FALSE(newNodes.containers[0].container.nextSibling.tagName=="P")
+					newNodes=ed.currentEditableContent.surroundContentFragment("P", {"id": "par4"}, startNode, 0, endNode, endNode.childNodes.length-1);
+					this.ASSERT_TRUE(newNodes[0].nextSibling.tagName=="P")
 					
 					
 					//////////////////////////////////////////////////////////////////////
@@ -433,18 +413,18 @@
 					
 					startNode=endNode=el("h21").childNodes[1].firstChild.firstChild.firstChild;
 					//alert(endNode.textContent);
-					newNodes=ed.currentEditableContent.surroundContentFragment("H2", {"id": "h21"},	true, startNode, 0, endNode, endNode.textContent.length);
+					newNodes=ed.currentEditableContent.surroundContentFragment("H2", {"id": "h21"}, startNode, 0, endNode, endNode.textContent.length);
 					
-					this.ASSERT_FALSE(newNodes.containers[0].container.previousSibling.tagName=="H2");
+					this.ASSERT_FALSE(newNodes[0].previousSibling.tagName=="H2");
 					
 					//////////////////////////////////////////////////////////////////////
 					restoreInnerHTML();
 					
 					startNode=endNode=el("h21").childNodes[1].firstChild.firstChild.firstChild;
 					
-					newNodes=ed.currentEditableContent.surroundContentFragment("H2", {"id": "h211"},	true, startNode, 0, endNode, endNode.textContent.length);
+					newNodes=ed.currentEditableContent.surroundContentFragment("H2", {"id": "h211"}, startNode, 0, endNode, endNode.textContent.length);
 					
-					this.ASSERT_FALSE(newNodes.containers[0].container.nextSibling.tagName=="H2");
+					this.ASSERT_FALSE(newNodes[0].nextSibling.tagName=="H2");
 					
 					showHTML();
 					
@@ -460,10 +440,10 @@
 					startNode=el("EditableContentCanvas").firstChild;
 					endNode=el("EditableContentCanvas");
 					endOffset=9;
-					newNodes=ed.currentEditableContent.surroundContentFragment("P", {"id": "par3"},	true, startNode, 0, endNode, endOffset);
+					newNodes=ed.currentEditableContent.surroundContentFragment("P", {"id": "par3"}, startNode, 0, endNode, endOffset);
 					
-					this.ASSERT_EQUALS(1, newNodes.containers.length);
-					this.ASSERT_EQUALS(el("br4"), newNodes.containers[0].container.nextSibling.nextSibling);
+					this.ASSERT_EQUALS(1, newNodes.length);
+					this.ASSERT_EQUALS(el("br4"), newNodes[0].nextSibling.nextSibling);
 					//newNodes=ed.currentEditableContent.surroundContentFragment("A", null,	true, startNode, 2, endNode, 10);
 					
 				},
@@ -483,15 +463,15 @@
 					//test expand boundaries for ranges with satrt/end text nodes that don't start at offset 0 but have only spaces at beginnig/end
 					restoreInnerHTML();
 					
-					var newNodes=ed.currentEditableContent.surroundContentFragment("A", {"id": "a101"},	true, el("span3").firstChild, 1, el("span1").nextSibling, 17);
+					var newNodes=ed.currentEditableContent.surroundContentFragment("A", {"id": "a101"},	el("span3").firstChild, 1, el("span1").nextSibling, 17);
 					
-					this.ASSERT_EQUALS(newNodes.containers[0].container.firstChild, el("par1"));
+					this.ASSERT_EQUALS(newNodes[0].firstChild, el("par1"));
 					
 					var testStr=el("span5").firstChild.textContent.substr(4);
 					
-					newNodes=ed.currentEditableContent.surroundContentFragment("A", {"id": "a102"},	true, el("par2").firstChild, 7, el("span5").firstChild, 4);
-					this.ASSERT_EQUALS(el("par2").firstChild.nextSibling, newNodes.containers[0].container);
-					this.ASSERT_EQUALS(testStr, newNodes.containers[0].container.nextSibling.firstChild.firstChild.textContent);
+					newNodes=ed.currentEditableContent.surroundContentFragment("A", {"id": "a102"},	el("par2").firstChild, 7, el("span5").firstChild, 4);
+					this.ASSERT_EQUALS(el("par2").firstChild.nextSibling, newNodes[0]);
+					this.ASSERT_EQUALS(testStr, newNodes[0].nextSibling.firstChild.firstChild.textContent);
 					
 				},
 				/* 
@@ -504,12 +484,12 @@
 				function()
 				{
 					restoreInnerHTML();
-					var n=ed.currentEditableContent.surroundContentFragment("A", {"id": "a103"},	true, el("li1").firstChild, 1, el("par7").firstChild, 0, true);
-					this.ASSERT_EQUALS("LI", n.containers[0].container.parentNode.tagName);
-					this.ASSERT_EQUALS(el("li1").firstChild, n.containers[0].container);
+					var n=ed.currentEditableContent.surroundContentFragment("A", {"id": "a103"}, el("li1").firstChild, 1, el("par7").firstChild, 0, true);
+					this.ASSERT_EQUALS("LI", n[0].parentNode.tagName);
+					this.ASSERT_EQUALS(el("li1").firstChild, n[0]);
 					
-					n=ed.currentEditableContent.surroundContentFragment("A", {"id": "a103"},	true, el("span14").firstChild, 3, el("par7").firstChild, 9, true);
-					this.ASSERT_EQUALS(2, n.containers.length);
+					n=ed.currentEditableContent.surroundContentFragment("A", {"id": "a103"}, el("span14").firstChild, 3, el("par7").firstChild, 9, true);
+					this.ASSERT_EQUALS(2, n.length);
 					
 					this.ASSERT_FALSE(el("li1").firstChild.isElement() && el("li1").firstChild.tagName=="A");
 					this.ASSERT_FALSE(el("li2").firstChild.isElement() && el("li2").firstChild.tagName=="A");
@@ -520,20 +500,20 @@
 				function()
 				{
 					restoreInnerHTML();
-					var n=ed.currentEditableContent.surroundContentFragment("A", {"id": "a110"}, true, el("em2").firstChild, 4, el("par7").firstChild, 10);
+					var n=ed.currentEditableContent.surroundContentFragment("A", {"id": "a110"}, el("em2").firstChild, 4, el("par7").firstChild, 10);
 					
 					
-					this.ASSERT_EQUALS(2, n.containers.length);
-					this.ASSERT_EQUALS("EM", n.containers[0].container.firstChild.tagName);
-					this.ASSERT_EQUALS(el("ul1").parentNode, n.containers[0].container);
-					this.ASSERT_EQUALS(el("ul1"), n.containers[0].container.lastChild);
+					this.ASSERT_EQUALS(2, n.length);
+					this.ASSERT_EQUALS("EM", n[0].firstChild.tagName);
+					this.ASSERT_EQUALS(el("ul1").parentNode, n[0]);
+					this.ASSERT_EQUALS(el("ul1"), n[0].lastChild);
 					
-					this.ASSERT_EQUALS(el("par7"), n.containers[1].container.parentNode);
-					this.ASSERT_EQUALS(el("par7").firstChild, n.containers[1].container);
+					this.ASSERT_EQUALS(el("par7"), n[1].parentNode);
+					this.ASSERT_EQUALS(el("par7").firstChild, n[1]);
 					
 					
 					return;
-					var n2=ed.currentEditableContent.surroundContentFragment("DEL", {"id": "del100"}, true);
+					var n2=ed.currentEditableContent.surroundContentFragment("DEL", {"id": "del100"});
 					
 					this.ASSERT_EQUALS(n[0], n2[0].firstChild);
 					this.ASSERT_EQUALS(n[0], n2[0].lastChild);
@@ -569,6 +549,16 @@
 							this.ASSERT_EQUALS(par1[i][j], par2[i][j]);
 						}
 					}
+				},
+				function()
+				{
+					restoreInnerHTML();
+					
+					var newNodes=ed.currentEditableContent.surroundContentFragment("B", null, el("em3").firstChild, 1, el("em3").firstChild, 6);
+					var newNodes2=ed.currentEditableContent.surroundContentFragment("B", null, newNodes[0].nextSibling, 1, newNodes[0].nextSibling, 4);
+					
+					this.ASSERT_FALSE(newNodes[0].nextSibling==newNodes2[0]);
+					
 				}
 			];
 			function el(elId)

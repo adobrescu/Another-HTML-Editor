@@ -18,7 +18,7 @@
 					<option value="ARTICLE">ARTICLE</option>
 					<option value="ASIDE">ASIDE</option>
 					<option value="FOOTER">FOOTER</option>
-					<option value="H1" selected>H1</option>
+					<option value="H1">H1</option>
 					<option value="H2">H2</option>
 					<option value="H3">H3</option>
 					<option value="H4">H4</option>
@@ -45,7 +45,7 @@
 				<optgroup label="Text-Level Semantics">
 					<option value="A">A</option>
 					<option value="ABBR">ABBR</option>
-					<option value="B">B</option>
+					<option value="B" selected>B</option>
 					<option value="BDO">BDO</option>
 					<option value="CITE">CITE</option>
 					<option value="CODE">CODE</option>
