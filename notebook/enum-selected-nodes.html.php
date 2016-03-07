@@ -9,7 +9,7 @@
 			
 	if($_POST)
 	{
-		//$_SESSION['test']=$_POST;
+		$_SESSION['test']=$_POST;
 		
 		//exit();
 	}
@@ -54,7 +54,8 @@
 			function bodyOnLoad()
 			{
 				ed=new Editor();
-				ed.addEditableContent(document.getElementById("ifrm"), true);
+				ed.addEditableContent(document.getElementById("ifrm"), true, <?=$_SESSION['test']['innerHTML']?$_SESSION['test']['innerHTML']:'""'?>,
+					<?=$_SESSION['test']['serializedHistory']?$_SESSION['test']['serializedHistory']:'""'?>);
 				//ed=new EditableContent(document.getElementById("ifrm"), 
 				//	<?=$_SESSION['test']['innerHTML']?$_SESSION['test']['innerHTML']:'""'?>,
 				//	<?=$_SESSION['test']['serializedHistory']?$_SESSION['test']['serializedHistory']:'""'?>);
