@@ -46,3 +46,11 @@ If a mutation change an ID then find that node in history. If the nodes are diff
 On window.beforeunload, send the history to a server
 In constructor restore the history from the date sent above;
 What about text nodes? They don't have IDs;
+
+7.mar.2016
+Lipsesc notele, dar:
+- editorul lucreaza cu selectiii multiple (doar FF suporta)
+- istoricul online/offline este facut
+- zona editabila face highlight pe phrasing content-ul selectat (unde e cursorul)
+
+
