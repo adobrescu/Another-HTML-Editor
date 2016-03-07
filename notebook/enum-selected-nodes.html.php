@@ -24,6 +24,7 @@
 		<script src="../lib/Node.class.js"></script>
 		<script src="../lib/Editor.class.js"></script>
 		<script src="../lib/EditableContent.class.js"></script>
+		<script src="../lib/PhrasingContent.class.js"></script>
 		<script src="../lib/console.js"></script>
 		<script src="../lib/Tests.class.js"></script>
 		<script src="../lib/NodeDiff.class.js"></script>

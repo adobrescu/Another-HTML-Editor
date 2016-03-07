@@ -53,4 +53,6 @@ Lipsesc notele, dar:
 - istoricul online/offline este facut
 - zona editabila face highlight pe phrasing content-ul selectat (unde e cursorul)
 
+Move current phrasing content highlighting in its own class
+
 
