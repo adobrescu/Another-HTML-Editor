@@ -65,7 +65,7 @@
 				showHTML();
 				
 				
-				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; testsBatch.run()", 300);
+				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; //testsBatch.run()", 300);
 				
 			}
 			
@@ -625,6 +625,15 @@
 			{
 				console.logMutation(ed.currentEditableContent.mutationHistory.mutations[ed.currentEditableContent.mutationHistory.mutations.length-1])
 			}
+			function logHistory()
+			{
+				for(var i=0; i<ed.currentEditableContent.mutationHistory.history.length; i++)
+				{
+					var h=ed.currentEditableContent.mutationHistory.history[i];
+					
+					console.log(i+". history_step="+h.history_step+", rtl="+h.rtl+", reversed="+h.reversed);
+				}
+			}
 		</script>
 	</head>
 
@@ -658,7 +667,7 @@
 			<br>
 			<a href="#" onclick="ed.currentEditableContent.mutationHistory.redoAll(); showHTML(); return false;">Redo all</a>
 			<br>
-			
+			<a href="#" onclick="logHistory(); return false;">Log history</a>
 			<br>
 			<a href="#" onclick="selectElement() ; return false;">Select element#</a><input type="text" id="elementId" size="10">
 			<br>
