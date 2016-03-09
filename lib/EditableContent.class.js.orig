@@ -185,10 +185,17 @@ with(EditableContent)
 	prototype.addScripts=EditableContent_addScripts;
 	prototype.getRange=HtmlEditor_getRange;
 	prototype.setSelection=EditableContent_setSelection;
+<<<<<<< HEAD
 	prototype.clearSelection=EditableContent_clearSelection;
 	prototype.addSelection=EditableContent_addSelection;
+=======
+	
+	prototype.undoHighlightParagraphs=EditableContent_undoHighlightParagraphs;
+	
+>>>>>>> feature/Tables
 	
 	prototype.undo=EditableContent_undo;
+	prototype.textNodeHasEmptyStart=EditableContent_textNodeHasEmptyStart;
 	prototype.redo=EditableContent_redo;
 	
 	prototype.textNodeHasEmptyStart=EditableContent_textNodeHasEmptyStart;
@@ -203,12 +210,35 @@ with(EditableContent)
 	prototype.collectNotAllowedDescendants=EditableContent_collectNotAllowedDescendants;
 	prototype.getNotAllowedAncestors=EditableContent_getNotAllowedAncestors;
 	prototype.removeNotAllowedDescendants=EditableContent_removeNotAllowedDescendants;
+<<<<<<< HEAD
 	
 	prototype.surroundSelectedContentFragments=EditableContent_surroundSelectedContentFragments;
+=======
+>>>>>>> feature/Tables
 	prototype.surroundContentFragment=EditableContent_surroundContentFragment;
 	
 	
 	prototype.collectInsertionBoundaries=EditableContent_collectInsertionBoundaries;
+<<<<<<< HEAD
+=======
+	prototype.getNotTransparentBackgroundDescendants=EditableContent_getNotTransparentBackgroundDescendants;
+	prototype.getNodeParagraphFragment=EditableContent_getNodeParagraphFragment;
+	prototype.getNodeParagraph=EditableContent_getNodeParagraph;
+	prototype.highlightParagraphFragment=EditableContent_highlightParagraphFragment;
+	prototype.highlightParagraph=EditableContent_highlightParagraph;
+	prototype.unhighlightParagraphFragment=EditableContent_unhighlightParagraphFragment;
+	prototype.getRangeBoundary=EditableContent_getRangeBoundary;
+	prototype.restoreRange=EditableContent_restoreRange;
+	prototype.getRangeBoundaries2=EditableContent_getRangeBoundaries2;
+	prototype.unhighlightParagraph=EditableContent_unhighlightParagraph;
+	prototype.rangeIntersectsParagraph=EditableContent_rangeIntersectsParagraph;
+	prototype.isRangeWithinParagraph=EditableContent_isRangeWithinParagraph;
+	prototype.paragraphsEquals=EditableContent_paragraphsEquals;
+	prototype.highlightCurrentParagraph=EditableContent_highlightCurrentParagraph;
+	prototype.collectPargraphFragmentBoundaries=EditableContent_collectPargraphFragmentBoundaries;
+	prototype.getNodeParagraphLeftBoundary=EditableContent_getNodeParagraphLeftBoundary;
+	
+>>>>>>> feature/Tables
 	
 	prototype.onSelectionChanged=EditableContent_onSelectionChanged;
 	
@@ -216,7 +246,10 @@ with(EditableContent)
 	prototype.removeSiblings=EditableContent_removeSiblings;
 	prototype.elementsHaveTheSameBasicTextFormatting=EditableContent_elementsHaveTheSameBasicTextFormatting;
 	prototype.joinNodes=EditableContent_joinNodes;
+<<<<<<< HEAD
 	prototype.deleteSelectedContentFragments=EditableContent_deleteSelectedContentFragments;
+=======
+>>>>>>> feature/Tables
 	prototype.deleteContentFragment=EditableContent_deleteContentFragment;
 	prototype.findPhrasingContentNodes=EditableContent_findPhrasingContentNodes;
 	
@@ -253,6 +286,7 @@ function HtmlEditor_getRange()
 	try
 	{
 		range=this.window.getSelection().getRangeAt(0);
+		
 	}
 	catch(err)
 	{
@@ -280,6 +314,49 @@ function EditableContent_addSelection(startContainer, startOffset, endContainer,
 	range.setEnd(endContainer, endOffset);
 	
 	this.window.getSelection().addRange(range);
+<<<<<<< HEAD
+=======
+}
+
+function EditableContent_undoHighlightParagraphs()
+{
+	var spliceMutations, undo;
+	
+	//check backward if there is any mutation other than a highlighting
+	for(var i=this.mutationHistory.historyCursor; i>=0; i--)
+	{
+		if(this.mutationHistory.mutations[this.mutationHistory.history[i].mutation].type!=1)
+		{
+			undo=true;
+		}
+	}
+	if(!undo)
+	{
+		//there are no formatting mutations to undo
+		//leave the first highlighting mutation
+		return false;
+	}
+	
+	while( this.mutationHistory.historyCursor>=0 &&
+		this.mutationHistory.mutations[this.mutationHistory.history[this.mutationHistory.historyCursor].mutation].type==1
+		)
+	{
+		if(this.mutationHistory.historyCursor==this.mutationHistory.history.length-1)
+		{
+			spliceMutations=true;
+		}
+		this.mutationHistory.undo(1);
+	}
+	if(this.mutationHistory.historyCursor<0)
+	{
+		return false;
+	}
+	//remove highlighting mutations from the end of the history
+	if(spliceMutations)
+	{
+		this.mutationHistory.removeMutationsFromHistoryCursor();
+	}
+>>>>>>> feature/Tables
 	
 
 }
@@ -1102,6 +1179,28 @@ function EditableContent_collectInsertionBoundaries(node, offset, close, endVisi
 		}
 	}
 }
+<<<<<<< HEAD
+=======
+
+
+function EditableContent_getNotTransparentBackgroundDescendants(node, ca, close)
+{
+	var style;
+	
+	if(node.isText())
+	{
+		return;
+	}
+	
+	style=node.getComputedStyle();
+	if(style.backgroundColor!="transparent")
+	{
+		ca.nodes[ca.nodes.length]={"node": node, "backgroundColor": style.backgroundColor};
+	}
+}
+
+
+>>>>>>> feature/Tables
 /**
  * 
  * EditableContent.getNodeParagraphFragment
@@ -1134,9 +1233,661 @@ function EditableContent_collectInsertionBoundaries(node, offset, close, endVisi
  * So there is one paragraph with 2 paragraph fragments ("This is a fragment " and " of a paragraph").
  * 
  */
+<<<<<<< HEAD
 function EditableContent_onSelectionChanged(evt)
 {
 	this.documentContainer.ownerDocument.defaultView.ContentSelection.prototype.___takeSnapshot(this.documentContainer.ownerDocument.defaultView);
+=======
+function EditableContent_getNodeParagraphFragment(node)
+{
+
+	var phrasingContentNode, phrashingContentNodes=[];
+	
+	phrasingContentNode=node;
+	
+	while(true)
+	{
+		for( ;
+				phrasingContentNode && phrasingContentNode.previousSibling && 
+				phrasingContentNode.previousSibling.isPhrasingContent() && 
+				phrasingContentNode.previousSibling.hasOnlyPhrasingContent();
+				
+				phrasingContentNode=phrasingContentNode.previousSibling)
+		{
+		}
+		if(phrasingContentNode==phrasingContentNode.parentNode.firstChild && 
+				phrasingContentNode.parentNode.isPhrasingContent() && 
+				phrasingContentNode.parentNode.hasOnlyPhrasingContent())
+		{
+			phrasingContentNode=phrasingContentNode.parentNode;
+		}
+		else
+		{
+			break;
+		}
+	}
+	
+	while( phrasingContentNode.isPhrasingContent() && phrasingContentNode.hasOnlyPhrasingContent())
+	{
+		phrashingContentNodes[phrashingContentNodes.length]=phrasingContentNode;
+		phrasingContentNode=phrasingContentNode.nextSibling;
+		
+		if(!phrasingContentNode)
+		{
+			break;
+		}
+	}
+	
+	return phrashingContentNodes;
+}
+
+/**
+ * EditableContent.getNodeParagraph
+ * 
+ * Given a node, it finds and return the paragraph the node belongs to.
+ * The returned paragraph is a list of paragraph fragments each of them containing an array of consecutive phrasing content node
+ * 
+ */
+
+function EditableContent_collectPargraphFragmentBoundaries(node, offset, close, endVisit, ca )
+{
+	if(node.isElement() && node.tagName=="X-HIGHLIGHT")
+	{
+		return;
+	}
+	
+	if(ca.stack.length==0)
+	{
+		ca.stack.push([null]);
+		
+	}
+	if(!ca.notPhrasingContentFragment)
+	{
+		ca.notPhrasingContentFragment=[];
+	}
+	
+	var isParagraphContent=node.isPhrasingContent() || node.hasTransparentContent();
+	
+	if(!isParagraphContent)
+	{
+		if(ca.stack.length==1)
+		{
+			if(ca.stack[0].length>1)
+			{
+				ca.pfb[ca.pfb.length]=ca.stack[0].splice(1);	
+			}
+			throw new CustomError(ERR_STOP_VISITS);
+		}
+		if(!close)
+		{
+			var allOpenElementsHaveTransparentContent=true;
+			for(var i=0; i<ca.stack.length; i++)
+			{
+				
+				{
+					//first element in each fragment is an open and not closed element
+					//the other nodes are valid paragraph fragments
+					//extract them and add them to cs.pfb but leave the open element there
+					if(ca.stack[i].length>1)
+					{
+						ca.pfb[ca.pfb.length]=ca.stack[i].splice(1);
+					
+					}
+					
+					if(i>0 && ca.stack[i][0] && !ca.stack[i][0].hasTransparentContent())
+					{
+						allOpenElementsHaveTransparentContent=false;
+					}
+					ca.stack[i][0]=null;
+				}
+			}
+			if(allOpenElementsHaveTransparentContent)
+			{
+				throw new CustomError(ERR_STOP_VISITS);
+			}
+			//now push the not phrasing node in the stack and skip its child nodes and its closing call
+			ca.notPhrasingContentFragment.push(node);
+
+			throw new CustomError(ERR_SKIP_CHILD_NODES_VISITS);
+		}
+	}
+	else
+	{
+		if(ca.notPhrasingContentFragment.length>0)
+		{
+			ca.pfb[ca.pfb.length]=ca.notPhrasingContentFragment;
+			
+			ca.notPhrasingContentFragment=[];
+		}
+
+		if(!close)
+		{
+			//if not phrasing:
+			//copy all the valid fragments from the stack to result array
+			//if a fragment have only one non text node it means that the tag is still open
+			//wipe out the stack 
+
+			//if offset==0 push a new frament to the stack
+			ca.stack.push([]);
+			ca.stack[ca.stack.length-1].push(node);
+			
+			//add the node to the fragemnt from the top of the stack
+			
+			
+			//if not phrasing:
+			// skip child nodes
+			//else just return;
+		}
+		else
+		{
+			
+			if(ca.stack[ca.stack.length-1][0]===null)
+			{
+				if(ca.stack[ca.stack.length-1].length>1)
+				{
+					ca.pfb[ca.pfb.length]=ca.stack[ca.stack.length-1].splice(1);
+					
+				}
+				ca.stack.pop();
+				
+				
+			}
+			else
+			{
+				ca.stack.pop();
+				
+				if(ca.stack.length>0)
+				{
+					ca.stack[ca.stack.length-1].push(node);
+				}
+			}
+		}
+	}
+}
+
+function EditableContent_getNodeParagraphLeftBoundary(node)
+{
+	var spcn/*startPhrasingContentNode*/, phrashingContentNodes=[];
+	var ancestors;
+	
+	//spcn=node;
+	
+	ancestors=node.getAncestors();
+	
+	if(!node.isPhrasingContent())
+	{
+		//find incorrect phrasing content ancestors
+		for(var i=0; i<ancestors.length; i++)
+		{
+			if(ancestors[i].isPhrasingContent())
+			{
+				spcn=ancestors[i];
+				break;
+			}
+		}
+		//no incorrect ancestors, find first phrasing content ascendant
+		if(!spcn)
+		{
+			for(var cn=node.firstChild;
+					cn;
+					cn=cn.firstChild)
+			{
+				if(cn.isPhrasingContent())
+				{
+					spcn=cn;
+					break;
+				}
+			}
+		}
+		return spcn;
+	}
+	
+	for(var i=0; i<ancestors.length; i++)
+	{
+		if(!this.isTagBreakable(ancestors[i].tagName))
+		{
+			continue;
+		}
+		if(ancestors[i].isPhrasingContent() || ( ancestors[i].hasTransparentContent() && ancestors[i].hasOnlyPhrasingContent(node)) )
+		{
+			spcn=ancestors[i];
+			break;
+		}
+	}
+	
+	for( ;
+		spcn.previousSibling && 
+		( spcn.previousSibling.isPhrasingContent() || 
+			( spcn.previousSibling.hasTransparentContent() && spcn.previousSibling.hasOnlyPhrasingContent() ) 
+		);
+		spcn=spcn.previousSibling)
+	{
+	}
+	
+	return spcn;
+}
+function EditableContent_getNodeParagraph(node)
+{
+	var spcn=this.getNodeParagraphLeftBoundary(node);
+	
+	ca={};//callbackArguments
+	ca.pfb=[];//pargraphFragmentBoundaries
+	ca.stack=[];
+	ca.notClosedElements=[];
+	ca.depth=0;
+	
+	this.visitContentFragmentNodes([this, "collectPargraphFragmentBoundaries"], ca, spcn, 0, this.documentContainer, this.documentContainer.childNodes.length);
+	
+	return ca.pfb;
+
+}
+
+
+function EditableContent_highlightParagraphFragment(phrasingContentNodes)
+{
+	
+	if(this.crtHighlightElements.length==this.highlightElements.length)
+	{
+		this.highlightElements[this.highlightElements.length]=this.documentContainer.ownerDocument.createElement("X-HIGHLIGHT");
+	}
+	
+	this.crtHighlightElements[this.crtHighlightElements.length]={"marker": this.highlightElements[this.crtHighlightElements.length], "backgroundChangedNodes": []};
+		
+	phrasingContentNodes[0].parentNode.insertBefore(this.crtHighlightElements[this.crtHighlightElements.length-1].marker, phrasingContentNodes[0]);
+	
+	var ca;
+	
+	ca={"nodes": []};
+	
+	for(var i=0; i<phrasingContentNodes.length; i++)
+	{
+		this.crtHighlightElements[this.crtHighlightElements.length-1].marker.appendChild(phrasingContentNodes[i]);
+		this.crtHighlightElements[this.crtHighlightElements.length-1].marker.className="";
+		
+		if(phrasingContentNodes[i].isBlock())
+		{
+			this.crtHighlightElements[this.crtHighlightElements.length-1].marker.addClassName("block");
+		}
+		if(!phrasingContentNodes[i].isPhrasingContent())
+		{
+			this.crtHighlightElements[this.crtHighlightElements.length-1].marker.addClassName("not-phrasing-content");
+		}
+		
+		phrasingContentNodes[i].visitDescendants([this, "getNotTransparentBackgroundDescendants"], ca, false, true);
+		
+		this.crtHighlightElements[this.crtHighlightElements.length-1].backgroundChangedNodes=ca.nodes;
+		
+		if(this.crtHighlightElements[this.crtHighlightElements.length-1].backgroundChangedNodes.length==0)
+		{
+			continue;
+		}
+		
+		for(var j=0; j<ca.nodes.length; j++)
+			{
+				var arrRGB=ca.nodes[j].backgroundColor.split(",");
+				var newBackgroundColor="";
+				
+				for(var k=0; k<3; k++)
+				{
+					newBackgroundColor+=arrRGB[k]+",";
+				}
+				newBackgroundColor=newBackgroundColor.replace(")", "");
+				newBackgroundColor+=" 0.2)";
+				if(newBackgroundColor.indexOf("rgba")!=-1)
+				{
+				}
+				else
+				{
+					newBackgroundColor=newBackgroundColor.replace("rgb", "rgba");
+				}
+				
+				
+				ca.nodes[j].node.style.backgroundColor=newBackgroundColor;
+				
+			}
+	}
+}
+
+function EditableContent_highlightParagraph(par)
+{
+	var i;
+	//var par=this.getNodeParagraph(node);
+	var range=this.getRange();
+	
+	var startContainer=range.startContainer;
+	var startOffset=range.startOffset;
+	var endContainer=range.endContainer;
+	var endOffset=range.endOffset;
+	
+	var isStartElement, isStartElementInsideRange, isEndElement, isEndElementInsideRange;
+	
+	if(startContainer.isElement())
+	{
+		isStartElement=true;
+		if(startOffset==startContainer.childNodes.length)
+		{
+			startContainer=startContainer.childNodes[startOffset-1];
+			isStartElementInsideRange=true;
+		}
+		else
+		{
+			startContainer=startContainer.childNodes[startOffset];
+			startOffset=0;
+		}
+	}
+	if(endContainer.isElement())
+	{
+		isEndElement=true;
+		if(endOffset==endContainer.childNodes.length)
+		{
+			endContainer=endContainer.childNodes[endOffset-1];
+			isEndElementInsideRange=true;
+		}
+		else
+		{
+			endContainer=endContainer.childNodes[endOffset];
+		}
+	}
+		
+	
+		
+	for(i=0; i<par.length; i++)
+	{
+		this.highlightParagraphFragment(par[i]);
+	}
+	
+	if(isEndElement)
+	{
+		endOffset=endContainer.getIndex()+(isEndElementInsideRange?1:0);
+		endContainer=endContainer.parentNode;
+		
+	}
+	if(isStartElement)
+	{
+		startOffset=startContainer.getIndex()+(isStartElementInsideRange?1:0);
+		startContainer=startContainer.parentNode;
+		
+	}
+	
+	
+	this.setSelection(startContainer, startOffset, endContainer, endOffset);
+	this.mutationHistory.setMutationSplitNode(this.crtHighlightElements[0].marker, "addedNodes");
+	//this.mutationHistory.setMirroringUndoneMutations(false);
+}
+
+function EditableContent_unhighlightParagraphFragment(highlightElement)
+{
+	if(highlightElement.marker.parentNode)
+	{
+		while(highlightElement.marker.firstChild)
+		{
+			highlightElement.marker.parentNode.insertBefore(highlightElement.marker.firstChild, highlightElement.marker);
+		}
+		highlightElement.marker.parentNode.removeChild(highlightElement.marker);
+		if(highlightElement.backgroundChangedNodes.length>0)
+		{
+			for(var i=0; i<highlightElement.backgroundChangedNodes.length; i++)
+			{
+				highlightElement.backgroundChangedNodes[i].node.style.backgroundColor="";
+			}
+		}
+	}
+	else
+	{
+		highlightElement.marker.removeChildren();	
+	}
+}
+
+function EditableContent_getRangeBoundary(r/*range*/, s/*start*/)
+{
+	var c/*container*/, o/*offset*/;
+	var so/*shiftOffset*/, cn/*childNode*/;
+	var rs/*rangeSide*/;
+	
+	rs=s?"start":"end";
+	
+	c=r[rs+"Container"];
+	o=r[rs+"Offset"];
+	
+	if(c.isElement())
+	{
+		
+		cn=true;
+		switch(o)
+		{
+			case 0:
+				so=0;
+				c=c.childNodes[o];
+				break;
+			case c.childNodes.length:
+				so=1;
+				c=c.childNodes[o-1];
+				break;
+			default:
+				so=0;
+				c=c.childNodes[o];
+				break;
+		}
+		
+		
+	}
+	
+	return {"container": c, "offset": o, "childNode": cn, "shiftOffset": so};
+}
+
+function EditableContent_restoreRange(rb/*rangeBoundaries*/)
+{
+	var sc/*startContainer*/, so/*startOffset*/, ec/*endContainer*/, eo/*endOffset*/;
+	//@fixme restore selection
+	//return;
+	if(rb.start.childNode)
+	{
+		sc=rb.start.container.parentNode;
+		so=rb.start.container.getIndex()+rb.start.shiftOffset;
+	}
+	else
+	{
+		sc=rb.start.container;
+		so=rb.start.offset;
+	}
+	
+	if(rb.end.childNode)
+	{
+		ec=rb.end.container.parentNode;
+		eo=rb.end.container.getIndex()+rb.end.shiftOffset;
+	}
+	else
+	{
+		ec=rb.end.container;
+		eo=rb.end.offset;
+	}
+	
+	this.setSelection(sc, so, ec, eo);
+}
+
+function EditableContent_getRangeBoundaries2()
+{
+	var r/*range*/;
+	var sb/*startBoundary*/, eb/*endBoundary*/;
+	
+	r=this.getRange();
+	
+	return {"start": this.getRangeBoundary(r, true), "end": this.getRangeBoundary(r)};
+	
+}
+
+function EditableContent_unhighlightParagraph(restoreRange)
+{
+	var rb/*rangeBoundaries*/;
+	
+	//r=this.getRange();
+	rb=this.getRangeBoundaries2();
+	//compareDocumentPosition
+	if(this.crtHighlightElements.length>0)
+	{
+		for(i=0; i<this.crtHighlightElements.length; i++)
+		{
+			this.unhighlightParagraphFragment(this.crtHighlightElements[i]);
+		}
+		this.crtHighlightElements=[];
+	}
+	if(!restoreRange)
+	{
+		return;
+	}
+	this.restoreRange(rb);
+}
+
+function EditableContent_rangeIntersectsParagraph(range, par)
+{
+	if( (range.endContainer.compareDocumentPosition(par[0][0]) & Node.DOCUMENT_POSITION_PRECEDING) ||
+		(range.startContainer.compareDocumentPosition(par[par.length-1][par[par.length-1].length-1]) & Node.DOCUMENT_POSITION_FOLLOWING)
+		)
+	{
+		return false;
+	}
+	return true;
+}
+
+function EditableContent_isRangeWithinParagraph(range, par)
+{
+	var rsb, reb;
+	
+	rsb=this.getRangeBoundary(range, true);
+	reb=this.getRangeBoundary(range, false);
+	
+	return ( (rsb.container==par[0][0]) || (rsb.container.compareDocumentPosition(par[0][0]) & ( Node.DOCUMENT_POSITION_PRECEDING | Node.DOCUMENT_POSITION_CONTAINS ) ) ) &&
+		( (reb.container==par[par.length-1][par[par.length-1].length-1]) || (reb.container.compareDocumentPosition(par[par.length-1][par[par.length-1].length-1]) & ( Node.DOCUMENT_POSITION_FOLLOWING | Node.DOCUMENT_POSITION_CONTAINS ) ) );
+		
+		
+}
+
+function EditableContent_paragraphsEquals(par1, par2)
+{
+	if(par1.length!=par2.length)
+	{
+		return false;
+	}
+	for(var i=0; i<par1.length; i++)
+	{
+		if(par1[i].length!=par2[i].length)
+		{
+			return false;
+		}
+		for(var j=0; j<par1[i].length; j++)
+		{
+			if(par1[i][j]!=par2[i][j])
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+
+function EditableContent_highlightCurrentParagraph()
+{
+	var range, startContainer;
+	
+	
+	range=this.getRange();
+	
+	
+	if(range.startContainer.isText())
+	{
+		startContainer=range.startContainer;
+	}
+	else
+	{
+		startContainer=range.startContainer.childNodes[range.startOffset==range.startContainer.childNodes.length?range.startContainer.childNodes.length-1:range.startOffset];
+		
+	}
+	
+	var boundary;
+	
+	if(startContainer)
+	{
+		boundary=this.getNodeParagraphLeftBoundary(startContainer);
+	}
+	if(!startContainer || !boundary)
+	{
+		this.unhighlightParagraph(true);
+		
+		return;
+	}
+	
+	var par=this.getNodeParagraph(boundary);
+	
+	if(this.currentParagraph && this.paragraphsEquals(this.currentParagraph, par))
+	{
+		
+		return;
+	}
+	
+	var isRangeWithinParagraph=this.isRangeWithinParagraph(range, par);
+	/*
+	if(isRangeWithinParagraph &&
+		this.crtHighlightElements.length>0 && 
+		this.crtHighlightElements[0].marker==par[0][0] &&
+		this.crtHighlightElements[this.crtHighlightElements.length-1].marker==par[par.length-1][par[par.length-1].length-1])
+	{
+		//if it's the same paragraph
+		return;
+	}
+	*/
+	//this.mutationHistory.removeLastMutationBatchesByType(1);
+	this.mutationHistory.setNextMutationBatchType(1);
+	this.mutationHistory.setMirroringUndoneMutations(false)
+	
+	//unhighlight current paragraph
+	
+	this.unhighlightParagraph(true);
+	
+	if(isRangeWithinParagraph)
+	{
+		this.highlightParagraph(par);
+		this.currentParagraph=par;
+	}
+	else
+	{
+		this.currentParagraph=null;
+	}
+	
+}
+/*
+ * Paragraphs in flow content are defined relative to what the document looks like without the a, ins, del, and map elements 
+ * complicating matters, since those elements, with their hybrid content models, can straddle paragraph boundaries, as shown in the 
+ * first two examples below.
+ * 
+ */
+function EditableContent_onSelectionChanged(evt)
+{
+	if(this.window.getSelection().rangeCount>1)
+	{
+		
+		this.unhighlightParagraph();
+		this.currentParagraph=null;
+		return;
+	}
+	this.highlightCurrentParagraph();
+}
+function EditableContent_onDOMChanged()
+{
+	if(this.mutationHistory.mutations[this.mutationHistory.history[this.mutationHistory.history.length-1].mutation].type!=1)
+	{
+		return;
+	}
+	//start from the end and check each highlighting mutation
+	//stop when first non-highlighting mutation is found
+	//highlighting a paragraph generates 2 mutations in mutationHistory:
+	//1. the one that removes the highlighting elements from the previous highlighted paragraph
+	//2. a mutation that adds highlighting elements to the current paragraph
+	//In a sequence of consecutive such mutations,
+	//onlye the first mutation (the one that removes the highlighting from a paragraph)
+	//and the last one (the one that adds the highlighting to the current paragraph)
+	//are needed
+>>>>>>> feature/Tables
 	
 }
 function EditableContent_onBeforeUnload(evt)

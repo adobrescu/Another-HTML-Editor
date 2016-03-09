@@ -128,6 +128,9 @@
 </head>
 <body>
 	<div id="EditableContentCanvas" style="outline: 1px #777777 dotted;" contentEditable="true">
+<<<<<<< HEAD
+		Cum <em id="em3">sociis natoque penat<span id="span7"><span id="span8"><x> x element</x></span></span>ibus et magnis dis parturient montes, nas</em>cetur
+=======
 		<table id="table1">
 			<caption></caption>
 			<thead>
@@ -173,6 +176,7 @@
 			
 			</table>
 		Cum <em>sociis natoque penat<span id="span7"><span id="span8"><x> x element</x></span></span>ibus et magnis dis parturient montes, nas</em>cetur
+>>>>>>> feature/Tables
 		<br id="br1">
 		<br id="br2">
 		<br id="br3">

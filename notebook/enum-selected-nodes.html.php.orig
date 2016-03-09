@@ -551,7 +551,14 @@
 			}
 			function test2()
 			{
+<<<<<<< HEAD
+				var sel=el("span5").ownerDocument.defaultView.getSelection();
+				
+				alert("DA: "+sel.rangeCount);
+				
+=======
 				console.logObjectsDiff(el("td1"), el("td1_2"));
+>>>>>>> feature/Tables
 			}
 			
 			function test()
@@ -605,6 +612,15 @@
 			function logMutations()
 			{
 				console.logMutation(ed.currentEditableContent.mutationHistory.mutations[ed.currentEditableContent.mutationHistory.mutations.length-1])
+			}
+			function logHistory()
+			{
+				for(var i=0; i<ed.currentEditableContent.mutationHistory.history.length; i++)
+				{
+					var h=ed.currentEditableContent.mutationHistory.history[i];
+					
+					console.log(i+". history_step="+h.history_step+", rtl="+h.rtl+", reversed="+h.reversed);
+				}
 			}
 			function insertTableRows()
 			{
