@@ -67,7 +67,7 @@
 				showHTML();
 				
 				
-				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; //testsBatch.run()", 300);
+				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; testsBatch.run()", 300);
 				
 			}
 			
@@ -637,7 +637,7 @@
 			<input>
 			<iframe src="enum-selected-nodes.tpl.html" id="ifrm"></iframe>
 			<br>
-			
+			<div contenteditable="true" style="border: 1px red solid; height: 200px; width: 500px; float: left"></div>
 		</div>
 <?php
 	include('quick-toolbar.html.php');
