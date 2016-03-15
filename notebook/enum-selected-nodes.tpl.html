@@ -2,8 +2,12 @@
 <html>
 <head>
 	<title>Title of the document</title>
+	
 	<script src="../lib/Node.class.js"></script>
 	<script src="../lib/Document.class.js"></script>
+	<script src="../lib/EditableContent.class.js"></script>
+	<script src="../lib/Border.class.js"></script>
+	<script src="../lib/Table.class.js"></script>
 	<script src="../lib/console.js"></script>
 	<script>
 		
@@ -41,8 +45,51 @@
 		}
 		td
 		{
-			padding: 10px;
+			padding: 6px;
 			_moz_resizing: none;
+			width: 80px;
+		}
+		td.selected.left,
+		th.selected.left
+		{
+			box-shadow: 3px 0px 0 0 red inset;
+		}
+		td.selected.right,
+		th.selected.right
+		{
+			box-shadow: -3px 0px  0 0 red inset;
+		}
+		td.selected.top,
+		th.selected.top
+		{
+			box-shadow: 0px 3px 0 0 red inset;
+		}
+		td.selected.top.left,
+		th.selected.top.left
+		{
+			box-shadow: 3px 3px 0 0 red inset;
+		}
+		td.selected.top.right,
+		th.selected.top.right
+		{
+			box-shadow: -3px 3px 0 0 red inset;
+		}
+		td.selected.bottom,
+		th.selected.bottom
+		{
+			box-shadow: 0px -3px 0 0 red inset;
+		}
+		
+		td.selected.bottom.right,
+		th.selected.bottom.right
+		{
+			
+			box-shadow: -3px -3px 0 0 red inset;
+		}
+		td.selected.bottom.left,
+		th.selected.bottom.left
+		{
+			box-shadow: 3px -3px 0 0 red inset;
 		}
 		tfoot td
 		{
@@ -123,55 +170,32 @@
 		{
 			font-weight: normal;
 		}
-		
+		x2
+		{
+			padding: 60px;
+		}
+		tbody
+		{
+			text-align: right;
+		}
+		.border
+		{
+			position: absolute;
+			padding: 0px !important;
+		}
+		.border.hz
+		{
+			border-top: 2px green solid;
+		}
+		.border.vt
+		{
+			border-right: 2px green solid;
+		}
 	</style>
 </head>
 <body>
 	<div id="EditableContentCanvas" style="outline: 1px #777777 dotted;" contentEditable="true">
-		<table id="table1">
-			<caption></caption>
-			<thead>
-				<tr id="tr1">
-					<th>asas</th>
-					<th>asas</th>
-					<th>asas</th>
-					<th>asas</th>
-				</tr>
-			</thead>
-			<tbody>
-			<tr id="tr2">
-				<td id="td1">TD 1,1</td>
-				<td id="td2">TD 2,1</td>
-				<td id="td3">TD 3,1</td>
-				<td id="td4">TD 4,1</td>
-			</tr>
-			<tr id="tr3">
-				<td id="td1_2">TD 1,1</td>
-				<td id="td2_2">TD 2,1</td>
-				<td id="td3_2">TD 3,1</td>
-				<td id="td4_2">TD 4,1</td>
-			</tr>
-			<tr id="tr4">
-				<td id="td1_3">TD 1,1</td>
-				<td id="td2_3">TD 2,1</td>
-				<td id="td3_3">TD 3,1</td>
-				<td id="td4_3">TD 4,1</td>
-			</tr>
-			<tr id="tr5">
-				<td id="td1_3">TD 1,1</td>
-				<td id="td2_3">TD 2,1</td>
-				<td id="td3_3">TD 3,1</td>
-				<td id="td4_3">TD 4,1</td>
-			</tr>
-			<tr id="tr6">
-				<td id="td1_3">TD 1,1</td>
-				<td id="td2_3">TD 2,1</td>
-				<td id="td3_3">TD 3,1</td>
-				<td id="td4_3">TD 4,1</td>
-			</tr>
-			</tbody>
-			
-			</table>
+		<x2 id="div1001"><x2></x2></x2>
 		Cum <em>sociis natoque penat<span id="span7"><span id="span8"><x> x element</x></span></span>ibus et magnis dis parturient montes, nas</em>cetur
 		<br id="br1">
 		<br id="br2">
@@ -230,7 +254,7 @@
 		<p id="par7">
 				Paragraph after the list
 		</p>
-		<table id="table1">
+		<table id="table1" cellspacing="0" cellpadding="10">
 			<tr>
 				<td id="td1">TD 1,1</td>
 				<td id="td2">TD 2,1</td>
@@ -312,6 +336,59 @@
 			</div>
 		</div>
 		Oaresce
+		
+		<table id="table2" cellspacing="0" cellpadding="10">
+			<caption></caption>
+			<thead>
+				<tr id="tr1">
+					<th><span>asas</span></th>
+					<th>asas</th>
+					<th>asas</th>
+					<th>asas</th>
+				</tr>
+			</thead>
+			<thead>
+				<tr id="tr1">
+					<th><span>asas</span></th>
+					<th>asas</th>
+					<th>asas</th>
+					<th>asas</th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr id="tr2">
+				<td id="td1">TD 1,1</td>
+				<td id="td2">TD 2,1</td>
+				<td id="td3">TD 3,1</td>
+				<td id="td4">TD 4,1</td>
+			</tr>
+			<tr id="tr3">
+				<td id="td1_2">TD 1,1</td>
+				<td id="td2_2">TD 2,1</td>
+				<td id="td3_2">TD 3,1</td>
+				<td id="td4_2">TD 4,1</td>
+			</tr>
+			<tr id="tr4">
+				<td id="td1_3">TD 1,1</td>
+				<td id="td2_3">TD 2,1</td>
+				<td id="td3_3">TD 3,1</td>
+				<td id="td4_3">TD 4,1</td>
+			</tr>
+			<tr id="tr5">
+				<td id="td1_3">TD 1,1</td>
+				<td id="td2_3">TD 2,1</td>
+				<td id="td3_3">TD 3,1</td>
+				<td id="td4_3">TD 4,1</td>
+			</tr>
+			<tr id="tr6">
+				<td id="td1_3">TD 1,1</td>
+				<td id="td2_3">TD 2,1</td>
+				<td id="td3_3">TD 3,1</td>
+				<td id="td4_3">TD 4,1</td>
+			</tr>
+			</tbody>
+			
+			</table>
 	</div>
 	<div id="toolbox"><span>Toolbox</span></div>
 </body>

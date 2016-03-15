@@ -28,6 +28,7 @@
 		<script src="../lib/console.js"></script>
 		<script src="../lib/Tests.class.js"></script>
 		<script src="../lib/NodeDiff.class.js"></script>
+		<script src="../lib/Border.class.js"></script>
 		<script src="../lib/Table.class.js"></script>
 		<link rel="stylesheet" type="text/css" href="default.css">
 		<style>
@@ -551,7 +552,7 @@
 			}
 			function test2()
 			{
-				console.logObjectsDiff(el("td1"), el("td1_2"));
+				console.logNode(ed.currentEditableContent.window.getSelection().focusNode);
 			}
 			
 			function test()
@@ -610,11 +611,11 @@
 			{
 				var table, tableSection;
 				
-				table=ed.getTable();
+				table=ed.currentEditableContent.getTable();
 				tableSection=document.getElementById("insertRowsTo").value;
 								
 				table.insertRows(document.getElementById("numRows").value, 
-						ed.getRangeCommonAncestorByTagName('TR'),
+						ed.currentEditableContent.getRangeCommonAncestorByTagName('TR'),
 						tableSection,
 						document.getElementById("insertTableRowsBefore").value);
 			}
@@ -623,45 +624,48 @@
 				var table, startTD, endTD;
 				var range, start, end;
 				
-				table=ed.getTable();
+				table=ed.currentEditableContent.getTable();
 				
-				if(ed.window.getSelection().rangeCount>1)
+				if(ed.currentEditableContent.window.getSelection().rangeCount>1)
 				{
-					for(var i=0; i<ed.window.getSelection().rangeCount; i++)
+					for(var i=0; i<ed.currentEditableContent.window.getSelection().rangeCount; i++)
 					{
-						range=ed.window.getSelection().getRangeAt(i);
+						range=ed.currentEditableContent.window.getSelection().getRangeAt(i);
 						console.logNode(range.startOffset);
 					}
 				}
 				else
 				{
-					range=ed.getRange();
+					range=ed.currentEditableContent.getRange();
 					
 					console.logNode(range.endContainer, "", "", "eC: ");//.getAncestorByTagName("td"));
-					start=ed.getRangeBoundary(range, true);
-					end=ed.getRangeBoundary(range, false);
+					
+					var ranges;
+					ranges=ed.currentEditableContent.contentSelection.getRanges();
+					start=ranges[0].startContainer;
+					end=ranges[ranges.length-1].endContainer;
 
-					console.logNode(start.container.getAncestorByTagName("TD"));
+					console.logNode(start.getAncestorByTagName("TD"));
 
 
-					table.mergeCellsInBetweenCells(start.container.getAncestorByTagName("TD"), end.container.getAncestorByTagName("TD"));
+					table.mergeCellsInBetweenCells(start.getAncestorByTagName("TD"), end.getAncestorByTagName("TD"));
 				}
 			}
 			function insertTableColumns()
 			{
-				ed.getTable().insertColumns(document.getElementById("numCols").value, 
-						ed.getRangeCommonAncestorByTagName('TD'),
+				ed.currentEditableContent.getTable().insertColumns(document.getElementById("numCols").value, 
+						ed.currentEditableContent.getRangeCommonAncestorByTagName('TD'),
 						document.getElementById("insertTableColsBefore").value);
 			}
 			function removeTableRows()
 			{
-				ed.getTable().removeRows(1, 
-						ed.getRangeCommonAncestorByTagName('TR'),
+				ed.currentEditableContent.getTable().removeRows(1, 
+						ed.currentEditableContent.getRangeCommonAncestorByTagName('TR'),
 						true);
 			}
 			function setTableCaption()
 			{
-					ed.getTable().setCaption(document.getElementById("tableCaption").value);
+					ed.currentEditableContent.getTable().setCaption(document.getElementById("tableCaption").value);
 			}
 		</script>
 	</head>
@@ -691,10 +695,10 @@
 		<div id="toolbar">
 			Table
 			<br>
-			<a href="#" onclick="ed.insertTable( 2, 5) ; return false;">Insert Table</a>
+			<a href="#" onclick="ed.currentEditableContent.insertTable( 2, 5) ; return false;">Insert Table</a>
 			<br>
 			<a href="#" onclick="insertTableRows(); return false;">Insert </a>
-			<input type="text" size="4" id="numRows">
+			<input type="text" size="4" id="numRows" value="2">
 			Table
 			<select id="insertRowsTo">
 				<option value="TBODY">Body</option>
