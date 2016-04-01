@@ -637,6 +637,11 @@
 			}
 			function insertTableColumns()
 			{
+				var table=el("table2");
+				
+				table.insertColumn(1);
+				
+				return;
 				ed.currentEditableContent.getTable().insertColumns(document.getElementById("numCols").value, 
 						ed.currentEditableContent.getRangeCommonAncestorByTagName('TD'),
 						document.getElementById("insertTableColsBefore").value);
