@@ -304,6 +304,7 @@
 					
 					
 					showHTML();
+					
 				},
 				function()
 				{
@@ -534,16 +535,14 @@
 							this.ASSERT_EQUALS(par1[i][j], par2[i][j]);
 						}
 					}
-				},
+				}			
+				
+				,
 				function()
 				{
+					
 					restoreInnerHTML();
-					
-					var newNodes=ed.currentEditableContent.surroundContentFragment("B", null, el("em3").firstChild, 1, el("em3").firstChild, 6);
-					var newNodes2=ed.currentEditableContent.surroundContentFragment("B", null, newNodes[0].nextSibling, 1, newNodes[0].nextSibling, 4);
-					
-					this.ASSERT_FALSE(newNodes[0].nextSibling==newNodes2[0]);
-					
+					ed.currentEditableContent.init();
 				}
 			];
 			function el(elId)
@@ -552,7 +551,9 @@
 			}
 			function test2()
 			{
-				console.logNode(ed.currentEditableContent.window.getSelection().focusNode);
+				el("th3_5").style.backgroundColor="red";
+				alert(el("th3_5").cellIndex);
+				
 			}
 			
 			function test()
@@ -621,35 +622,18 @@
 			}
 			function mergeTableCells()
 			{
-				var table, startTD, endTD;
-				var range, start, end;
+				var table;
 				
-				table=ed.currentEditableContent.getTable();
+				table=el("table2");//ed.currentEditableContent.getTable();
+				table.mergeSelectedCells();
 				
-				if(ed.currentEditableContent.window.getSelection().rangeCount>1)
-				{
-					for(var i=0; i<ed.currentEditableContent.window.getSelection().rangeCount; i++)
-					{
-						range=ed.currentEditableContent.window.getSelection().getRangeAt(i);
-						console.logNode(range.startOffset);
-					}
-				}
-				else
-				{
-					range=ed.currentEditableContent.getRange();
-					
-					console.logNode(range.endContainer, "", "", "eC: ");//.getAncestorByTagName("td"));
-					
-					var ranges;
-					ranges=ed.currentEditableContent.contentSelection.getRanges();
-					start=ranges[0].startContainer;
-					end=ranges[ranges.length-1].endContainer;
-
-					console.logNode(start.getAncestorByTagName("TD"));
-
-
-					table.mergeCellsInBetweenCells(start.getAncestorByTagName("TD"), end.getAncestorByTagName("TD"));
-				}
+			}
+			function splitTableCells()
+			{
+				var table;
+				
+				table=el("table2");//ed.currentEditableContent.getTable();
+				table.splitSelectedCells();
 			}
 			function insertTableColumns()
 			{
@@ -719,6 +703,8 @@
 			<a href="#" onclick="insertTableColumns(); return false;">Insert </a><input type="text" size="4" id="numCols">Table Columns <select id="insertTableColsBefore"><option value="1">Before</option><option value="">After</option></select>
 			<br>
 			<a href="#" onclick="mergeTableCells(); return false;">Merge Table Cells:</a> <input id="tableCaption" size="15">
+			<br>
+			<a href="#" onclick="splitTableCells(); return false;">Split Table Cells:</a> 
 			<hr>
 			<a href="#" onclick="surround() ; return false;">Surround with </a><input type="text" id="tagName" size="10">, attributes <input type="text" id="tagAttributes" size="16">
 			<br>

@@ -32,6 +32,8 @@
 		{
 			border-top: 1px #c9c9c9 solid;
 			border-right: 1px #c9c9c9 solid;
+			min-width: 40px;
+			font-size: 12px;
 		}
 		tr
 		{
@@ -43,11 +45,17 @@
 			border-bottom: 1px #c9c9c9 solid;
 			_moz_resizing: none;
 		}
+		table
+		{ 
+			/*border-spacing: 10px;
+			border-collapse: separate;*/
+		}
+		
 		td
 		{
 			padding: 6px;
 			_moz_resizing: none;
-			width: 80px;
+			
 		}
 		td.selected.left,
 		th.selected.left
@@ -182,21 +190,46 @@
 		{
 			position: absolute;
 			padding: 0px !important;
+			background-color: #999999;
+			border: 4px black dashed;
 		}
-		.border.hz
+		.border.top,
+		.border.top.solid
 		{
-			border-top: 2px green solid;
+			border-right: none;
+			border-bottom: none;
+			border-left: none;
 		}
-		.border.vt
+		.border.right,
+		.border.right.solid
 		{
-			border-right: 2px green solid;
+			border-left: none;
+		}
+		.border.bottom,
+		.border.bottom.solid
+		{
+			border-right: none;
+			border-top: none;
+			border-left: none;
+		}
+		.border.left,
+		.border.left.solid
+		{
+			border-right: none;
+		}
+		.border.solid
+		{
+			border-style: solid;
+		}
+		table.onselection
+		{
+			cursor: pointer !important;
 		}
 	</style>
 </head>
 <body>
 	<div id="EditableContentCanvas" style="outline: 1px #777777 dotted;" contentEditable="true">
-		<x2 id="div1001"><x2></x2></x2>
-		Cum <em>sociis natoque penat<span id="span7"><span id="span8"><x> x element</x></span></span>ibus et magnis dis parturient montes, nas</em>cetur
+		Cum <em>sociis natoque penat<span id="span7"><span id="span8"><x> x elem<!-- comment -->ent</x></span></span>ibus et magnis dis parturient montes, nas</em>cetur
 		<br id="br1">
 		<br id="br2">
 		<br id="br3">
@@ -341,50 +374,88 @@
 			<caption></caption>
 			<thead>
 				<tr id="tr1">
-					<th><span>asas</span></th>
-					<th>asas</th>
-					<th>asas</th>
-					<th>asas</th>
+					<th id="th1_1"><span>TH 1,1</span></th>
+					<th id="th1_2">TH 1,2</th>
+					<th id="th1_3">TH 1,3</th>
+					<th id="th1_4">TH 1,4</th>
+					<th id="th1_5">TH 1,5</th>
+					<th id="th1_6">TH 1,6</th>
 				</tr>
 			</thead>
 			<thead>
-				<tr id="tr1">
-					<th><span>asas</span></th>
-					<th>asas</th>
-					<th>asas</th>
-					<th>asas</th>
+				<tr id="tr2">
+					<th id="th2_1"><span>&nbsp;</span></th>
+					<th id="th2_2" colspan="3" rowspan="2" style="border: 1px red solid;">&nbsp; oaresce</th>
+					<!-- <th id="th2_3">&nbsp;</th>
+					<th id="th2_4">&nbsp;</th> -->
+					<th id="th2_5">&nbsp;</th>
+					<th id="th2_6">&nbsp;</th>
+				</tr>
+				<tr id="tr22">
+					<th id="th3_1"><span>&nbsp;</span></th>
+					<!-- <th id="th3_2">&nbsp;</th>
+					<th id="th3_3">&nbsp;</th> 
+					<th id="th3_4">&nbsp;</th>-->
+					<th id="th3_5">&nbsp;</th>
+					<th id="th3_6">&nbsp;</th>
+				</tr>
+				<tr>
+					<th id="th4_1"><span>&nbsp;</span></th>
+					<th id="th4_2">&nbsp;</th>
+					<th id="th4_3">&nbsp;</th>
+					<th id="th4_4">&nbsp;</th>
+					<th id="th4_5">&nbsp;</th>
+					<th id="th_6">&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
-			<tr id="tr2">
-				<td id="td1">TD 1,1</td>
-				<td id="td2">TD 2,1</td>
-				<td id="td3">TD 3,1</td>
-				<td id="td4">TD 4,1</td>
-			</tr>
 			<tr id="tr3">
-				<td id="td1_2">TD 1,1</td>
-				<td id="td2_2">TD 2,1</td>
-				<td id="td3_2">TD 3,1</td>
-				<td id="td4_2">TD 4,1</td>
+				<td id="td1_1">&nbsp;</td>
+				<td id="td1_2" colspan="2">&nbsp;</td>
+				<!-- <td id="td1_3">&nbsp;</td> -->
+				<td id="td1_4">&nbsp;</td>
+				<td id="td1_5">&nbsp;</td>
+				<td id="td1_6">&nbsp;</td>
 			</tr>
 			<tr id="tr4">
-				<td id="td1_3">TD 1,1</td>
-				<td id="td2_3">TD 2,1</td>
-				<td id="td3_3">TD 3,1</td>
-				<td id="td4_3">TD 4,1</td>
+				<td id="td2_1">&nbsp;</td>
+				<td id="td2_2">&nbsp;</td>
+				<td id="td2_3">&nbsp;</td>
+				<td id="td2_4" rowspan="2">&nbsp;</td>
+				<td id="td2_5">&nbsp;</td>
+				<td id="td2_6">&nbsp;</td>
 			</tr>
 			<tr id="tr5">
-				<td id="td1_3">TD 1,1</td>
-				<td id="td2_3">TD 2,1</td>
-				<td id="td3_3">TD 3,1</td>
-				<td id="td4_3">TD 4,1</td>
+				<td id="td3_1">&nbsp;</td>
+				<td id="td3_2">&nbsp;</td>
+				<td id="td3_3" rowspan="3">&nbsp;</td>
+				<!-- <td id="td3_4">&nbsp;</td> -->
+				<td id="td3_5">&nbsp;</td>
+				<td id="td3_6">&nbsp;</td>
 			</tr>
 			<tr id="tr6">
-				<td id="td1_3">TD 1,1</td>
-				<td id="td2_3">TD 2,1</td>
-				<td id="td3_3">TD 3,1</td>
-				<td id="td4_3">TD 4,1</td>
+				<td id="td4_1">&nbsp;</td>
+				<td id="td4_12">&nbsp;</td>
+				<!-- <td id="td4_13">&nbsp;</td> -->
+				<td id="td4_14">&nbsp;</td>
+				<td id="td4_15">&nbsp;</td>
+				<td id="td4_16">&nbsp;</td>
+			</tr>
+			<tr id="tr7">
+				<td id="td5_1">&nbsp;</td>
+				<td id="td5_2">&nbsp;</td>
+				<!-- <td id="td5_3">&nbsp;</td> -->
+				<td id="td5_4">&nbsp;</td>
+				<td id="td5_5">&nbsp;</td>
+				<td id="td5_6">&nbsp;</td>
+			</tr>
+			<tr id="tr8">
+				<td id="td6_1">&nbsp;</td>
+				<td id="td6_2">&nbsp;</td>
+				<td id="td6_3">&nbsp;</td>
+				<td id="td6_4">&nbsp;</td>
+				<td id="td6_5">&nbsp;</td>
+				<td id="td6_6">&nbsp;</td>
 			</tr>
 			</tbody>
 			
