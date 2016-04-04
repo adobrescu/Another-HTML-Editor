@@ -608,6 +608,14 @@
 			{
 				console.logMutation(ed.currentEditableContent.mutationHistory.mutations[ed.currentEditableContent.mutationHistory.mutations.length-1])
 			}
+			function insertTableRow()
+			{
+				var table=el("table2");
+				
+				table.insertRow(10);
+				
+				return;
+			}
 			function insertTableRows()
 			{
 				var table, tableSection;
@@ -685,6 +693,8 @@
 			Table
 			<br>
 			<a href="#" onclick="ed.currentEditableContent.insertTable( 2, 5) ; return false;">Insert Table</a>
+			<br>
+			<a href="#" onclick="insertTableRow(); return false;">Insert Row</a>
 			<br>
 			<a href="#" onclick="insertTableRows(); return false;">Insert </a>
 			<input type="text" size="4" id="numRows" value="2">
