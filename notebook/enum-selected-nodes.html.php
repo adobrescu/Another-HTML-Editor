@@ -20,6 +20,7 @@
 <html>
 	<head>
 		<title></title>
+		<script src="../lib/ContentSelection.class.js"></script>
 		<script src="../lib/MutationHistory.class.js"></script>
 		<script src="../lib/Node.class.js"></script>
 		<script src="../lib/Editor.class.js"></script>
@@ -32,6 +33,9 @@
 		<script src="../lib/Table.class.js"></script>
 		<link rel="stylesheet" type="text/css" href="default.css">
 		<style>
+			
+		
+			
 			#ifrm,
 			#htmlView
 			{
@@ -497,7 +501,7 @@
 					this.ASSERT_EQUALS(el("par7").firstChild, n[1]);
 					
 					
-					return;
+					/*
 					var n2=ed.currentEditableContent.surroundContentFragment("DEL", {"id": "del100"});
 					
 					this.ASSERT_EQUALS(n[0], n2[0].firstChild);
@@ -508,14 +512,14 @@
 					
 					this.ASSERT_EQUALS(el("par7"), n2[1].parentNode);
 					this.ASSERT_EQUALS(el("par7").firstChild, n2[1]);
-					
+					*/
 					
 					
 				}
 				,
 				function()
 				{
-					return;
+					/*
 					var d=el("div500");
 					var par1=ed.currentEditableContent.getNodeParagraph(d);
 					//ed.currentEditableContent.highlightParagraph(par1);
@@ -535,6 +539,7 @@
 							this.ASSERT_EQUALS(par1[i][j], par2[i][j]);
 						}
 					}
+					*/
 				}			
 				
 				,
@@ -551,8 +556,12 @@
 			}
 			function test2()
 			{
-				el("th3_5").style.backgroundColor="red";
-				alert(el("th3_5").cellIndex);
+				var brs=ed.currentEditableContent.window.document.querySelectorAll("br[type]");
+				
+				for(var i=0; i<brs.length; i++)
+				{
+					brs[i].parentNode.removeChild(brs[i]);
+				}
 				
 			}
 			
@@ -648,11 +657,6 @@
 				var table=el("table2");
 				
 				table.insertColumn(1);
-				
-				return;
-				ed.currentEditableContent.getTable().insertColumns(document.getElementById("numCols").value, 
-						ed.currentEditableContent.getRangeCommonAncestorByTagName('TD'),
-						document.getElementById("insertTableColsBefore").value);
 			}
 			function removeTableRows()
 			{

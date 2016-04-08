@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Title of the document</title>
-	
+	<script src="../lib/ContentSelection.class.js"></script>
 	<script src="../lib/Node.class.js"></script>
 	<script src="../lib/Document.class.js"></script>
 	<script src="../lib/EditableContent.class.js"></script>
@@ -112,6 +112,7 @@
 		{
 			padding: 20px;
 			margin-bottom: 20px;
+			white-space: pre-wrap;
 		}
 		p
 		{
@@ -345,7 +346,7 @@
 			<br><br>
 			Line four
 			<br>
-			<img src="IrisAndDana.JPG" alt="ala" style="width: 200px;">
+			<img src="IrisAndDana.JPG" alt="ala" width="200">
 			<br>
 			Line six
 		</p>
@@ -384,81 +385,94 @@
 			</thead>
 			<thead>
 				<tr id="tr2">
-					<th id="th2_1"><span>&nbsp;</span></th>
-					<th id="th2_2" colspan="3" rowspan="2">&nbsp; oaresce</th>
-					<!-- <th id="th2_3">&nbsp;</th>
-					<th id="th2_4">&nbsp;</th> -->
-					<th id="th2_5">&nbsp;</th>
-					<th id="th2_6">&nbsp;</th>
+					<th id="th2_1"><span>&nbsp; text</span></th>
+					<th id="th2_2" colspan="3" rowspan="2">&nbsp; text oaresce</th>
+					<!-- <th id="th2_3">&nbsp; text</th>
+					<th id="th2_4">&nbsp; text</th> -->
+					<th id="th2_5">&nbsp; text</th>
+					<th id="th2_6">&nbsp; text</th>
 				</tr>
 				<tr id="tr22">
-					<th id="th3_1"><span>&nbsp;</span></th>
-					<!-- <th id="th3_2">&nbsp;</th>
-					<th id="th3_3">&nbsp;</th> 
-					<th id="th3_4">&nbsp;</th>-->
-					<th id="th3_5">&nbsp;</th>
-					<th id="th3_6">&nbsp;</th>
+					<th id="th3_1"><span>&nbsp; text</span></th>
+					<!-- <th id="th3_2">&nbsp; text</th>
+					<th id="th3_3">&nbsp; text</th> 
+					<th id="th3_4">&nbsp; text</th>-->
+					<th id="th3_5">&nbsp; text</th>
+					<th id="th3_6">&nbsp; text</th>
 				</tr>
 				<tr>
-					<th id="th4_1"><span>&nbsp;</span></th>
-					<th id="th4_2">&nbsp;</th>
-					<th id="th4_3">&nbsp;</th>
-					<th id="th4_4">&nbsp;</th>
-					<th id="th4_5">&nbsp;</th>
-					<th id="th_6">&nbsp;</th>
+					<th id="th4_1"><span>&nbsp; text</span></th>
+					<th id="th4_2">&nbsp; text</th>
+					<th id="th4_3">&nbsp; text</th>
+					<th id="th4_4">&nbsp; text</th>
+					<th id="th4_5">&nbsp; text</th>
+					<th id="th_6">&nbsp; text</th>
 				</tr>
 			</thead>
 			<tbody>
 			<tr id="tr3">
-				<td id="td1_1">&nbsp;</td>
-				<td id="td1_2" colspan="2">&nbsp;</td>
-				<!-- <td id="td1_3">&nbsp;</td> -->
-				<td id="td1_4">&nbsp;</td>
-				<td id="td1_5">&nbsp;</td>
-				<td id="td1_6">&nbsp;</td>
+				<td id="td1_1">&nbsp; text</td>
+				<td id="td1_2" colspan="2">&nbsp; text</td>
+				<!-- <td id="td1_3">&nbsp; text</td> -->
+				<td id="td1_4">&nbsp; text</td>
+				<td id="td1_5">&nbsp; text</td>
+				<td id="td1_6">&nbsp; text</td>
 			</tr>
 			<tr id="tr4">
-				<td id="td2_1">&nbsp;</td>
-				<td id="td2_2">&nbsp;</td>
-				<td id="td2_3">&nbsp;</td>
-				<td id="td2_4" rowspan="2">&nbsp;</td>
-				<td id="td2_5">&nbsp;</td>
-				<td id="td2_6">&nbsp;</td>
+				<td id="td2_1"> </td>
+				<td id="td2_2"></td>
+				<td id="td2_3">&nbsp; text</td>
+				<td id="td2_4" rowspan="2">&nbsp; text</td>
+				<td id="td2_5">&nbsp; text</td>
+				<td id="td2_6">&nbsp; text</td>
 			</tr>
 			<tr id="tr5">
-				<td id="td3_1">&nbsp;</td>
-				<td id="td3_2">&nbsp;</td>
-				<td id="td3_3" rowspan="3">&nbsp;</td>
-				<!-- <td id="td3_4">&nbsp;</td> -->
-				<td id="td3_5">&nbsp;</td>
-				<td id="td3_6">&nbsp;</td>
+				<td id="td3_1"></td>
+				<td id="td3_2"></td>
+				<td id="td3_3" rowspan="3">&nbsp; text</td>
+				<!-- <td id="td3_4">&nbsp; text</td> -->
+				<td id="td3_5">&nbsp; text</td>
+				<td id="td3_6">&nbsp; text</td>
 			</tr>
 			<tr id="tr6">
-				<td id="td4_1">&nbsp;</td>
-				<td id="td4_12">&nbsp;</td>
-				<!-- <td id="td4_13">&nbsp;</td> -->
-				<td id="td4_14">&nbsp;</td>
-				<td id="td4_15">&nbsp;</td>
-				<td id="td4_16">&nbsp;</td>
+				<td id="td4_1"></td>
+				<td id="td4_12"></td>
+				<!-- <td id="td4_13">&nbsp; text</td> -->
+				<td id="td4_14">&nbsp; text</td>
+				<td id="td4_15">&nbsp; text</td>
+				<td id="td4_16">&nbsp; text</td>
 			</tr>
 			<tr id="tr7">
-				<td id="td5_1">&nbsp;</td>
-				<td id="td5_2">&nbsp;</td>
-				<!-- <td id="td5_3">&nbsp;</td> -->
-				<td id="td5_4">&nbsp;</td>
-				<td id="td5_5">&nbsp;</td>
-				<td id="td5_6">&nbsp;</td>
+				<td id="td5_1"></td>
+				<td id="td5_2"></td>
+				<!-- <td id="td5_3">&nbsp; text</td> -->
+				<td id="td5_4">&nbsp; text</td>
+				<td id="td5_5">&nbsp; text</td>
+				<td id="td5_6">&nbsp; text</td>
 			</tr>
 			<tr id="tr8">
-				<td id="td6_1">&nbsp;</td>
-				<td id="td6_2">&nbsp;</td>
-				<td id="td6_3">&nbsp;</td>
-				<td id="td6_4">&nbsp;</td>
-				<td id="td6_5">&nbsp;</td>
-				<td id="td6_6">&nbsp;</td>
+				<td id="td6_1">&nbsp; text</td>
+				<td id="td6_2">&nbsp; text</td>
+				<td id="td6_3">&nbsp; text</td>
+				<td id="td6_4">&nbsp; text</td>
+				<td id="td6_5">&nbsp; text</td>
+				<td id="td6_6">&nbsp; text</td>
 			</tr>
 			</tbody>
 			
+			</table>
+		<table id="table2" cellspacing="0" cellpadding="10">
+			<caption></caption>
+			<thead>
+				<tr id="tr1">
+					<th id="th1_1"><span>TH 1,1</span></th>
+					<th id="th1_2">TH 1,2</th>
+					<th id="th1_3">TH 1,3</th>
+					<th id="th1_4">TH 1,4</th>
+					<th id="th1_5">TH 1,5</th>
+					<th id="th1_6">TH 1,6</th>
+				</tr>
+			</thead>
 			</table>
 	</div>
 	<div id="toolbox"><span>Toolbox</span></div>
