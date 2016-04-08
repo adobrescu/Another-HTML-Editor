@@ -556,13 +556,14 @@
 			}
 			function test2()
 			{
-				var brs=ed.currentEditableContent.window.document.querySelectorAll("br[type]");
+				ed.currentEditableContent.preWrap();
+				/*var brs=ed.currentEditableContent.window.document.querySelectorAll("br[type]");
 				
 				for(var i=0; i<brs.length; i++)
 				{
 					brs[i].parentNode.removeChild(brs[i]);
 				}
-				
+				*/
 			}
 			
 			function test()

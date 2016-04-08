@@ -112,7 +112,7 @@
 		{
 			padding: 20px;
 			margin-bottom: 20px;
-			white-space: pre-wrap;
+			white-space: pre-wrap2;
 		}
 		p
 		{
@@ -226,6 +226,10 @@
 		{
 			cursor: pointer !important;
 		}
+		#par1
+		{
+			white-space: pre;
+		}
 	</style>
 </head>
 <body>
@@ -235,16 +239,18 @@
 		<br id="br2">
 		<br id="br3">
 		<br id="br4">
-		Lorem ipsum dolor sit amet , consectetur adipiscing elit. 
+			<span style="white-space: pre-wrap;"><span> Lorem ipsum dolor   sit amet ,   consectetur   adipiscing elit. </span>
 		
-		<h1 id="h11">Lorem Ipsum</h1>
+		</span><h1 id="h11">Lorem Ipsum</h1>
 				
 		<p id="par1">
 			<span id="span1">   <span id="span2">   <span id="span3"> Sed at mollis mi. In ac tempus massX. </span> </span>   </span> Aculum edice.
 		</p>
 		
-		<p id="par2">
-			Sed nib<span id="span4">h nibh, <span id="span5">ornare eu venenatis non</span>, consequat at nisi. In posuere, nisl sit amet plac</span>erat tristique, ex sapien pharetra erat, at varius justo odio at felis.<span>   </span>
+		<p id="par2" style="white-space: pre-line">
+			Sed nib<span id="span4">h nibh, <span id="span5">ornare eu venenatis non</span>, consequat at nisi. 
+				In posuere, nisl sit amet plac</span>erat tristique, ex sapien pharetra erat, at 
+				varius justo odio at felis.<span>   </span>
 		</p>
 		<p id="par3">
 			<span id="span9">   <span id="span10">   <span id="span11"> Lorem ipsum dolor sit amet, </span> </span>   </span>  consectetur adipiscing elit. <span id="span12">  <span id="span13">  </span>   </span>
