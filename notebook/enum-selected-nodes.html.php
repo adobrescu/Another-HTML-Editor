@@ -28,6 +28,7 @@
 		<script src="../lib/console.js"></script>
 		<script src="../lib/Tests.class.js"></script>
 		<script src="../lib/NodeDiff.class.js"></script>
+		<script src="../lib/Table.class.js"></script>
 		<link rel="stylesheet" type="text/css" href="default.css">
 		<style>
 			#ifrm,
@@ -550,10 +551,12 @@
 			}
 			function test2()
 			{
+
 				var sel=el("span5").ownerDocument.defaultView.getSelection();
 				
 				alert("DA: "+sel.rangeCount);
 				
+
 			}
 			
 			function test()
@@ -617,6 +620,63 @@
 					console.log(i+". history_step="+h.history_step+", rtl="+h.rtl+", reversed="+h.reversed);
 				}
 			}
+			function insertTableRows()
+			{
+				var table, tableSection;
+				
+				table=ed.getTable();
+				tableSection=document.getElementById("insertRowsTo").value;
+								
+				table.insertRows(document.getElementById("numRows").value, 
+						ed.getRangeCommonAncestorByTagName('TR'),
+						tableSection,
+						document.getElementById("insertTableRowsBefore").value);
+			}
+			function mergeTableCells()
+			{
+				var table, startTD, endTD;
+				var range, start, end;
+				
+				table=ed.getTable();
+				
+				if(ed.window.getSelection().rangeCount>1)
+				{
+					for(var i=0; i<ed.window.getSelection().rangeCount; i++)
+					{
+						range=ed.window.getSelection().getRangeAt(i);
+						console.logNode(range.startOffset);
+					}
+				}
+				else
+				{
+					range=ed.getRange();
+					
+					console.logNode(range.endContainer, "", "", "eC: ");//.getAncestorByTagName("td"));
+					start=ed.getRangeBoundary(range, true);
+					end=ed.getRangeBoundary(range, false);
+
+					console.logNode(start.container.getAncestorByTagName("TD"));
+
+
+					table.mergeCellsInBetweenCells(start.container.getAncestorByTagName("TD"), end.container.getAncestorByTagName("TD"));
+				}
+			}
+			function insertTableColumns()
+			{
+				ed.getTable().insertColumns(document.getElementById("numCols").value, 
+						ed.getRangeCommonAncestorByTagName('TD'),
+						document.getElementById("insertTableColsBefore").value);
+			}
+			function removeTableRows()
+			{
+				ed.getTable().removeRows(1, 
+						ed.getRangeCommonAncestorByTagName('TR'),
+						true);
+			}
+			function setTableCaption()
+			{
+					ed.getTable().setCaption(document.getElementById("tableCaption").value);
+			}
 		</script>
 	</head>
 
@@ -643,7 +703,33 @@
 	include('quick-toolbar.html.php');
 ?>
 		<div id="toolbar">
-			
+			Table
+			<br>
+			<a href="#" onclick="ed.insertTable( 2, 5) ; return false;">Insert Table</a>
+			<br>
+			<a href="#" onclick="insertTableRows(); return false;">Insert </a>
+			<input type="text" size="4" id="numRows">
+			Table
+			<select id="insertRowsTo">
+				<option value="TBODY">Body</option>
+				<option value="THEAD">Header</option>
+				<option value="TFOOT">Footer</option>
+				<option value="">Current Selection</option>
+			</select>
+			 Rows 
+			<select id="insertTableRowsBefore">
+					<option value="1">Before</option>
+					<option value="">After</option>
+			</select>
+			<br>
+			<a href="#" onclick="removeTableRows(); return false;">Remove Table Row </a>
+			<br>
+			<a href="#" onclick="setTableCaption(); return false;">Set Table Caption:</a> <input id="tableCaption" size="15">
+			<br>
+			<a href="#" onclick="insertTableColumns(); return false;">Insert </a><input type="text" size="4" id="numCols">Table Columns <select id="insertTableColsBefore"><option value="1">Before</option><option value="">After</option></select>
+			<br>
+			<a href="#" onclick="mergeTableCells(); return false;">Merge Table Cells:</a> <input id="tableCaption" size="15">
+			<hr>
 			<a href="#" onclick="surround() ; return false;">Surround with </a><input type="text" id="tagName" size="10">, attributes <input type="text" id="tagAttributes" size="16">
 			<br>
 			<a href="#" onclick="ed.currentEditableContent.mutationHistory.undoAll(); showHTML(); return false;">Undo all</a>
@@ -655,8 +741,8 @@
 			<a href="#" onclick="selectElement() ; return false;">Select element#</a><input type="text" id="elementId" size="10">
 			<br>
 			<a href="#" onclick="split('em2', 2, 'em1', 5) ; return false;">Split</a>
-			<br>
 			
+			<br>
 			<a href="#" onclick="showAdjacentTextNodes(); return false;">Show adjacent text nodes</a>
 			
 			<br>
