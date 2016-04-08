@@ -186,6 +186,10 @@ with(EditableContent)
 	prototype.addScripts=EditableContent_addScripts;
 	prototype.getRange=HtmlEditor_getRange;
 	prototype.setSelection=EditableContent_setSelection;
+<<<<<<< HEAD
+
+=======
+>>>>>>> feature/TablesAndContentSelection
 	prototype.clearSelection=EditableContent_clearSelection;
 	prototype.addSelection=EditableContent_addSelection;
 	
@@ -204,12 +208,22 @@ with(EditableContent)
 	prototype.collectNotAllowedDescendants=EditableContent_collectNotAllowedDescendants;
 	prototype.getNotAllowedAncestors=EditableContent_getNotAllowedAncestors;
 	prototype.removeNotAllowedDescendants=EditableContent_removeNotAllowedDescendants;
+<<<<<<< HEAD
+
+	prototype.surroundSelectedContentFragments=EditableContent_surroundSelectedContentFragments;
+
+=======
 	
 	prototype.surroundSelectedContentFragments=EditableContent_surroundSelectedContentFragments;
+>>>>>>> feature/TablesAndContentSelection
 	prototype.surroundContentFragment=EditableContent_surroundContentFragment;
 	
 	
 	prototype.collectInsertionBoundaries=EditableContent_collectInsertionBoundaries;
+<<<<<<< HEAD
+
+=======
+>>>>>>> feature/TablesAndContentSelection
 	
 	prototype.onSelectionChanged=EditableContent_onSelectionChanged;
 	
@@ -217,7 +231,13 @@ with(EditableContent)
 	prototype.removeSiblings=EditableContent_removeSiblings;
 	prototype.elementsHaveTheSameBasicTextFormatting=EditableContent_elementsHaveTheSameBasicTextFormatting;
 	prototype.joinNodes=EditableContent_joinNodes;
+<<<<<<< HEAD
+
 	prototype.deleteSelectedContentFragments=EditableContent_deleteSelectedContentFragments;
+
+=======
+	prototype.deleteSelectedContentFragments=EditableContent_deleteSelectedContentFragments;
+>>>>>>> feature/TablesAndContentSelection
 	prototype.deleteContentFragment=EditableContent_deleteContentFragment;
 	prototype.findPhrasingContentNodes=EditableContent_findPhrasingContentNodes;
 	
@@ -274,11 +294,18 @@ function EditableContent_clearSelection()
 {
 	this.window.contentSelection.removeAllRanges();
 	
+<<<<<<< HEAD
+	range.setStart(startContainer, startOffset);
+	range.setEnd(endContainer, endOffset);
+	
+	this.window.getSelection().addRange(range);
+=======
 }
 function EditableContent_addSelection(startContainer, startOffset, endContainer, endOffset, isCustom)
 {
 	this.window.contentSelection.addRange({ "startContainer": startContainer, "startOffset": startOffset, "endContainer": endContainer, "endOffset": endOffset, "isCustom": isCustom });
 	
+>>>>>>> feature/TablesAndContentSelection
 
 }
 function EditableContent_undo()
@@ -1120,6 +1147,10 @@ function EditableContent_collectInsertionBoundaries(node, offset, close, endVisi
 		}
 	}
 }
+<<<<<<< HEAD
+
+=======
+>>>>>>> feature/TablesAndContentSelection
 /**
  * 
  * EditableContent.getNodeParagraphFragment
@@ -1152,10 +1183,17 @@ function EditableContent_collectInsertionBoundaries(node, offset, close, endVisi
  * So there is one paragraph with 2 paragraph fragments ("This is a fragment " and " of a paragraph").
  * 
  */
+<<<<<<< HEAD
+
+function EditableContent_onSelectionChanged(evt)
+{
+	this.documentContainer.ownerDocument.defaultView.ContentSelection.prototype.___takeSnapshot(this.documentContainer.ownerDocument.defaultView);
+=======
 function EditableContent_onSelectionChanged(evt)
 {
 	//this.documentContainer.ownerDocument.defaultView.ContentSelection.prototype.___takeSnapshot(this.documentContainer.ownerDocument.defaultView);
 	//this.window.contentSelection.takeSnapshot();
+>>>>>>> feature/TablesAndContentSelection
 }
 function EditableContent_onBeforeUnload(evt)
 {

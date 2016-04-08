@@ -556,13 +556,22 @@
 			}
 			function test2()
 			{
+<<<<<<< HEAD
+
+				var sel=el("span5").ownerDocument.defaultView.getSelection();
+=======
 				var brs=ed.currentEditableContent.window.document.querySelectorAll("br[type]");
+>>>>>>> feature/TablesAndContentSelection
 				
 				for(var i=0; i<brs.length; i++)
 				{
 					brs[i].parentNode.removeChild(brs[i]);
 				}
 				
+<<<<<<< HEAD
+
+=======
+>>>>>>> feature/TablesAndContentSelection
 			}
 			
 			function test()
