@@ -556,7 +556,9 @@
 			}
 			function test2()
 			{
-				ed.currentEditableContent.preWrap();
+				var t=el("test");
+				alert(t.tBodies[0].rows.length);
+				//ed.currentEditableContent.preWrap();
 				/*var brs=ed.currentEditableContent.window.document.querySelectorAll("br[type]");
 				
 				for(var i=0; i<brs.length; i++)
