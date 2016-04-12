@@ -35,12 +35,17 @@
 			display: block;
 			overflow: hidden;
 		}
-		div[contentEditable="false"]::selection {
+		
+		div[contentEditable="false"]::selection,
+		div[contentEditable="false"] *::selection {
 			background: green; /* WebKit/Blink Browsers */
 		  }
-		div[contentEditable="false"]::-moz-selection {
+		div[contentEditable="false"]::-moz-selection,
+		div[contentEditable="false"] *::-moz-selection {
 			background: green; /* Gecko Browsers */
 		  }
+		  
+		 
 		</style>
 	</head>
 	<body>
@@ -48,7 +53,11 @@
 		<p id="par1">
 			Lorem Ipsum
 		</p>
-		<div contentEditable="false" id="div1"> 123 4 asidyas fsah fasyfiouasf</div>
+		<div contentEditable="false" id="div1"> 
+			123 4 asidyas <span id="sp1">fsah</span> fasyfiouasf
+			
+		</div>
+		<span contenteditable="true">editabila</span>
 		lorem ipsum
 		</div>
 	</body>
