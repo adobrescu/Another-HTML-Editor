@@ -20,13 +20,17 @@
 <html>
 	<head>
 		<title></title>
+		<script src="../lib/ContentSelection.class.js"></script>
 		<script src="../lib/MutationHistory.class.js"></script>
 		<script src="../lib/Node.class.js"></script>
 		<script src="../lib/Editor.class.js"></script>
 		<script src="../lib/EditableContent.class.js"></script>
+		<script src="../lib/PhrasingContent.class.js"></script>
 		<script src="../lib/console.js"></script>
 		<script src="../lib/Tests.class.js"></script>
 		<script src="../lib/NodeDiff.class.js"></script>
+		<script src="../lib/Border.class.js"></script>
+		<script src="../lib/Table.class.js"></script>
 		<link rel="stylesheet" type="text/css" href="default.css">
 		<style>
 			#ifrm1

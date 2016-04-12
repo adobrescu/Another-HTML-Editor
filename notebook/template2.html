@@ -1,8 +1,12 @@
 <html>
 	<head>
-		<script src="../lib/Node.class.js"></script>
-		<script src="../lib/Document.class.js"></script>
-		<script src="../lib/console.js"></script>
+		<script src="../lib/ContentSelection.class.js"></script>
+	<script src="../lib/Node.class.js"></script>
+	<script src="../lib/Document.class.js"></script>
+	<script src="../lib/EditableContent.class.js"></script>
+	<script src="../lib/Border.class.js"></script>
+	<script src="../lib/Table.class.js"></script>
+	<script src="../lib/console.js"></script>
 		<style>
 		x-highlight
 		{
@@ -31,6 +35,12 @@
 			display: block;
 			overflow: hidden;
 		}
+		div[contentEditable="false"]::selection {
+			background: green; /* WebKit/Blink Browsers */
+		  }
+		div[contentEditable="false"]::-moz-selection {
+			background: green; /* Gecko Browsers */
+		  }
 		</style>
 	</head>
 	<body>
@@ -38,6 +48,8 @@
 		<p id="par1">
 			Lorem Ipsum
 		</p>
+		<div contentEditable="false" id="div1"> 123 4 asidyas fsah fasyfiouasf</div>
+		lorem ipsum
 		</div>
 	</body>
 </html>

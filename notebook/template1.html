@@ -1,8 +1,12 @@
 <html>
 	<head>
-		<script src="../lib/Node.class.js"></script>
-		<script src="../lib/Document.class.js"></script>
-		<script src="../lib/console.js"></script>
+		<script src="../lib/ContentSelection.class.js"></script>
+	<script src="../lib/Node.class.js"></script>
+	<script src="../lib/Document.class.js"></script>
+	<script src="../lib/EditableContent.class.js"></script>
+	<script src="../lib/Border.class.js"></script>
+	<script src="../lib/Table.class.js"></script>
+	<script src="../lib/console.js"></script>
 		<style>
 		x-highlight
 		{
@@ -37,15 +41,17 @@
 		}
 		</style>
 	</head>
-	<body>
+	<body>asd
 		<div id="EditableContentCanvas" style="outline: 1px #777777 dotted;" contentEditable="true">
 		<div id="div1">
-			<div style="float: none; width: 45%;" contenteditable="false">
+			<div style="float: none; width: 45%;" >
 				This is not editable  lorem ipsum bla bla 
 			</div>
-			<span contenteditable="false">axa lorem ipsum bla bla </span>
-			<span contenteditable="true" id="div2">
+			<span >axa lorem ipsum bla bla </span>
+			<span  id="div2">
 					This is editable
+					<span>alabala</span>
+					oaresce chestie
 			</span>
 		</div>
 		</div>
