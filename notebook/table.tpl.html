@@ -34,10 +34,12 @@
 			border-right: 1px #c9c9c9 solid;
 			min-width: 40px;
 			font-size: 12px;
+			height: 40px;
 		}
 		tr
 		{
 			_moz_resizing: none;
+			min-height: 40px;
 		}
 		table
 		{
@@ -230,256 +232,21 @@
 		{
 			white-space: pre;
 		}
+		#test
+		{
+			table-layout: fixed;
+			width: 400px;
+		}
 	</style>
 </head>
 <body>
 	<div id="EditableContentCanvas" style="outline: 1px #777777 dotted;" contentEditable="true">
-		<table id="table2" cellspacing="0" cellpadding="10">
-			<caption></caption>
-			<thead>
-				<tr id="tr1">
-					<th id="th1_1"><span>TH 1,1</span></th>
-					<th id="th1_2">TH 1,2</th>
-					<th id="th1_3">TH 1,3</th>
-					<th id="th1_4">TH 1,4</th>
-					<th id="th1_5">TH 1,5</th>
-					<th id="th1_6">TH 1,6</th>
-				</tr>
-			</thead>
-			<thead>
-				<tr id="tr2">
-					<th id="th2_1"><span>&nbsp; text 1</span></th>
-					<th id="th2_2" colspan="3" rowspan="2">&nbsp; text oaresce</th>
-					<!-- <th id="th2_3">&nbsp; text 2</th>
-					<th id="th2_4">&nbsp; text 3</th> -->
-					<th id="th2_5">&nbsp; text 4</th>
-					<th id="th2_6">&nbsp; text 5</th>
-				</tr>
-				<tr id="tr22">
-					<th id="th3_1"><span>&nbsp; text 6</span></th>
-					<!-- <th id="th3_2">&nbsp; text 7</th>
-					<th id="th3_3">&nbsp; text 8</th> 
-					<th id="th3_4">&nbsp; text 9</th>-->
-					<th id="th3_5">&nbsp; text 10</th>
-					<th id="th3_6">&nbsp; text 11</th>
-				</tr>
-				<tr>
-					<th id="th4_1"><span>&nbsp; text 12</span></th>
-					<th id="th4_2">&nbsp; text 13</th>
-					<th id="th4_3">&nbsp; text 14</th>
-					<th id="th4_4">&nbsp; text 15</th>
-					<th id="th4_5">&nbsp; text 16</th>
-					<th id="th_6">&nbsp; text 17</th>
-				</tr>
-			</thead>
-			<tbody>
-			<tr id="tr3">
-				<td id="td1_1">&nbsp; text 18</td>
-				<td id="td1_2" colspan="2">&nbsp; text 19</td>
-				<!-- <td id="td1_3">&nbsp; text 20</td> -->
-				<td id="td1_4">&nbsp; text 21</td>
-				<td id="td1_5">&nbsp; text 22</td>
-				<td id="td1_6">&nbsp; text 23</td>
-			</tr>
-			<tr id="tr4">
-				<td id="td2_1"> </td>
-				<td id="td2_2"></td>
-				<td id="td2_3">&nbsp; text 24</td>
-				<td id="td2_4" rowspan="2">&nbsp; text 25</td>
-				<td id="td2_5" colspan="2" rowspan="2">&nbsp; text 26</td>
-				<!-- <td id="td2_6">&nbsp; text 27</td> -->
-			</tr>
-			<tr id="tr5">
-				<td id="td3_1"></td>
-				<td id="td3_2"></td>
-				<td id="td3_3" rowspan="3">&nbsp; text 28</td>
-				<!-- <td id="td3_4">&nbsp; text 29</td> -->
-				<!-- <td id="td3_5">&nbsp; text 30</td>
-				<td id="td3_6">&nbsp; text 31</td> -->
-			</tr>
-			<tr id="tr6">
-				<td id="td4_1"></td>
-				<td id="td4_12"></td>
-				<!-- <td id="td4_13">&nbsp; text 32</td> -->
-				<td id="td4_14">&nbsp; text 33</td>
-				<td id="td4_15">&nbsp; text 34</td>
-				<td id="td4_16">&nbsp; text 35</td>
-			</tr>
-			<tr id="tr7">
-				<td id="td5_1"></td>
-				<td id="td5_2"></td>
-				<!-- <td id="td5_3">&nbsp; text 36</td> -->
-				<td id="td5_4">&nbsp; text 37</td>
-				<td id="td5_5">&nbsp; text 38</td>
-				<td id="td5_6">&nbsp; text 39</td>
-			</tr>
-			<tr id="tr8">
-				<td id="td6_1">&nbsp; text 40</td>
-				<td id="td6_2">&nbsp; text 41</td>
-				<td id="td6_3">&nbsp; text 42</td>
-				<td id="td6_4">&nbsp; text 43</td>
-				<td id="td6_5">&nbsp; text 44</td>
-				<td id="td6_6">&nbsp; text 45</td>
-			</tr>
-			</tbody>
-		</table>
-		Cum <em>sociis natoque penat<span id="span7"><span id="span8"><x> x elem<!-- comment -->ent</x></span></span>ibus et magnis dis parturient montes, nas</em>cetur
-		<br id="br1">
-		<br id="br2">
-		<br id="br3">
-		<br id="br4">
-			<span style="white-space: pre-wrap;"><span> Lorem ipsum dolor   sit amet ,   consectetur   adipiscing elit. </span>
-		
-		</span><h1 id="h11">Lorem Ipsum</h1>
-				
-		<p id="par1">
-			<span id="span1">   <span id="span2">   <span id="span3"> Sed at mollis mi. In ac tempus massX. </span> </span>   </span> Aculum edice.
-		</p>
-		
-		<p id="par2" style="white-space: pre-line">
-			Sed nib<span id="span4">h nibh, <span id="span5">ornare eu venenatis non</span>, consequat at nisi. 
-				In posuere, nisl sit amet plac</span>erat tristique, ex sapien pharetra erat, at 
-				varius justo odio at felis.<span>   </span>
-		</p>
-		<p id="par3">
-			<span id="span9">   <span id="span10">   <span id="span11"> Lorem ipsum dolor sit amet, </span> </span>   </span>  consectetur adipiscing elit. <span id="span12">  <span id="span13">  </span>   </span>
-		</p>
-		<p id="par4">
-			Ala bala portocala <b style="color: red;"> noi sintem copii</b> de
-		</p>
-		<span style="border: 1px red solid; padding: 6px;">123x </span><b> </b><i></i>Between pars
-		<p id="par5">
-			oaresce <b style="color: #ff0000;">
-				scoala</b> aha
-		</p>
-		<div id="div1"> 
-			<h2 id="h21">  <span id="span8_1"><span id="span7_1"><span id="span6">   Heading 2 element </span></span></span>  </h2>
-		</div>
-		<div id="div2">
-			<p id="par8">
-				Start par 8
-				<span id="span15">
-					Nod text din span 15
-					<b id="b2">bold <i id="i2"> italic</I> bold</b>
-					Iar text
-					<em id="em1">emphasize <strong id="strong1">strong</strong> em </em>
-					din nou nod text
-					<span id="span16"> span <span id="span17"> cu span <span id="span18"> cu span</span> 1234</span> </span>
-					text simplu
-				</span>
-				par 8
-			</p>
-			div 2
-		</div>
-		<div id="div3">
-			div 3
-		</div>
-		<p id="par6">	paragraph Six</p>
-		<em id="em2">soci is natoque penat<span id="span7_2"><span id="span8_2"><x> x element</x></span></span>ibus et <span id="span14">magnis dis</span> parturient montes, nas</em>cetur
-		<ul id="ul1">
-			<li id="li1"> List <b id="b1">item</b>	<i id="i1"> 1</i> in a paragraph</li><li id="li2"> LIST <b>item <i>2 in a</i> par</b>agraph</li><li id="li3"> List item 3 in a paragraph</li><li id="li4"> List item 4 four</li>
-		</ul>
-		
-		<p id="par7">
-				Paragraph after the list
-		</p>
-		<table id="table1" cellspacing="0" cellpadding="10">
+		<table id="table1">
 			<tr>
-				<td id="td1">TD 1,1</td>
-				<td id="td2">TD 2,1</td>
-				<td id="td3">TD 3,1</td>
-				<td id="td4">TD 4,1</td>
+				<td>cell 1,1</td>
+				<td>cell 1,2</td>
 			</tr>
-			<tfoot>
-				<tr>
-					<td id="tdf1">TD f 1,1</td>
-					<td id="tdf2">TD f 2,1</td>
-					<td id="tdf3">TD f 3,1</td>
-					<td id="tdf4">TD f 4,1</td>
-				</tr>
-			</tfoot>
-			</table><span id="span503">
-			<del>
-				<a href="#">link 
-					<div> 
-						<div> 
-							aha
-						</div> 
-					</div>
-				</a>
-			</del>
-			Un text simplu 
-			<span id="span500">
-				urmat 
-				<b>
-					de un SPAN
-				</b> 
-				incorect 
-				<div id="div500">
-					cu un 
-					<div id="div501">
-						DIV
-					</div>
-					in el
-				</div>
-				si iarasi text
-			</span>
-			si iar te
-		</span>
-		xt simplu 
-		<span id="span501"> 
-			si span 
-			<div> 
-				cu aceeasi problema 
-			</div> 
-			cu div 
-		</span>
-		<p id="par9">
-			Line one
-			<br>
-			Line two
-			<br><br>
-			Line four
-			<br>
-			<img src="IrisAndDana.JPG" alt="ala" width="200">
-			<br>
-			Line six
-		</p>
-		<div style="border: 1px red solid;">
-			Ala bala
-			<p id="par10">
-				portocala
-			</p></div><p id="par11">
-			noi sintem copii de scoala
-		</p>
-		<div>
-			Lorem
-			<div>
-				Ipsum
-				<div>
-					Mana
-					<div>
-						Acet
-					</div>
-				</div>
-			</div>
-		</div>
-		Oaresce
-		
-		
-		<table id="table2" cellspacing="0" cellpadding="10">
-			<caption></caption>
-			<thead>
-				<tr id="tr1">
-					<th id="th1_1"><span>TH 1,1</span></th>
-					<th id="th1_2">TH 1,2</th>
-					<th id="th1_3">TH 1,3</th>
-					<th id="th1_4">TH 1,4</th>
-					<th id="th1_5">TH 1,5</th>
-					<th id="th1_6">TH 1,6</th>
-				</tr>
-			</thead>
-			</table>
+		</table>
 	</div>
 	<div id="toolbox"><span>Toolbox</span></div>
 </body>

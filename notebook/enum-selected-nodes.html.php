@@ -73,7 +73,7 @@
 				showHTML();
 				
 				
-				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; //testsBatch.run()", 300);
+				setTimeout("originalInnerHTML=el('EditableContentCanvas').innerHTML; testsBatch.run()", 300);
 				
 			}
 			
@@ -557,7 +557,9 @@
 			function test2()
 			{
 				var t=el("test");
-				alert(t.tBodies[0].rows.length);
+				
+				
+				t.normalizeSpans();
 				//ed.currentEditableContent.preWrap();
 				/*var brs=ed.currentEditableContent.window.document.querySelectorAll("br[type]");
 				
@@ -644,7 +646,16 @@
 			{
 				var table;
 				
-				table=el("table2");//ed.currentEditableContent.getTable();
+				if(!ed.currentEditableContent.window.contentSelection.locked)
+				{
+					return;
+				}
+				
+				//assume it's a table cells selection
+				var ranges=ed.currentEditableContent.window.contentSelection.getRanges();
+				table=ranges.ranges[0].startContainer.parentNode.parentNode.parentNode;
+				
+				//table=el("table2");//ed.currentEditableContent.getTable();
 				table.mergeSelectedCells();
 				
 			}

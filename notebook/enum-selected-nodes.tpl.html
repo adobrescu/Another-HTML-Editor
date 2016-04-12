@@ -34,10 +34,12 @@
 			border-right: 1px #c9c9c9 solid;
 			min-width: 40px;
 			font-size: 12px;
+			height: 40px;
 		}
 		tr
 		{
 			_moz_resizing: none;
+			min-height: 40px;
 		}
 		table
 		{
@@ -230,99 +232,15 @@
 		{
 			white-space: pre;
 		}
+		#test
+		{
+			table-layout: fixed;
+			width: 400px;
+		}
 	</style>
 </head>
 <body>
 	<div id="EditableContentCanvas" style="outline: 1px #777777 dotted;" contentEditable="true">
-		<table id="table2" cellspacing="0" cellpadding="10">
-			<caption></caption>
-			<thead>
-				<tr id="tr1">
-					<th id="th1_1"><span>TH 1,1</span></th>
-					<th id="th1_2">TH 1,2</th>
-					<th id="th1_3">TH 1,3</th>
-					<th id="th1_4">TH 1,4</th>
-					<th id="th1_5">TH 1,5</th>
-					<th id="th1_6">TH 1,6</th>
-				</tr>
-			</thead>
-			<thead>
-				<tr id="tr2">
-					<th id="th2_1"><span>&nbsp; text 1</span></th>
-					<th id="th2_2" colspan="3" rowspan="2">&nbsp; text oaresce</th>
-					<!-- <th id="th2_3">&nbsp; text 2</th>
-					<th id="th2_4">&nbsp; text 3</th> -->
-					<th id="th2_5">&nbsp; text 4</th>
-					<th id="th2_6">&nbsp; text 5</th>
-				</tr>
-				<tr id="tr22">
-					<th id="th3_1"><span>&nbsp; text 6</span></th>
-					<!-- <th id="th3_2">&nbsp; text 7</th>
-					<th id="th3_3">&nbsp; text 8</th> 
-					<th id="th3_4">&nbsp; text 9</th>-->
-					<th id="th3_5">&nbsp; text 10</th>
-					<th id="th3_6">&nbsp; text 11</th>
-				</tr>
-				<tr>
-					<th id="th4_1"><span>&nbsp; text 12</span></th>
-					<th id="th4_2">&nbsp; text 13</th>
-					<th id="th4_3">&nbsp; text 14</th>
-					<th id="th4_4">&nbsp; text 15</th>
-					<th id="th4_5">&nbsp; text 16</th>
-					<th id="th_6">&nbsp; text 17</th>
-				</tr>
-			</thead>
-			<tbody>
-			<tr id="tr3">
-				<td id="td1_1">&nbsp; text 18</td>
-				<td id="td1_2" colspan="2">&nbsp; text 19</td>
-				<!-- <td id="td1_3">&nbsp; text 20</td> -->
-				<td id="td1_4">&nbsp; text 21</td>
-				<td id="td1_5">&nbsp; text 22</td>
-				<td id="td1_6">&nbsp; text 23</td>
-			</tr>
-			<tr id="tr4">
-				<td id="td2_1"> </td>
-				<td id="td2_2"></td>
-				<td id="td2_3">&nbsp; text 24</td>
-				<td id="td2_4" rowspan="2">&nbsp; text 25</td>
-				<td id="td2_5" colspan="2" rowspan="2">&nbsp; text 26</td>
-				<!-- <td id="td2_6">&nbsp; text 27</td> -->
-			</tr>
-			<tr id="tr5">
-				<td id="td3_1"></td>
-				<td id="td3_2"></td>
-				<td id="td3_3" rowspan="3">&nbsp; text 28</td>
-				<!-- <td id="td3_4">&nbsp; text 29</td> -->
-				<!-- <td id="td3_5">&nbsp; text 30</td>
-				<td id="td3_6">&nbsp; text 31</td> -->
-			</tr>
-			<tr id="tr6">
-				<td id="td4_1"></td>
-				<td id="td4_12"></td>
-				<!-- <td id="td4_13">&nbsp; text 32</td> -->
-				<td id="td4_14">&nbsp; text 33</td>
-				<td id="td4_15">&nbsp; text 34</td>
-				<td id="td4_16">&nbsp; text 35</td>
-			</tr>
-			<tr id="tr7">
-				<td id="td5_1"></td>
-				<td id="td5_2"></td>
-				<!-- <td id="td5_3">&nbsp; text 36</td> -->
-				<td id="td5_4">&nbsp; text 37</td>
-				<td id="td5_5">&nbsp; text 38</td>
-				<td id="td5_6">&nbsp; text 39</td>
-			</tr>
-			<tr id="tr8">
-				<td id="td6_1">&nbsp; text 40</td>
-				<td id="td6_2">&nbsp; text 41</td>
-				<td id="td6_3">&nbsp; text 42</td>
-				<td id="td6_4">&nbsp; text 43</td>
-				<td id="td6_5">&nbsp; text 44</td>
-				<td id="td6_6">&nbsp; text 45</td>
-			</tr>
-			</tbody>
-		</table>
 		Cum <em>sociis natoque penat<span id="span7"><span id="span8"><x> x elem<!-- comment -->ent</x></span></span>ibus et magnis dis parturient montes, nas</em>cetur
 		<br id="br1">
 		<br id="br2">
@@ -465,7 +383,95 @@
 			</div>
 		</div>
 		Oaresce
-		
+		<table id="table2" cellspacing="0" cellpadding="10">
+			<caption></caption>
+			<thead>
+				<tr id="tr1">
+					<th id="th1_1"><span>TH 1,1</span></th>
+					<th id="th1_2">TH 1,2</th>
+					<th id="th1_3">TH 1,3</th>
+					<th id="th1_4">TH 1,4</th>
+					<th id="th1_5">TH 1,5</th>
+					<th id="th1_6">TH 1,6</th>
+				</tr>
+			</thead>
+			<thead>
+				<tr id="tr2">
+					<th id="th2_1"><span>&nbsp; text 1</span></th>
+					<th id="th2_2" colspan="3" rowspan="2">&nbsp; text oaresce</th>
+					<!-- <th id="th2_3">&nbsp; text 2</th>
+					<th id="th2_4">&nbsp; text 3</th> -->
+					<th id="th2_5">&nbsp; text 4</th>
+					<th id="th2_6">&nbsp; text 5</th>
+				</tr>
+				<tr id="tr22">
+					<th id="th3_1"><span>&nbsp; text 6</span></th>
+					<!-- <th id="th3_2">&nbsp; text 7</th>
+					<th id="th3_3">&nbsp; text 8</th> 
+					<th id="th3_4">&nbsp; text 9</th>-->
+					<th id="th3_5">&nbsp; text 10</th>
+					<th id="th3_6">&nbsp; text 11</th>
+				</tr>
+				<tr>
+					<th id="th4_1"><span>&nbsp; text 12</span></th>
+					<th id="th4_2">&nbsp; text 13</th>
+					<th id="th4_3">&nbsp; text 14</th>
+					<th id="th4_4">&nbsp; text 15</th>
+					<th id="th4_5">&nbsp; text 16</th>
+					<th id="th_6">&nbsp; text 17</th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr id="tr3">
+				<td id="td1_1">&nbsp; text 18</td>
+				<td id="td1_2" colspan="2">&nbsp; text 19</td>
+				<!-- <td id="td1_3">&nbsp; text 20</td> -->
+				<td id="td1_4">&nbsp; text 21</td>
+				<td id="td1_5">&nbsp; text 22</td>
+				<td id="td1_6">&nbsp; text 23</td>
+			</tr>
+			<tr id="tr4">
+				<td id="td2_1"> </td>
+				<td id="td2_2"></td>
+				<td id="td2_3">&nbsp; text 24</td>
+				<td id="td2_4" rowspan="2">&nbsp; text 25</td>
+				<td id="td2_5" colspan="2" rowspan="2">&nbsp; text 26</td>
+				<!-- <td id="td2_6">&nbsp; text 27</td> -->
+			</tr>
+			<tr id="tr5">
+				<td id="td3_1"></td>
+				<td id="td3_2"></td>
+				<td id="td3_3" rowspan="3">&nbsp; text 28</td>
+				<!-- <td id="td3_4">&nbsp; text 29</td> -->
+				<!-- <td id="td3_5">&nbsp; text 30</td>
+				<td id="td3_6">&nbsp; text 31</td> -->
+			</tr>
+			<tr id="tr6">
+				<td id="td4_1"></td>
+				<td id="td4_12"></td>
+				<!-- <td id="td4_13">&nbsp; text 32</td> -->
+				<td id="td4_14">&nbsp; text 33</td>
+				<td id="td4_15">&nbsp; text 34</td>
+				<td id="td4_16">&nbsp; text 35</td>
+			</tr>
+			<tr id="tr7">
+				<td id="td5_1"></td>
+				<td id="td5_2"></td>
+				<!-- <td id="td5_3">&nbsp; text 36</td> -->
+				<td id="td5_4">&nbsp; text 37</td>
+				<td id="td5_5">&nbsp; text 38</td>
+				<td id="td5_6">&nbsp; text 39</td>
+			</tr>
+			<tr id="tr8">
+				<td id="td6_1">&nbsp; text 40</td>
+				<td id="td6_2">&nbsp; text 41</td>
+				<td id="td6_3">&nbsp; text 42</td>
+				<td id="td6_4">&nbsp; text 43</td>
+				<td id="td6_5">&nbsp; text 44</td>
+				<td id="td6_6">&nbsp; text 45</td>
+			</tr>
+			</tbody>
+		</table>
 		
 		<table id="table2" cellspacing="0" cellpadding="10">
 			<caption></caption>
