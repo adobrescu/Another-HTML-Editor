@@ -519,35 +519,26 @@
 				,
 				function()
 				{
-					/*
-					var d=el("div500");
-					var par1=ed.currentEditableContent.getNodeParagraph(d);
-					//ed.currentEditableContent.highlightParagraph(par1);
+					restoreInnerHTML();
 					
-					var s=el("span501");
-					var par2=ed.currentEditableContent.getNodeParagraph(s);
-					ed.currentEditableContent.highlightParagraph(par1);
+					ed.currentEditableContent.window.contentSelection.removeAllRanges();
+					ed.currentEditableContent.window.contentSelection.removeAllRanges();
+					ed.currentEditableContent.window.contentSelection.addRange(
+							{"startContainer": el("span6").firstChild, "startOffset": el("span6").firstChild.textContent.length,
+								"endContainer": el("par8").firstChild, "endOffset": 10});
+					var n=ed.currentEditableContent.surroundSelectedContentFragments("b", null, false);
 					
-					this.ASSERT_EQUALS(par1.length, par2.length);
-					
-					for(var i=0; i<par1.length; i++)
-					{
-						this.ASSERT_EQUALS(par1[i].length, par2[i].length);
-						
-						for(var j=0; j<par1[i].length; j++)
-						{
-							this.ASSERT_EQUALS(par1[i][j], par2[i][j]);
-						}
-					}
-					*/
+					this.ASSERT_EQUALS(1, n.length);
+					this.ASSERT_EQUALS("B", n[0][0].tagName);
+					this.ASSERT_EQUALS(el("par8").firstChild, n[0][0]);
 				}			
 				
 				,
 				function()
 				{
 					
-					restoreInnerHTML();
-					ed.currentEditableContent.init();
+					//restoreInnerHTML();
+					//ed.currentEditableContent.init();
 				}
 			];
 			function el(elId)
@@ -556,18 +547,22 @@
 			}
 			function test2()
 			{
-				var t=el("test");
+				var nem3;
+				
+				nem3=el("em3");
 				
 				
-				t.normalizeSpans();
-				//ed.currentEditableContent.preWrap();
-				/*var brs=ed.currentEditableContent.window.document.querySelectorAll("br[type]");
+				ed.currentEditableContent.window.contentSelection.removeAllRanges();
+				ed.currentEditableContent.window.contentSelection.addRange(
+							{"startContainer": el("em3"), "startOffset": 1,
+							"endContainer": el("em3"), "endOffset": 2});
+				nem3.splitAtDescendant(el("x1").firstChild, 4, false, true);
 				
-				for(var i=0; i<brs.length; i++)
-				{
-					brs[i].parentNode.removeChild(brs[i]);
-				}
-				*/
+				var r=ed.currentEditableContent.window.contentSelection.getRanges(true);
+				console.log(r.ranges[0].startContainer);
+				console.log(r.ranges[0].startContainer===nem3);
+				
+				ed.currentEditableContent.window.contentSelection.updateRanges();
 			}
 			
 			function test()
