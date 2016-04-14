@@ -537,8 +537,8 @@
 				function()
 				{
 					
-					//restoreInnerHTML();
-					//ed.currentEditableContent.init();
+					restoreInnerHTML();
+					ed.currentEditableContent.init();
 				}
 			];
 			function el(elId)
