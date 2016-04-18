@@ -13,7 +13,7 @@
 		
 		//exit();
 	}
-	//print_r($_SESSION['test']);
+	
 	//print_r($_SESSION['test']['mutationHistoryRanges']);
 ?>
 <!DOCTYPE html>
@@ -531,8 +531,38 @@
 					this.ASSERT_EQUALS(1, n.length);
 					this.ASSERT_EQUALS("B", n[0][0].tagName);
 					this.ASSERT_EQUALS(el("par8").firstChild, n[0][0]);
-				}			
+				}
+				,
+				function()
+				{
+					var t;
 				
+					t=el("table2")
+					t.buildCellsSelection(el("td2_3"), el("td5_6"));
+
+					var r, r2;
+					
+					r=ed.currentEditableContent.window.contentSelection.getRanges();
+					
+
+					ed.currentEditableContent.surroundSelectedContentFragments("b", null, true);
+
+
+					r2=ed.currentEditableContent.window.contentSelection.getRanges();
+
+					for(var i=0; i<r.ranges.length; i++)
+					{
+						this.ASSERT_EQUALS(r.ranges[i].startContainer, r2.ranges[i].startContainer);
+						this.ASSERT_EQUALS(r.ranges[i].startOffset, r2.ranges[i].startOffset);
+						this.ASSERT_EQUALS(r.ranges[i].endContainer, r2.ranges[i].endContainer);
+						this.ASSERT_EQUALS(r.ranges[i].endOffset, r2.ranges[i].endOffset);
+					}
+					for(var i=0; i<r.boundaryNodes.length; i++)
+					{
+						this.ASSERT_EQUALS(r.boundaryNodes[i][0], r2.boundaryNodes[i][0]);
+						this.ASSERT_EQUALS(r.boundaryNodes[i][1], r2.boundaryNodes[i][1]);
+					}
+				}
 				,
 				function()
 				{
@@ -547,22 +577,7 @@
 			}
 			function test2()
 			{
-				var nem3;
 				
-				nem3=el("em3");
-				
-				
-				ed.currentEditableContent.window.contentSelection.removeAllRanges();
-				ed.currentEditableContent.window.contentSelection.addRange(
-							{"startContainer": el("em3"), "startOffset": 1,
-							"endContainer": el("em3"), "endOffset": 2});
-				nem3.splitAtDescendant(el("x1").firstChild, 4, false, true);
-				
-				var r=ed.currentEditableContent.window.contentSelection.getRanges(true);
-				console.log(r.ranges[0].startContainer);
-				console.log(r.ranges[0].startContainer===nem3);
-				
-				ed.currentEditableContent.window.contentSelection.updateRanges();
 			}
 			
 			function test()
@@ -683,6 +698,7 @@
 	<body onload="setTimeout('bodyOnLoad()', 300)">
 		<pre>
 <?php
+			print_r(htmlentities($_SESSION['test']['innerHTML']));
 			//echo htmlentities($_SESSION['test']['innerHTML']);
 			//print_r(htmlentities($_SESSION['test']['innerHTML']));
 			//echo 'End';

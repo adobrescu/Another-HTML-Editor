@@ -12,7 +12,7 @@
 			<a href="#" onclick="ed.currentEditableContent.deleteContentFragment(); showHTML(); return false;">Delete selection</a>
 			<br>
 			<a href="#" onclick="surround(document.getElementById('selectTagName').value, document.getElementById('selectTagAttributes').value) ; return false;">Surround with </a>
-			<select id="selectTagName" onchange="if(!ed.currentEditableContent.getRange().collapsed){surround(document.getElementById('selectTagName').value, document.getElementById('selectTagAttributes').value) ;}else{console.log('Collapsed range')}">
+			<select id="selectTagName" onchange="if(!ed.currentEditableContent.window.contentSelection.isCollapsed()){surround(document.getElementById('selectTagName').value, document.getElementById('selectTagAttributes').value) ;}else{console.log('Collapsed range')}">
 				<optgroup label="Sectioning">
 					<option value="ADDRESS">ADDRESS</option>
 					<option value="ARTICLE">ARTICLE</option>
